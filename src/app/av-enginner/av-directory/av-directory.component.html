@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+
+<body>
+  <div class="container mt-5" *ngIf="searchBox">
+    <div class="row d-flex justify-content-center show-box">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="input-box">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="filterTerm"
+              (input)="applyFilter()"
+              (keyup.enter)="getData(0, pageSize)"
+            />
+            <i class="fa fa-search"></i>
+          </div>
+  
+          <div *ngFor="let item of pagedUserData" class="list" (click)="showDetails(item)">
+            <img class="search_Image" [src]="item.imagePath" />
+            <div class="d-flex flex-column ml-3">
+              <span class="Search_Name">{{ item.fullName }}</span>
+              <span class="company_Name">{{ item.companyName }}</span>
+            </div>
+          </div>
+  
+          <div *ngIf="pagedUserData.length === 0 && filterTerm !== ''">
+            <div class="centered-image">
+              <img src="assets/img/oops.png" alt="" class="img-fluid no-records" height="250px" />
+            </div>
+          </div>
+  
+          <div *ngIf="showFilters">
+            <mat-paginator
+            [length]="totalRecords"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event)"></mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+   <div class="wrapper" *ngIf="showClickedData">
+        <div class="img-area">
+          <div class="inner-area">
+            <img [src]="imagePath" alt="">
+          </div>
+        </div>
+        <div class="icon arrow" *ngIf="showClickedData" (click)="onBack()"><i class="fas fa-arrow-left"></i></div>
+        <div *ngFor="let item of clickedUserData">
+          <div class="name">{{ item.fullName }}</div>
+          <div class="about">{{ item.companyName }}</div>
+        </div>
+        <div class="social-icons">
+          <a *ngIf="facebookUrl" [href]="facebookUrl" target="_blank" class="fb"><i class="fab fa-facebook-f"></i></a>
+          <a *ngIf="!facebookUrl" [ngClass]="{'disabled': !facebookUrl}" matTooltip="{{ emptyLinks }}" class="fb"><i class="fab fa-facebook-f"></i></a>
+          
+          <a *ngIf="twitterUrl" [href]="twitterUrl" target="_blank" class="twitter"><i class="fab fa-x-twitter"></i></a>
+          <a *ngIf="!twitterUrl" [ngClass]="{'disabled': !twitterUrl}" matTooltip="{{ emptyLinks }}" class="twitter"><i class="fab fa-x-twitter"></i></a>
+          
+          <a *ngIf="instagramUrl" [href]="instagramUrl" target="_blank" class="insta"><i class="fab fa-instagram"></i></a>
+          <a *ngIf="!instagramUrl" [ngClass]="{'disabled': !instagramUrl}" matTooltip="{{ emptyLinks }}" class="insta"><i class="fab fa-instagram"></i></a>
+          
+          <a *ngIf="linkedInUrl" [href]="linkedInUrl" target="_blank" class="lIn"><i class="fab fa-linkedin"></i></a>
+          <a *ngIf="!linkedInUrl" [ngClass]="{'disabled': !linkedInUrl}" matTooltip="{{ emptyLinks }}" class="lIn"><i class="fab fa-linkedin"></i></a>
+        </div>
+  </div>
+    <app-spinner *ngIf="showSpinner" class="spinner"></app-spinner>
+</body>

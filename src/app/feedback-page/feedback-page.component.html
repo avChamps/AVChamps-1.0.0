@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  </head>
+
+  <body>
+   
+<ng-template class="popup" #firstDialog>
+  <div class="container">
+    <div class="post">
+        <div class="text">Thanks for rating us!</div>
+        <div class="edit">Edit</div>
+    </div>
+    <div class="star-widget">
+      <!-- <mat-icon mat-dialog-close class="cancel_Icon mb-0">cancel</mat-icon> -->
+      <span mat-dialog-close class="cancel_Icon"><i class="fa fa-close"></i></span>
+        <input name="rate" type="radio" id="rate-5" (click)="displaySelectedRating(5)">
+        <label for="rate-5" class="fa fa-star"></label>
+        <input name="rate" type="radio" id="rate-4" (click)="displaySelectedRating(4)">
+        <label for="rate-4" class="fa fa-star"></label>
+        <input name="rate" type="radio" id="rate-3" (click)="displaySelectedRating(3)">
+        <label for="rate-3" class="fa fa-star"></label>
+        <input name="rate" type="radio" id="rate-2" (click)="displaySelectedRating(2)">
+        <label for="rate-2" class="fa fa-star"></label>
+        <input name="rate" type="radio" id="rate-1" (click)="displaySelectedRating(1)">
+        <label for="rate-1" class="fa fa-star"></label>
+        <form action="#">
+            <header></header>
+            <div class="textarea">
+                <textarea cols="30" placeholder="Describe your experience..." name="message" [(ngModel)]="message"></textarea>
+            </div>
+            <div class="btn">
+                <button type="submit" (click)="onSubmit()">Post</button>
+            </div>
+        </form>
+    </div>
+  </div>
+</ng-template>
+
+</body>
+</html>
+

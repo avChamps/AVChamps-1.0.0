@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Font Awesome Icons</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+ 
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a class="logo d-flex align-items-center" (click)="onSelect('products')">
+        <a class="navbar-brand av_header" (click)="onBack()"><img  class="av_header_img" width="100" src="./assets/img/av_logo.png" alt="#" />AV CHAMPS</a>
+      </a>
+    </div><!-- End Logo -->
+
+    <div class="search-bar" *ngIf="showSearchBox">
+      <form class="search-form d-flex align-items-center">
+        <input type="text" name="searchText" [(ngModel)]="searchText" (input)="onSearch()" placeholder="Search" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+    </div><!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center mt-2">
+
+        <!-- <li class="nav-item d-block d-lg-none" *ngIf="showSearchBox">
+          <a class="nav-link nav-icon search-bar-toggle" (click)="toggleSearch()">
+            <i class="bi bi-search"></i>
+          </a>
+        </li> -->
+        
+        <div class="search-box">
+          <form class="search-form d-flex align-items-center d-md-none">
+            <input type="text" name="searchText" [(ngModel)]="searchText" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+          </form>
+        </div>
+
+        <li class="nav-item dropdown cart_Icon" *ngIf="showSearchBox">
+          <a class="nav-link nav-icon" (click)="onCart('insertProduct')" data-bs-toggle="dropdown">
+            <i class="bi bi-cart"></i>
+            <span class="post_ad">Post Ad</span>
+          </a>
+          </li>      
+
+        <li class="nav-item dropdown pe-3 header_Icons">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img [src]="getImageSource()" alt="Profile"class="img-fluid rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2"> {{ userName }} </span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <span class="header_userName">{{userName}}</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" (click)="onSelect('myPosts')">
+                <i class="bi bi-file-text "></i>
+                <span>My Posts</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" (click)="onSelect('contact')">
+                <i class="bi bi-question-circle"></i>
+                <span>Help</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" (click)="onSelect('logout')">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+      </ul>
+    </nav>
+  </header>
+
+
+<!-- product section -->
+<section class="product_section layout_padding" *ngIf="showProducts && filteredProducts.length > 0">
+  <div class="container">
+    <div class="heading_container heading_center">
+      <h2>Available Products</h2>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-lg-4" *ngFor="let product of filteredProducts">
+        <div class="box">
+          <div class="img-box">
+            <img [src]="product.imagePath" class="img-fluid rounded-3" alt="Shopping item">
+            <a class="add_cart_btn" (click)="selectedProduct(product)">
+              <span class="txt_white">Contact</span>
+            </a>
+          </div>
+          <div class="detail-box">
+            <h3 class="product_Name">{{ product.title }}</h3>
+            <p class="description" matTooltip="{{product.description}}"  [textContent]="product.description.length > 50 ? product.description.slice(0, 50) + '...' : product.description"></p>
+             <h3 class="product_Name">₹{{ product.price }}</h3>
+            <!-- <div class="product_info">
+              <h3><mat-icon class="location_Icon"> location_on</mat-icon> {{ product.location }} </h3>
+              <div class="star_container">
+                ₹{{ product.price }}
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="btn_box">
+      <a class="view_more-link" (click)="loadMoreCartData()">View More</a>
+    </div>
+  </div>
+</section>
+
+<section class="product_section cart_padding" *ngIf="showCart">
+  <!-- <div class="arrow_Container">
+    <div class="arrow-Icon" (click)="onSelect('products')">
+      <mat-icon>arrow_back</mat-icon>
+    </div>
+  </div> -->
+  <div class="container h-100 py-2">
+    <div class="row d-flex justify-content-center h-100">
+      <div class="col-10">
+        <div *ngFor="let item of filteredUploadProducts" class="card rounded-3 mb-2" style="box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;">
+          <div class="card-body p-4">
+            <div class="row d-flex text-center justify-content-between align-items-center">
+              <div class="col-md-2 col-lg-2 col-xl-2">
+                <img [src]="item.imagePath" class="img-fluid rounded-3 cart_Image" alt="Cotton T-shirt">
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-3">
+                <p class="lead fw-normal mb-2">{{ item.title }}</p>
+                <!-- <p><span class="text-muted">{{ item.description }}</span></p> -->
+                <p class="cart_description" matTooltip="{{item.description}}"  [textContent]="item.description.length > 50 ? item.description.slice(0, 50) + '...' : item.description"></p>
+              </div>
+              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                <h3 class="mb-0">₹{{ item.price }}</h3>
+                <p class="mb-0">{{ item.location }}</p>
+              </div>
+              <div class="col-md-2 col-lg-2 col-xl-2 text-end">
+                <!-- <input class="checkbox" matTooltip="Sold Out"  (click)="checkboxClicked($event,item)" type="radio"> -->
+                <mat-slide-toggle class="checkbox" matTooltip="Sold Out" (change)="toggleChanged($event, item)"></mat-slide-toggle>
+                <span><i class="fa fa-edit" (click)="editItem(item)"></i></span>
+                <span class="text-danger" (click)="deleteItem(item)"><i class="fa fa-trash-o"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btn_box" *ngIf="filteredUploadProducts.length !== 0">
+        <a class="view_more-link" (click)="loadMoreUploadData()">View More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="row justify-content-center align-items-center" *ngIf="filteredProducts.length === 0 && empty_produts" style="height: 70vh;">
+  <div class="col-sm-6 col-lg-3 text-center">
+    <img src="assets/img/ekart/empty_produts.png" class="img-fluid" alt="No products">
+  </div>
+</div>
+
+<!-- Dialog template -->
+<ng-template #seller>
+  <mat-dialog-content class="d-flex align-items-center justify-content-center" style="overflow: hidden;">
+    <div class="container custom-dialog-container">
+      <div class="form-group mb-0">
+        <label>Title</label><label class="red-asterisk">*</label>
+        <input type="text" maxlength="75" class="form-control" [(ngModel)]="title" name="title">
+      </div>
+      <div class="form-group mb-0">
+        <label>Description</label><label class="red-asterisk">*</label>
+        <textarea maxlength="400" class="form-control" [(ngModel)]="description" name="description"></textarea>
+      </div>
+      <div class="form-group mb-0">
+        <label>Location</label><label class="red-asterisk">*</label>
+        <input type="text" maxlength="50" class="form-control" (input)="validateInput($event)" [(ngModel)]="location" name="location">
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group mb-0">
+            <label for="mobile">Mobile</label><label class="red-asterisk">*</label>
+            <input type="number" onKeyPress="if(this.value.length==10) return false;" class="form-control" [(ngModel)]="mobileNumber" name="mobileNumber">
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group mb-0">
+            <label for="price">Price</label><label class="red-asterisk">*</label>
+            <input type="number" onKeyPress="if(this.value.length==8) return false;" class="form-control" [(ngModel)]="price" name="price">
+          </div>
+        </div>
+      </div>
+      <div class="form-group mb-0">
+        <label>Image</label><label class="red-asterisk">*</label>
+        <div id="drop-area" class="drop-area" (click)="selectFile()">
+          <input type="file" accept="image/*" id="fileInput" class="file-input" (change)="onFileSelected($event)">
+          <p>Click here or drag & drop files</p>
+        </div>
+        <p class="file_name">{{ selectedFileName }}</p>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" class="mat-buttons">
+    <button mat-dialog-close class="btn btn-warning">Cancel</button>
+    <button [mat-dialog-close]="true" class="btn btn-success button_left" [disabled]="!this.emailId || !this.title || !this.description || !this.location || !this.price || !this.showFile" (click)="onUpload()">{{sellerButton}}</button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+<ng-template #contact>
+  <mat-dialog-content class="d-flex align-items-center justify-content-center popup">
+    <div *ngFor="let item of selectedItem" class="popup-content">
+      <mat-icon mat-dialog-close class="cancel_Icon">cancel</mat-icon>
+      <p class="seller_Name">
+        <mat-icon class="person_Icon">person</mat-icon> {{ item.userName }}
+      </p>
+      <p class="seller_Number">
+        <mat-icon class="phone_Icon">phone</mat-icon> {{ item.mobileNumber }}
+      </p>
+      <p class="seller_location">
+        <mat-icon class="location_Icon">location_on</mat-icon> {{ item.location }}
+      </p>
+    </div>
+  </mat-dialog-content>
+</ng-template>
+
+<div *ngIf="showContactForm" class="d-flex justify-content-center align-items-center vh-100">
+  <app-contact [header]="isHeader"></app-contact>
+</div>
+<app-spinner *ngIf="showSpinner"></app-spinner>
+  </body>
+</html>

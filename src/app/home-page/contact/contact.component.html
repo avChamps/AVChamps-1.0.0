@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+   </head>
+   <body>
+    
+  <div *ngIf="isHeader"> 
+    <app-header></app-header>
+  </div>
+ <!-- ======= Contact Section ======= -->
+ <section id="contact" class="contact">
+
+  <div class="container" data-aos="fade-up">
+
+    <div class="row justify-content-center align-items-center" style="height: 75vh;">
+      <div class="col-lg-6">
+        <form action="forms/contact.php" method="post" class="php-email-form">
+          <div class="row gy-4">
+
+            <div class="col-md-12">
+              <input type="text" name="personName" onKeyPress="if(this.value.length==40) return false;" class="form-control" (input)="validateInput($event)" [(ngModel)]="personName" placeholder="Your Name" required>
+            </div>
+
+            <div class="col-md-6 ">
+              <input type="email" class="form-control" onKeyPress="if(this.value.length==40) return false;" name="emailId" [(ngModel)]="emailId" placeholder="Your Email" required>
+            </div>
+
+            <div class="col-md-6">
+              <input type="text" class="form-control" name="MobileNumber" maxlength="10" [(ngModel)]="mobileNumber" (input)="validateMobileInput($event)" placeholder="Mobile Number" required>
+            </div>
+
+            <div class="col-md-12">
+              <input type="text" class="form-control" name="subject" onKeyPress="if(this.value.length==75) return false;" [(ngModel)]="subject" placeholder="Subject" required>
+            </div>
+
+            <div class="col-md-12">
+              <textarea class="form-control" name="message" rows="4" onKeyPress="if(this.value.length==100) return false;" [(ngModel)]="message" placeholder="Message" required></textarea>
+            </div>
+
+            <div class="col-md-12 text-center">
+              <div class="loading">Loading</div>
+              <div class="error-message"></div>
+              <div class="sent-message">Your message has been sent. Thank you!</div>
+              <button type="submit" [disabled]="!personName || !emailId || !mobileNumber || !subject" (click)="onSubmit()">Send Message</button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #myDialog>
+    <mat-dialog-content class="d-flex flex-column align-items-end justify-content-start rounded">
+        <i class="fa fa-close cancel_Icon mb-3" [mat-dialog-close]="true"></i>
+        <div class="row details">
+            <div class="col-md-2 d-flex align-items-center">
+               <span *ngIf="showErrors" class="error_msg"><mat-icon class="mat_Icon">warning</mat-icon></span>
+               <span *ngIf="showSuccess" class="success_msg"><mat-icon class="mat_Icon">check_circle</mat-icon></span>
+            </div>
+            <div class="col-md-8 popup_text">
+                <p class="error_header"> {{ alertSymbol }} </p>
+                <p class="popup-msg">{{ errorMsg }}</p>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center" class="d-flex justify-content-center" style="margin-top: -20px;">
+        <button [mat-dialog-close]="true" class="btn btn-success retry_Button" (click)="onClear()">{{ buttonType }}</button>
+    </mat-dialog-actions>
+</ng-template>
+
+
+<ng-template #captcha>
+  <mat-dialog-content class="d-flex flex-column align-items-end justify-content-start rounded">
+    <re-captcha (resolved)="resolved($event)" siteKey="6Lc6f-opAAAAAB4fRocBPRZIZwMSFUrbVjXry4at" formControlName="recaptcha"></re-captcha>
+  </mat-dialog-content>
+</ng-template>
+
+<app-spinner *ngIf="showSpinner"></app-spinner>
+ </section><!-- End Contact Section -->
+   </body>
+   </html>

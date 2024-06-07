@@ -1,0 +1,44 @@
+<!-- client section -->
+<section class="client_section layout_padding">
+  <div class="container">
+     <div class="heading_container heading_center">
+        <h2 class="text-center mt-4 section_title">
+         What user's saying about us with testmonals
+        </h2>
+     </div>
+   <!-- carousel.component.html -->
+<div id="carouselExample3Controls" class="carousel slide" data-ride="carousel">
+   <div class="carousel-inner">
+     <div class="carousel-item" *ngFor="let item of shuffledItems; let i = index" [class.active]="i === 0">
+       <div class="box col-lg-10 mx-auto">
+         <div class="img_container">
+           <div class="img-box">
+             <div class="img_box-inner">
+               <img [src]="item.imageUrl" [alt]="item.name">
+             </div>
+           </div>
+         </div>
+         <div class="detail-box">
+           <h5>{{ item.name }}</h5>
+           <h6>{{ item.role }}</h6>
+           <p>{{ item.description }}</p>
+         </div>
+       </div>
+     </div>
+   </div>
+   <div class="carousel_btn_box">
+     <a class="carousel-control-prev" href="#carouselExample3Controls" role="button" data-slide="prev">
+       <!-- <i class="fa fa-long-arrow-left" aria-hidden="true"></i> -->
+       <mat-icon aria-hidden="true">arrow_back</mat-icon>
+       <span class="sr-only">Previous</span>
+     </a>
+     <a class="carousel-control-next" href="#carouselExample3Controls" role="button" data-slide="next">
+      <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+       <span class="sr-only">Next</span>
+     </a>
+   </div>
+ </div>
+ 
+  </div>
+</section>
+<!-- end client section -->

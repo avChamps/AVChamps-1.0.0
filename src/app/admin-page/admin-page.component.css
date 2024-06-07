@@ -1,0 +1,24 @@
+.box {
+  box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+}
+
+
+h2 {
+  text-align: center;
+}
+
+.mat-buttons {
+  margin-top: -45px;
+}
+
+.btn-success {
+  background-color: green;
+  color: white;
+  border: none;
+}
+
+.mat_cancel_icon {
+  cursor: pointer;
+  margin-right: 15px;
+  color: red;
+}

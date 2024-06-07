@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+
+<body>
+
+	<div class="container" id="pdfContent">
+		<h1 class="text-center mt-2">QUOTATION</h1>
+	  
+		<div class="row">
+		  <div class="col-md-6">
+			<label>Quotation No:</label>
+			<input type="text"><br><br>
+			<label>Date:</label>
+			<input class="input-date" type="date">
+		  </div>
+	  
+		  <div class="col-md-6 img-data">
+			<img src="{{imgData ? imgData : '../assets/img/av-profile/empty-logo.jpg'}}" width="100" class="custom-Img"
+				 [class.rotate-image]="!fileSelected" [class.onSelected-Image]="fileSelected"
+				 (click)="openFileInput()" *ngIf="!fileSelected">
+			<img src="{{imgData}}" class="custom-Img" width="100"
+				 [class.rotate-image]="!fileSelected" (click)="openFileInput()" [class.onSelected-Image]="fileSelected" *ngIf="fileSelected">
+			<input type="file" class="form-control" [(ngModel)]="selectedImage" style="display: none"
+				   accept="image/*" (change)="onFileSelected($event)" #fileInput>
+		  </div>
+		</div>
+	  
+		<br><br>
+	  
+		<div class="row">
+		  <div class="col-md-6">
+			<div class="cart">
+			  <div class="quotation-from">
+				<label>Quotation From</label><br>
+				<textarea class="form-control quotation" rows="10" cols="50"></textarea>
+			  </div>
+			</div>
+		  </div>
+	  
+		  <div class="col-md-6">
+			<div class="cart">
+			  <div class="quotation-to">
+				<label>Quotation To</label><br>
+				<textarea class="form-control quotation"></textarea>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  
+		<br><br>
+	  
+		<table>
+		  <tr>
+			<th>S.No</th>
+			<!-- <th>Item</th> -->
+			<th>Description</th>
+			<th>Make/Model</th>
+			<th>HSN/SAC</th>
+			<th>QT</th>
+			<th>Unit Cost</th>
+			<th>Amount</th>
+			<th>CGST(%)</th>
+			<th>SGST(%)</th>
+		  </tr>
+		  <tr *ngFor="let company of items; let i = index">
+			<td>{{i+1}}</td>
+			<!-- <td><textarea [(ngModel)]="company.item"></textarea></td> -->
+			<td><textarea class="desc_textarea" [(ngModel)]="company.discription"></textarea></td>
+			<td><textarea class="desc_textarea" [(ngModel)]="company.make"></textarea></td>
+			<td><textarea class="desc_textarea"  [(ngModel)]="company.hsn"></textarea></td>
+			<td><input type="number" class="input_length" [(ngModel)]="company.quantity" (ngModelChange)="calculateAmount(company)"></td>
+			<td><input type="number" class="input_length" [(ngModel)]="company.unitCost" (ngModelChange)="calculateAmount(company)"></td>
+			<td><input type="number" class="input_length" [(ngModel)]="company.total" disabled></td>
+			<td><input type="number" class="input_length" [(ngModel)]="company.cgst" (ngModelChange)="calculateGST(company)"></td>
+			<td><input type="number" class="input_length" [(ngModel)]="company.sgst" (ngModelChange)="calculateGST(company)"></td>
+		  </tr>
+		</table>
+	  
+		<div class="text-end mt-2">
+		  <mat-icon class="remove_Icon" (click)="removeRow()">remove_circle</mat-icon>
+		  <mat-icon class="add_Icon" (click)="addRow()">add_box</mat-icon>
+		</div>
+	  
+		<div style="flex: 1;">
+		  <p>Amount In Words: INR -: <strong>{{ grandTotalWords }}</strong></p>
+		</div>
+	  
+		<div class="calculations">
+		  <p>Sub Total: {{overallTotal | number:'1.2-2'}}</p>
+		  <p>Sub Total (CGST): {{overallCGST | number:'1.2-2'}}</p>
+		  <p>Sub Total (SGST): {{overallSGST | number:'1.2-2'}}</p>
+		  <p>Grand Total: {{Total | number:'1.2-2'}}</p>
+		</div>
+	  
+		<br><br>
+	  
+		<div class="bottom_box">
+			<h2>Terms & Conditions</h2>
+
+				<div class="row">
+					<div class="col-md-12 d-flex justify-content-between align-items-center">
+						<p class="mb-0 text_underline">Payment Terms</p>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="advance50">
+							<label class="form-check-label" for="advance50">50% Advance with PO</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="advance100">
+							<label class="form-check-label" for="advance100">100% Advance with PO</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="mt-2">
+					<h3 class="mb-0 text_underline">Bank Details</h3>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="d-flex flex-column align-items-start mb-2">
+								<label class="form-check-label" for="beneficiaryName">Beneficiary Name</label>
+								<input class="form-control" type="text" id="beneficiaryName">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="d-flex flex-column align-items-start mb-2">
+								<label class="form-check-label" for="accountNumber">Account Number</label>
+								<input class="form-control" type="text" id="accountNumber">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="d-flex flex-column align-items-start mb-2">
+								<label class="form-check-label" for="ifscCode">Bank IFSC Code</label>
+								<input class="form-control" type="text" id="ifscCode">
+							</div>
+						</div>
+					</div>
+				</div>
+				
+					<div class="row mb-2">
+						<div class="col-md-3 d-flex align-items-center">
+							<label class="form-check-label" for="beneficiaryName">Delivery</label>
+						</div>
+						<div class="col-md-9">
+							<input class="form-control" type="text" id="beneficiaryName">
+						</div>
+					</div>
+					<div class="row mb-2">
+						<div class="col-md-3 d-flex align-items-center">
+							<label class="form-check-label" for="accountNumber">Validity</label>
+						</div>
+						<div class="col-md-9">
+							<input class="form-control" type="text" id="accountNumber">
+						</div>
+					</div>
+					<div class="row mb-2">
+						<div class="col-md-3 d-flex align-items-center">
+							<label class="form-check-label" for="ifscCode">Warranty</label>
+						</div>
+						<div class="col-md-9">
+							<input class="form-control" type="text" id="ifscCode">
+						</div>
+					</div>
+		</div><br>
+	  
+		<i class="fa fa-download mt-2" (click)="downloadCard()"></i>
+	  </div>
+</body>
+</html>

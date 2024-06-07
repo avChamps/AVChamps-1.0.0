@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <div *ngIf="showAdminpanel">
+ <!-- Feed Insertion-->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+          <div class="col-md-6 box">
+            <h2 class="mb-2">Insert the Feed</h2>
+            <form>
+              <div class="form-group">
+                <label for="sender" class="mb-0">Sender:</label>
+                <input type="text" class="form-control" id="sender" name="sender" disabled required [(ngModel)]="sender">
+              </div>
+              <div class="form-group">
+                <label for="title" class="mb-0">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" required [(ngModel)]="title">
+              </div>
+              <div class="form-group">
+                <label for="title" class="mb-0">Expiry Date:</label>
+                <input type="date" class="form-control" id="title" name="title" required [(ngModel)]="dltFeedDate">
+              </div>
+              <div class="form-group">
+                <label for="description" class="mb-0">Description:</label>
+                <textarea class="form-control" id="description" name="description" rows="5" required [(ngModel)]="description"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="link" class="mb-0">Link:</label>
+                <input type="text" class="form-control" id="link" name="link" required [(ngModel)]="link">
+              </div>
+              
+              <div class="text-right">
+              <button type="submit" (click)="onClear()" class="btn btn-primary">Cancel</button>          
+              <button type="submit" (click)="onSubmit()" [disabled]="!sender || !title || !dltFeedDate || !description" class="btn btn-success ml-2">Save</button>
+              </div><br>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Calender Insertion -->
+      <div class="container mt-4">
+        <div class="row justify-content-center">
+          <div class="col-md-6 box">
+            <h2 class="mb-2">Post Event</h2>
+            <form>
+              <div class="form-group">
+                <label for="sender" class="mb-0">Event Name</label>
+                <input type="text" class="form-control" id="sender" name="sender" required [(ngModel)]="eventName">
+              </div>
+              <div class="form-group">
+                <label for="title" class="mb-0">Event URL:</label>
+                <input type="text" class="form-control" id="title" name="title" required [(ngModel)]="eventUrl">
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label for="startDate" class="mb-0">Start Date:</label>
+                    <input type="date" class="form-control" id="startDate" name="startDate" required [(ngModel)]="startDate">
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label for="endDate" class="mb-0">End Date:</label>
+                    <input type="date" class="form-control" id="endDate" name="endDate" required [(ngModel)]="eventEndDate">
+                  </div>
+                </div>
+              </div>
+              
+
+            <div class="form-group">
+                <label for="title" class="mb-0">Expiry Date:</label>
+                <input type="date" class="form-control" id="title" name="title" required [(ngModel)]="dltFeedDate">
+              </div>
+                           
+              <div class="text-right">
+              <button type="submit" (click)="onClear()" class="btn btn-primary">Cancel</button>          
+              <button type="submit" (click)="postEvent()" [disabled]="!eventName || !eventUrl || !startDate || !eventEndDate || !dltFeedDate" class="btn btn-success ml-2">Save</button>
+              </div><br>
+            </form>
+          </div>
+        </div>
+      </div><br>
+
+<!-- TradeShow Insertion -->
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 box">
+      <h2 class="mb-2">Trade Show</h2>
+      <form>
+        <div class="form-group">
+          <label for="eventName" class="mb-0">Title</label>
+          <input type="text" class="form-control" id="eventName" name="eventName" required [(ngModel)]="eventName">
+        </div>
+        <div class="form-group">
+          <label for="eventUrl" class="mb-0">Event URL:</label>
+          <input type="text" class="form-control" id="eventUrl" name="eventUrl" required [(ngModel)]="eventUrl">
+        </div>
+        <div class="form-group">
+          <label for="expiryDate" class="mb-0">Expiry Date:</label>
+          <input type="date" class="form-control" id="dltFeedDate" name="dltFeedDate" required [(ngModel)]="dltFeedDate">
+        </div>
+        <div class="text-right">
+          <button type="button" (click)="onClear()" class="btn btn-primary">Cancel</button>
+          <button type="submit" (click)="postTradeshow()" [disabled]="!eventName || !eventUrl || !dltFeedDate" class="btn btn-success ml-2">Save</button>
+        </div>
+        <br>
+      </form>
+      
+    </div>
+  </div>
+</div>
+<br>
+</div>
+
+<!-- Dialog template -->
+<ng-template #myDialog>
+  <div class="d-flex align-items-center justify-content-between">
+    <h4 mat-dialog-title class="mb-0">Admin Portal</h4>
+    <mat-icon class="mat_cancel_icon" mat-dialog-close>cancel</mat-icon>
+  </div> 
+  <hr class="mt-0" style="margin-bottom: -5px;">
+  <mat-dialog-content class="d-flex align-items-center justify-content-center" style="width: 450px;">
+    <div class="form-group" style="width: 100%;">
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Email ID</mat-label>
+        <input matInput #eventEmailInput type="text" placeholder="Enter email Address"  required>
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>User Name</mat-label>
+        <input matInput #eventNameInput type="text" placeholder="Enter user name" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>password</mat-label>
+        <input matInput #eventpswdInput type="password" placeholder="Enter password" required>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" class="mat-buttons">
+    <button mat-dialog-close="true" class="btn btn-success" [disabled]="!eventEmailInput.value || !eventNameInput.value || !eventpswdInput.value" (click)="submitForm(eventEmailInput.value, eventNameInput.value,eventpswdInput.value)">Submit</button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+
+      <app-spinner *ngIf="showSpinner"></app-spinner>    
+</body>
+</html>

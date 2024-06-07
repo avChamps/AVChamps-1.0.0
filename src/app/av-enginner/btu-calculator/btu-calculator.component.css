@@ -1,0 +1,348 @@
+table {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+}
+
+.container {
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+}
+
+.sl_No {
+    width: 0%;
+}
+
+span {
+    font-weight: 500;
+}
+
+.results p {
+    border-left: 4px solid #009879;
+}
+
+.p_results {
+    margin-left: 5px;
+}
+
+.tool-data {
+    box-shadow: none;
+    margin-top: 5px;
+    text-align: justify;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 75%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+
+.powerCal_table {
+    min-width: 89%;
+}
+
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: center;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.watt-input {
+    width: 65px;
+}
+
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+tr:nth-child(even) input {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+
+.table {
+    padding-left: 25%;
+}
+
+.powerCal_table {
+    padding-left: 12%;
+}
+
+.row {
+    display: flex;
+}
+
+.cart1 {
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+    margin-right: 8px;
+    width: 20%;
+}
+
+.cart2 {
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+    height: 275px;
+    width: 79%;
+}
+
+
+.powerCal_formula {
+    height: 0%;
+    padding: 13px;
+}
+
+
+h3 {
+    font-weight: 500;
+}
+
+input {
+    border: none;
+    width: 100%;
+    text-align: center;
+}
+
+.sl-numbers {
+    text-align: center;
+}
+
+
+.add-Icon {
+    color: #04AA6D;
+    cursor: pointer;
+}
+
+.remove-Icon {
+    color: #f44336;
+    cursor: pointer;
+}
+
+.results {
+    padding-left: 50%;
+    padding-top: 5%;
+    line-height: 15px;
+    padding-bottom: 4%;
+}
+
+.powerCal_res {
+    padding-left: 63%;
+    padding-top: 3%;
+}
+
+.buttons {
+    padding-left: 50%;
+}
+
+
+.btn {
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    padding: 5px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    margin-left: 5px;
+    font-weight: 500;
+}
+
+/* Green */
+.success {
+    border-color: #04AA6D;
+    color: green;
+}
+
+.success:hover {
+    background-color: #04AA6D;
+    color: white;
+}
+
+/* Blue */
+.info {
+    border-color: #2196F3;
+    color: dodgerblue;
+}
+
+.info:hover {
+    background: #2196F3;
+    color: white;
+}
+
+/* Orange */
+.warning {
+    border-color: #ff9800;
+    color: orange;
+}
+
+.warning:hover {
+    background: #ff9800;
+    color: white;
+}
+
+full-calendar {
+    padding-top: 10px;
+}
+
+.td_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.td_row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 30px;
+}
+
+.td_card {
+    margin: 0 auto;
+    height: 43px;
+    border-style: solid;
+}
+
+.card-title {
+    text-align: center;
+    font-weight: unset;
+    font-size: 14px;
+    margin-top: -9px !important;
+}
+
+
+:host ::ng-deep .fc-button-group button.fc-prev-button.fc-button,
+:host ::ng-deep .fc-button-group button.fc-next-button.fc-button {
+    background-color: transparent;
+    border: none;
+}
+
+:host ::ng-deep .fc-button-group button.fc-prev-button.fc-button .fc-icon {
+    color: orange;
+}
+
+:host ::ng-deep .fc-button-group button.fc-next-button.fc-button .fc-icon {
+    color: green;
+    border: none;
+    margin-left: 1px;
+}
+
+
+:host ::ng-deep .fc-button-group button.fc-dayGridMonth-button.fc-button {
+    background: #FFA62F;
+    border: none;
+    margin-left: 1px;
+}
+
+:host ::ng-deep .fc-button-group button.fc-timeGridWeek-button.fc-button {
+    background: #FFC96F;
+    border: none;
+    margin-left: 1px;
+}
+
+:host ::ng-deep .fc-button-group button.fc-timeGridDay-button.fc-button {
+    background: #FFE8C8;
+    border: none;
+    margin-left: 1px;
+}
+
+:host ::ng-deep .fc-button-group button.fc-listWeek-button.fc-button {
+    background: #ACD793;
+    border: none;
+    margin-left: 1px;
+}
+
+.event-title {
+    display: inline-block;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.mat-buttons {
+    margin-top: -45px;
+}
+
+.btn-success {
+    background-color: green;
+    color: white;
+    border: none;
+}
+
+.mat_cancel_icon {
+    cursor: pointer;
+    margin-right: 15px;
+    color: red;
+}
+
+@media (max-width: 1200px) {
+    .container {
+        margin-left: 13%;
+    }
+
+    .card-Container {
+        margin-top: 15% !important;
+        height: 241px !important;
+        width: 54% !important;
+        margin-left: 29% !important
+    }
+
+    .buttons {
+        padding-left: 37%;
+    }
+
+    .cart1 {
+        width: 19%;
+        height: 255px
+    }
+
+    .cart2 {
+        height: 0;
+    }
+
+}
+
+
+@media only screen and (min-width: 1367px) {
+    .card-Container {
+        width: 33% !important;
+    }
+}
+
+@media (min-width: 1201px) {
+    .container {
+        margin-left: 24%;
+        /* border: 1px solid; */
+        width: 74%;
+    }
+}
+
+@media (max-width: 767px) {
+    .container {
+        margin-left: 8%;
+        width: 88%;
+    }
+
+    .buttons {
+        padding-left: 24%;
+    }
+}

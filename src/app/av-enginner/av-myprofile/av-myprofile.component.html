@@ -1,0 +1,203 @@
+ 
+  <section id="contact" class="container">
+    <div class="container-xl px-4 profile_container">
+      <div class="row">
+        <div class="col-xl-12">
+          <!-- Account details card-->
+          <div class="card">
+            <!-- <div class="card-header">Profile Info</div> -->
+            <div class="card-body">
+              <form>
+                
+                <h4>PERSONAL DETAILS</h4>
+                <div class="row gx-3 mt-2">
+                  <div class="col-md-6">
+                      <label for="inputFirstName">Full Name</label>
+                      <div class="input-group">
+                          <input class="form-control" maxlength="30" name="userName" [(ngModel)]="userName" placeholder="Enter full name" type="text">
+                          <span class="material-icons">person</span>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <label for="inputLastName">Email</label>
+                      <div class="input-group">
+                          <input type="email" class="form-control" [(ngModel)]="userEmailId" maxlength="40" name="userEmailId" placeholder="Enter email ID">
+                          <span class="material-icons">email</span>
+                      </div>
+                  </div>
+              </div>
+                         
+              <div class="row gx-3 mt-3">                
+                 <div class="col-md-6">
+                     <div class="row">
+                        <label>Phone</label>
+                        <div class="col-md-3">
+                          <div class="input-group">
+                            <input class="form-control std_code"  readonly name="countryCode" [(ngModel)]="countryCode" type="text">
+                            <img src="assets/img/av-profile/indian-flag.png" class="img-fluid material-icons" alt="">
+                       </div>
+                          <!-- <select #country name="country" class="form-control phone_codes" id="country" (change)="onCountryChange($event)">
+                            <option [value]="null">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STD Codes</option>
+                            <option *ngFor="let country of countries">
+                               {{country.phonecode}} {{ country.name }}
+                            </option>
+                        </select> -->
+                            </div>
+                  <div class="col-md-9 ml-4">                  
+                    <div class="input-group">
+                        <input class="form-control" [(ngModel)]="mobileNumber" onKeyPress="if(this.value.length==10) return false;"  name="mobileNumber" placeholder="Enter phone number" type="number">
+                        <span class="material-icons">call</span>
+                     </div>
+                   </div>
+                 </div>
+                </div>
+
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <label>DOB</label>
+                        <div class="input-group">
+                            <input type="date" class="form-control phone_codes" [(ngModel)]="dateOfBirth" name="dateOfBirth" placeholder="Enter email ID">
+                        </div>
+                        </div>
+                       <div class="col-md-6">
+                        <label>Gender</label>
+                      <select class="form-control phone_codes" name="gender" [(ngModel)]="gender" (change)="onGenderChange($event)">
+                        <option value="null" selected disabled>Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                    </div>
+                  </div>
+                  </div>
+                  </div><br>
+                <!-- Experience Details -->               
+                  <h4>EXPERIENCE(Latest)</h4>
+                  <div class="row gx-3 mb-1 mt-2">
+                    <div class="col-md-4">
+                      <label>Job Title</label>
+                      <!-- <input class="form-control" placeholder="Enter Job Title" type="text"> -->
+                      <div class="input-group">
+                        <input class="form-control" [(ngModel)]="jobTitle" maxlength="33" name="jobTitle" placeholder="Enter job title" type="text">
+                        <span class="material-icons">work</span>
+                    </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label>Company Name</label>
+                      <!-- <input class="form-control" placeholder="Enter Company Name" type="text"> -->
+                      <div class="input-group">
+                        <input class="form-control" [(ngModel)]="companyName" maxlength="40" name="companyName" placeholder="Enter company name" type="text">
+                        <span class="material-icons">business</span>
+                    </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label>Location</label>
+                      <!-- <input class="form-control" placeholder="Enter Location" type="text"> -->
+                      <div class="input-group">
+                        <input class="form-control" [(ngModel)]="location" name="location" maxlength="30" placeholder="Enter location" type="text">
+                        <span class="material-icons">location_on</span>
+                    </div>
+                    </div>
+                  </div><br>   
+             
+                <!-- Address Details -->
+                <h4>ADDRESS</h4>
+                  <div class="row gx-3 mt-2">                
+                    <div class="col-md-6">
+                      <label>Adress1</label>
+                      <div class="input-group">
+                        <input class="form-control" [(ngModel)]="address1" name="adress1" maxlength="66" placeholder="Enter Adress1" type="text">
+                        <span class="material-icons">location_on</span>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label>Adress2</label>
+                      <div class="input-group">
+                        <input class="form-control" [(ngModel)]="address2" name="address2"  maxlength="66" placeholder="Enter Adress2" type="text">
+                        <span class="material-icons">location_on</span>
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="row gx-3 mt-3">                
+                      <div class="col-md-3">
+                       <label>Country</label>
+                        <div class="input-group">
+                          <select #country name="country" class="form-control" [(ngModel)]="userCountry" id="country" (change)="onCountryChange($event)">
+                            <option value="null" disabled selected>&nbsp;&nbsp;&nbsp;Select Your Country</option>
+                            <option *ngFor="let country of countries" [value]="country.name">
+                                {{ country.name }}
+                            </option>
+                        </select>                     
+                                               
+                      <span class="material-icons">public</span>
+                      </div>
+                      </div>
+                      <div class="col-md-3">
+                        <label>State</label>
+                        <div class="input-group">
+                          <select #state name="state" id="state" class="form-control" [(ngModel)]="userState" name="role" (change)="onStateChange($event)">
+                            <option value="null" disabled selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select Your State</option>
+                            <option *ngFor="let state of states" [value]="state.name">
+                                {{ state.name }}
+                            </option>
+                        </select>                     
+                                               
+                      <span class="material-icons">location_city</span>
+                      </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <label>City</label>
+                        <div class="input-group">
+                          <select #city name="city" id="city" class="form-control" [(ngModel)]="userCity" (change)="onCityChange($event)">
+                            <option value="null" disabled selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select Your City</option>
+                            <option *ngFor="let city of cities" [value]="city.name">
+                                {{ city.name }}
+                            </option>
+                        </select>                    
+                        <!-- <input class="form-control" type="text" [(ngModel)]="userCity" name="userCity"  placeholder="Enter City"> -->
+                      <span class="material-icons">location_on</span>
+                      </div> 
+                      </div>
+                      
+                      <div class="col-md-3">
+                        <label>ZipCode</label>
+                        <div class="input-group">
+                          <input class="form-control" type="number" onKeyPress="if(this.value.length==6) return false;" [(ngModel)]="zipcode" name="zipcode"  placeholder="Enter zipcode">
+                          <span class="material-icons">local_post_office</span>
+                      </div>
+                      </div>
+                      </div>
+              <!-- Save changes button-->
+                <div class="d-flex justify-content-end mt-3">
+                  <button class="btn btn-warning" (click)="onClear()">Cancel</button>
+                  <button class="btn btn-success" (click)="onSubmit()">{{buttonType}}</button>
+                </div> 
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <app-spinner *ngIf="showSpinner"></app-spinner>
+  
+  <ng-template #myDialog>
+    <mat-dialog-content class="d-flex flex-column align-items-end justify-content-start rounded" style="border-radius: 15px;">
+        <i class="fa fa-close cancel_Icon mb-3" [mat-dialog-close]="true"></i>
+        <div class="row details">
+            <div class="col-md-2 d-flex align-items-center">
+                <i class="fa fa-check-circle mr-2"></i>
+            </div>
+            <div class="col-md-8" style="width: 242px;">
+                <p>{{ message }}</p>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center" class="d-flex justify-content-center" style="margin-top: -20px;">
+        <button [mat-dialog-close]="true" class="btn btn-primary btn_Buttons" (click)="refreshPage()">OK</button>
+    </mat-dialog-actions>
+</ng-template>
