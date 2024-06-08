@@ -101,13 +101,9 @@
           <label for="eventUrl" class="mb-0">Event URL:</label>
           <input type="text" class="form-control" id="eventUrl" name="eventUrl" required [(ngModel)]="eventUrl">
         </div>
-        <div class="form-group">
-          <label for="expiryDate" class="mb-0">Expiry Date:</label>
-          <input type="date" class="form-control" id="dltFeedDate" name="dltFeedDate" required [(ngModel)]="dltFeedDate">
-        </div>
         <div class="text-right">
           <button type="button" (click)="onClear()" class="btn btn-primary">Cancel</button>
-          <button type="submit" (click)="postTradeshow()" [disabled]="!eventName || !eventUrl || !dltFeedDate" class="btn btn-success ml-2">Save</button>
+          <button type="submit" (click)="postTradeshow()" [disabled]="!eventName || !eventUrl" class="btn btn-success ml-2">Save</button>
         </div>
         <br>
       </form>

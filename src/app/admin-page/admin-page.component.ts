@@ -12,7 +12,7 @@ import { A, an } from '@fullcalendar/core/internal-common'
 })
 export class AdminPageComponent implements OnInit {
   sender = 'AV Champs'
-  title: any
+  title: any;
   description: any
   eventName: any
   eventUrl: any
@@ -99,8 +99,7 @@ export class AdminPageComponent implements OnInit {
     this.showSpinner = true
     const data = {
       title: this.eventName,
-      website_Url: this.eventUrl,
-      dltFeedDate: this.dltFeedDate
+      website_Url: this.eventUrl
     }
     this.faService.insertTradeShow(data).subscribe((response: any) => {
       console.log('Form submitted:', response)

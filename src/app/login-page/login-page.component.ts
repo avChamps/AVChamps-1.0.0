@@ -21,8 +21,8 @@ export class LoginPageComponent implements OnInit {
   receivedValue: any
   googleUrl: any
   linkedInUrl: any;
-  // baseUrl = 'https://avchamps.com/nodejs';
-  baseUrl : string = 'http://localhost:3000';
+  baseUrl = 'https://avchamps.com/nodejs';
+  // baseUrl : string = 'http://localhost:3000';
   constructor (
     private route: ActivatedRoute,
     private router: Router,
