@@ -265,6 +265,7 @@ export class AvHeaderComponent implements OnInit {
     this.closePopup();
     this.faService.clearSession()
     this.router.navigate(['/home-page'])
+    window.location.reload();
   }
 
   toggleKnowledgeBase () {

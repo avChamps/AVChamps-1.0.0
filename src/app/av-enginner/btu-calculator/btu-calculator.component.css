@@ -29,6 +29,12 @@ span {
     text-align: justify;
 }
 
+.rack_header {
+    text-align: center;
+    margin-bottom: 0;
+    padding-top: 10px;
+}
+
 .styled-table {
     border-collapse: collapse;
     margin: 25px 0;
@@ -38,6 +44,95 @@ span {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
+.rack-diagram {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.rack-border {
+    display: flex;
+    border: 2px solid #000;
+    width: 50%;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.rack-numbers {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    /* border-right: 2px solid #000; */
+    width: 50px;
+    box-sizing: border-box;
+}
+
+.rack-item.half-width {
+    width: 50%;
+}
+
+.rack-item.second-half {
+    border-left: 1px solid #ddd;
+}
+
+.rack-item.half-width:nth-child(odd) {
+    left: 0;
+    border-left: 1px solid #ddd;
+}
+
+.rack-item.half-width:nth-child(even) {
+    left: 50%;
+}
+
+.rack-number.has-border-bottom {
+    border-bottom: 1px solid #000;
+}
+
+.rack-number {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+    box-sizing: border-box;
+}
+
+.rack-items {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.rack-item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f3f3f3;
+    border-bottom: 1px solid #ddd;
+    position: absolute;
+    box-sizing: border-box;
+}
+
+.border_right {
+    border-right: 2px solid;
+}
+
+.rack-item.has-border-bottom {
+    border-bottom: 1px solid #000;
+}
+
+.border_left {
+    border-left: 2px solid;
+}
+
+.btn-primary {
+    background-color: blue;
+    border: none;
+    color: white;
+}
 
 .powerCal_table {
     min-width: 89%;
@@ -136,14 +231,12 @@ input {
 
 .results {
     padding-left: 50%;
-    padding-top: 5%;
     line-height: 15px;
     padding-bottom: 4%;
 }
 
 .powerCal_res {
     padding-left: 63%;
-    padding-top: 3%;
 }
 
 .buttons {
@@ -245,27 +338,31 @@ full-calendar {
 
 
 :host ::ng-deep .fc-button-group button.fc-dayGridMonth-button.fc-button {
-    background: #FFA62F;
+    background: #266352;
     border: none;
     margin-left: 1px;
 }
 
 :host ::ng-deep .fc-button-group button.fc-timeGridWeek-button.fc-button {
-    background: #FFC96F;
+    background: #128061;
     border: none;
     margin-left: 1px;
 }
 
 :host ::ng-deep .fc-button-group button.fc-timeGridDay-button.fc-button {
-    background: #FFE8C8;
+    background: #53c0a2;
     border: none;
     margin-left: 1px;
 }
 
 :host ::ng-deep .fc-button-group button.fc-listWeek-button.fc-button {
-    background: #ACD793;
+    background: #b5f7e6;
     border: none;
     margin-left: 1px;
+}
+
+::ng-deep .fc-day-today {
+    background-color: #b5f7e6 !important;
 }
 
 .event-title {

@@ -344,9 +344,9 @@ onBack() {
   window.location.reload();
 }
 
-
-  logOut () {
-    this.faService.clearSession()
-    this.router.navigate(['/home-page'])
-  }
+logOut () {
+  this.faService.clearSession();
+  this.router.navigate(['/home-page']);
+  window.location.reload();
+}
 }

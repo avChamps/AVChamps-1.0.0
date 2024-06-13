@@ -32,22 +32,23 @@ body {
 
 .input-box {
     position: relative;
-  }
-  
-  .input-box i {
+}
+
+.input-box i {
     position: absolute;
     right: 13px;
-    top: 15px;
+    top: 12px;
     color: #ced4da;
-  }
+}
 
-  p, .input-group {
+p, .input-group {
     display: inline-block;
-    vertical-align: top; /* Align the elements at the top */
-  }
-  
+    vertical-align: top;
+    /* Align the elements at the top */
+}
 
-  .input-group {
+
+.input-group {
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -172,8 +173,16 @@ footer {
     cursor: pointer;
 }
 
+.website_links {
+display: inline-block;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+max-width: 100%;
+}
+
 .spinner {
-  margin-left: 25%;
+    margin-left: 25%;
 }
 
 .center-content {
@@ -193,9 +202,7 @@ footer {
     .header-boxs {
         /* margin-left: 25%;
         max-width: 975px;  */
-     margin-left: 24%;
-     width: 73%
+        margin-left: 24%;
+        width: 73%
     }
-  }
-  
-  
+}

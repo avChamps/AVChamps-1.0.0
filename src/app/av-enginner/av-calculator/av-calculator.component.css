@@ -3,7 +3,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-content: stretch; /* Ensure the whole row stretches */
+  align-content: stretch;
+  /* Ensure the whole row stretches */
 }
 
 .counts .row {
@@ -25,8 +26,10 @@
   cursor: pointer;
   background: #fff;
   box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
-  min-height: 250px; /* Set a minimum height for consistency */
-  height: auto; /* Ensure boxes expand to fit content */
+  min-height: 250px;
+  /* Set a minimum height for consistency */
+  height: auto;
+  /* Ensure boxes expand to fit content */
 }
 
 .tool-header {
@@ -47,6 +50,10 @@
   max-height: 100px;
 }
 
+::placeholder {
+  opacity: 0.7;
+}
+
 .count-p {
   font-weight: 500;
   font-size: 18px;
@@ -60,6 +67,30 @@
 
 .custom-images {
   max-height: 100px;
+}
+
+.filters {
+  display: flex;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 54%;
+  margin-left: 45%;
+}
+
+.input-box {
+  position: relative;
+}
+
+.input-box i {
+  position: absolute;
+  right: 13px;
+  top: 11px;
+  color: #ced4da;
 }
 
 @media (min-width: 1275px) {

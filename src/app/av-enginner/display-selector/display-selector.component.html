@@ -1,0 +1,46 @@
+<div *ngIf="displaySelector">
+    <div class="container">
+        <h2>Display Selection</h2>
+        <div class="table">
+            <table class="styled-table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Panel</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let section of sections">
+                        <tr>
+                          <td colspan="3" class="section-header">{{ section.title }}</td>
+                        </tr>
+                        <tr *ngFor="let panel of section.data; let i = index">
+                          <td>{{ panel.name }}</td>
+                          <td>
+                            <ng-container [ngSwitch]="panel.type">
+                              <input *ngSwitchCase="'input'" type="text" class="input_width" [attr.maxlength]="panel.maxlength">
+                              <span *ngSwitchCase="'static'">{{ panel.value }}</span>
+                              <select *ngSwitchCase="'dropdown'">
+                                <option *ngFor="let option of panel.options">{{ option }}</option>
+                              </select>
+                            </ng-container>
+                          </td>
+                          <td><input type="checkbox" class="custom-checkbox"></td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>                            
+            </div>
+      </div>
+      <div class="mt-2" style="padding-left: 59%;">
+        <button class="btn btn-primary" (click)="calculateTotal()">
+            Evaluate
+        </button>
+    </div>   
+<div class="container mt-4" *ngIf="showChart">
+    <canvas id="myChart" width="250" height="250"></canvas>
+</div>
+</div>
+
+ 

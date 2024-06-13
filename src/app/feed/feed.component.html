@@ -10,93 +10,98 @@
 <body>
 
 <div class="header-boxs" *ngIf="showMails">
-     <div class="row">
-      <div class="col-md-12">
-        <div class="grid email">
-          <div class="grid-body">
-            <div class="row">
-              <div class="col-md-12">
-                 <div class="filters">
-                    <div class="input-group">
-                      <div class="input-box input-group">
-                        <input type="text" class="form-control input-sm" [(ngModel)]="searchTitle" placeholder="Search by title"/>
-                      <i class="fa fa-search"></i>
-                    </div>
-                    </div>		
-                </div>
-
-                <div class="table-responsive mt-4">
-                  <table class="table">
-                      <tbody>
-                        <tr *ngFor="let email of filteredEmails" (click)="selectEmail(email)" [class.unopened]="!email.opened">
-                          <td class="action"><input type="checkbox" /></td>
-                          <td class="action"><i class="fa fa-star-o"></i></td>
-                          <td class="action"><i class="fa fa-bookmark-o"></i></td>
-                          <td class="name"><a [class.unopened]="!email.opened">{{ email.sender }}</a></td>
-                          <td class="subject"><a [class.unopened]="!email.opened">{{ email.title }}</a></td>
-                          <td>
-                              <img *ngIf="!email.opened" src="./assets/img/av-profile/feed_new.gif" alt="New Email">
-                          </td>
-                          <td class="time">{{ email.createdDate | date:'hh:mm a' }} {{ email.createdDate | date:'MMM dd' }}</td>
-                      </tr>
-                          <!-- Show the image only when filteredEmails array is empty -->
-                          <tr style="border-color: white;" *ngIf="filteredEmails.length === 0 && searchTitle !== ''">
-                            <td colspan="100">
-                                <div class="centered-image mt-3">
-                                    <img src="assets/img/oops.png" alt="" class="img-fluid no-records" height="250px">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="grid email">
+                <div class="grid-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="filters">
+                                <div class="input-group">
+                                    <div class="input-box input-group">
+                                        <input type="text" class="form-control input-sm" [(ngModel)]="searchTitle"
+                                            placeholder="Search by title" />
+                                        <i class="fa fa-search"></i>
+                                    </div>
                                 </div>
-                            </td>
-                        </tr>
-                      </tbody>
-                  </table>
-              </div>
-              
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-    
-  <div *ngIf="selectedEmail">
-    <div class="arrow_Container">
-      <div class="arrow-Icon" (click)="onBack()">
-        <mat-icon>arrow_back</mat-icon>
-      </div>
-    </div>
-  <div class="container-fluid center-content mt-2">
-    <div class="clciked_Notification">
-        <div style="border: 1px solid #00000038;">
-            <div *ngFor="let email of clickedemails">
-                <header>
-                    <h1>{{ email.title }}</h1>
-                </header>
-                <div class="description">
-                  <p>Dear User,</p><br>
-                    <p>{{ email.description }}</p>
-                   <div *ngIf="email.link">
-                    <p>Source:</p>
-                    <p><a class="links" href="{{ email.link }}" target="_blank">{{ email.link }}</a></p>
-                   </div>
-                   <p>Best regards,<br>
-                    AV CHAMPS.</p>
+                            </div>
+
+                            <div class="table-responsive mt-4">
+                                <table class="table">
+                                    <tbody>
+                                        <tr *ngFor="let email of filteredEmails" (click)="selectEmail(email)"
+                                            [class.unopened]="!email.opened">
+                                            <td class="action"><input type="checkbox" /></td>
+                                            <td class="action"><i class="fa fa-star-o"></i></td>
+                                            <td class="action"><i class="fa fa-bookmark-o"></i></td>
+                                            <td class="name"><a [class.unopened]="!email.opened">{{ email.sender }}</a></td>
+                                            <td class="subject">
+                                                <a [class.unopened]="!email.opened">
+                                                    {{ email.title.length > 70 ? email.title.substring(0, 70) + '...' : email.title }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <img *ngIf="!email.opened" src="./assets/img/av-profile/feed_new.gif"
+                                                    alt="New Email">
+                                            </td>
+                                            <td class="time">{{ email.createdDate | date:'hh:mm a' }} {{ email.createdDate | date:'MMM dd' }}</td>
+                                        </tr>
+                                        <!-- Show the image only when filteredEmails array is empty -->
+                                        <tr style="border-color: white;" *ngIf="filteredEmails.length === 0 && searchTitle !== ''">
+                                            <td colspan="100">
+                                                <div class="centered-image mt-3">
+                                                    <img src="assets/img/oops.png" alt="" class="img-fluid no-records"
+                                                        height="250px">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <footer>
-          <h1>Our Sponsers</h1>
-          <div class="sponsor-logos">
-            <img *ngFor="let logo of images" class="sponsor-logo" [src]="logo" alt="Logo_Img">
-          </div>          
-        </footer>
     </div>
 </div>
+
+<div *ngIf="selectedEmail">
+    <div class="arrow_Container">
+        <div class="arrow-Icon" (click)="onBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </div>
+    </div>
+    <div class="container-fluid center-content mt-2">
+        <div class="clciked_Notification">
+            <div style="border: 1px solid #00000038;">
+                <div *ngFor="let email of clickedemails">
+                    <header>
+                        <h1>{{ email.title }}</h1>
+                    </header>
+                    <div class="description">
+                        <p>Dear User,</p><br>
+                        <p>{{ email.description }}</p>
+                        <div *ngIf="email.link">
+                            <p>Source:</p>
+                            <p class="website_links"><a class="links" href="{{ email.link }}" target="_blank">{{ email.link }}</a></p>
+                        </div>
+                        <p>Best regards,<br>
+                            AV CHAMPS.</p>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <h1>Our Sponsors</h1>
+                <div class="sponsor-logos">
+                    <img *ngFor="let logo of images" class="sponsor-logo" [src]="logo" alt="Logo_Img">
+                </div>
+            </footer>
+        </div>
+    </div>
 </div>
- <app-spinner *ngIf="showSpinner" class="spinner"></app-spinner>
+<app-spinner *ngIf="showSpinner" class="spinner"></app-spinner>
 </body>
+
 </html>
-
-
-
-  

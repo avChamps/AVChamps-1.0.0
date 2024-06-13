@@ -46,13 +46,10 @@ export class ReportsComponent implements OnInit {
       this.spl[count] = i
       count++
     }
-
     this.showSPL = true
-    this.calculateSPL()
-    this.sumOfSpl = Math.floor(
-      20 * Math.log(this.distanceInFeet / this.calculatedSPL)
-    )
-    // this.sumOfSpl = Math.log(3.3/this.distanceInFeet)*20+this.calculatedSPL;
+    this.calculateSPL();
+    const referenceDistance = 3.3;
+    this.sumOfSpl = this.startingSPL - 20 * Math.log10(this.distanceInFeet / referenceDistance);
   }
 
   calculateSPL (): void {

@@ -63,6 +63,8 @@ import { GuidlinesComponent } from './home-page/guidlines/guidlines.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { RedirectPageComponent } from './redirect-page/redirect-page.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { RatioToolsComponent } from './av-enginner/ratio-tools/ratio-tools.component';
+import { DisplaySelectorComponent } from './av-enginner/display-selector/display-selector.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +104,9 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CommunityPageComponent,
     CommunityMyPostsComponent,
     GuidlinesComponent,
-    RedirectPageComponent
+    RedirectPageComponent,
+    RatioToolsComponent,
+    DisplaySelectorComponent
   ],
   imports: [
     BrowserModule,

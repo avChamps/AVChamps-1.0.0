@@ -1,19 +1,29 @@
-import { Component, ElementRef, ViewChild } from '@angular/core'
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core'
 import { ToWords } from 'to-words'
 import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'
+import { DownloadreportService } from 'src/app/services/downloadreport.service'
 @Component({
   selector: 'app-av-simulator',
   templateUrl: './av-simulator.component.html',
   styleUrls: ['./av-simulator.component.css']
 })
-export class AvSimulatorComponent {
-  selectedImage: any
-  isQuetation: boolean = true;
+export class AvSimulatorComponent implements OnInit {
+  overallTotal = 0
+  overallCGST = 0
+  overallSGST = 0
+  Total = 0
+  selectedImage: any;
   grandTotalWords: any;
-  toWordsInstance = new ToWords()
+  seletedFile: any;
+  isQuetation: boolean = false;
+  isServiceReport : boolean = false;
+  imgData: string | null = null
+  fileSelected: boolean = false;
+  showSpinner : boolean = false;
+  toWordsInstance = new ToWords();
+  @Input() toolType: any;
   @ViewChild('fileInput') fileInput!: ElementRef
-  // Add an array to store your invoice items
   items = [
     {
       // item: '',
@@ -30,12 +40,21 @@ export class AvSimulatorComponent {
     }
   ]
 
-  overallTotal = 0 // Overall total for the Amount
-  overallCGST = 0 // Overall total for CGST
-  overallSGST = 0 // Overall total for SGST
-  Total = 0
+constructor(public downloadReport: DownloadreportService) { }
+
+  ngOnInit(): void {
+    this.handleMessageChange()
+  }
+
+  handleMessageChange () {
+    if(this.toolType === 'quatation') {
+      this.isQuetation = true;
+      } else if (this.toolType === 'serviceReport') {
+        this.isServiceReport = true;
+   } 
+  }
+
   calculateAmount (company: any) {
-    // Assuming quantity and unitCost are numbers
     company.total = company.quantity * company.unitCost
     this.calculateGST(company)
     this.updateOverallTotal()
@@ -43,7 +62,6 @@ export class AvSimulatorComponent {
   }
 
   calculateGST (company: any) {
-    // Assuming cgst and sgst are numbers
     company.cgstAmount = (company.cgst / 100) * company.total
     company.sgstAmount = (company.sgst / 100) * company.total
     this.updateOverallGST()
@@ -70,7 +88,6 @@ export class AvSimulatorComponent {
   }
 
   addRow () {
-    // Add a new item to the invoiceItems array
     this.items.push({
       // item: '',
       discription: '',
@@ -81,25 +98,19 @@ export class AvSimulatorComponent {
       sgst: 0,
       cgst: 0,
       total: 0,
-      cgstAmount: 0, // Add cgstAmount property
-      sgstAmount: 0 // Add sgstAmount property
+      cgstAmount: 0,
+      sgstAmount: 0 
     })
   }
 
   removeRow () {
-    // Remove the last item from the invoiceItems array
     if (this.items.length > 1) {
       this.items.pop()
     }
     this.updateTotal();
     this.updateOverallTotal();
     this.updateOverallGST();
-
   }
-
-  imgData: string | null = null
-  seletedFile: any
-  fileSelected: boolean = false
 
   onFileSelected (event: any): void {
     const file: File = event.target.files[0]
@@ -114,7 +125,6 @@ export class AvSimulatorComponent {
   }
 
   openFileInput (): void {
-    // Trigger the file input when the image is clicked
     if (this.fileInput) {
       this.fileInput.nativeElement.click()
     }
@@ -126,55 +136,11 @@ export class AvSimulatorComponent {
     textarea.style.height = textarea.scrollHeight + 'px';
   }
   
-   downloadCard() {
-    const element = document.getElementById('pdfContent');
-    if (element) {
-      const originalBoxShadow = element.style.boxShadow;
-      element.style.boxShadow = 'none';
-  
-      const options = {
-        ignoreElements: (el:any) => el.classList.contains('exclude'),
-      };
-  
-      html2canvas(element, options).then((canvas) => {
-        element.style.boxShadow = originalBoxShadow;
-  
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        const imgWidth = 200;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        const xPosition = (pageWidth - imgWidth) / 2;
-        let yPosition = 10; // Initial position
-  
-        // Adjust this value to move the image higher or lower
-        const imageYOffset = 0; // Move the image 5 units higher
-        yPosition += imageYOffset;
-  
-        const fontWeight = 'normal';
-  
-        pdf.setFont('helvetica', fontWeight);
-        pdf.setTextColor(0);
-        pdf.setFont('helvetica', 'normal');
-  
-        const borderOffset = 4;
-  
-        pdf.setDrawColor(0, 0, 0);
-        pdf.setLineWidth(0.5);
-        pdf.rect(
-          borderOffset,
-          borderOffset,
-          pageWidth - 2 * borderOffset,
-          pageHeight - 2 * borderOffset,
-          'S'
-        );
-        pdf.addImage(imgData, 'PNG', xPosition, yPosition, imgWidth, imgHeight);
-        pdf.save('Quotation.pdf');
-      });
-    } else {
-      console.error("Element with id 'pdfContent' not found.");
-    }
+  downloadCard(filename: any) {
+    this.showSpinner = true;
+    this.downloadReport.downloadCard(filename, () => {
+      this.showSpinner = false;
+    });
   }
   
 }

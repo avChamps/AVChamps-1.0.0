@@ -33,8 +33,13 @@ export class AdminPageComponent implements OnInit {
     private faService: FaServiceService,
     private popup: PopupService
   ) {}
+
+
   ngOnInit (): void {
-    this.showLogin()
+    this.checkLoginStatus();
+    if (!this.showAdminpanel) {
+      this.showLogin();
+    }
   }
 
   showLogin () {
@@ -43,11 +48,19 @@ export class AdminPageComponent implements OnInit {
     }, 10)
   }
 
-  submitForm (emailId: any,userName: any, password: any) {
+  submitForm (emailId: any, userName: any, password: any) {
     if (emailId === 'Avchamps1@gmail.com' && userName === 'AvChamps' && password === 'Bl@ckp0ny@24') {
+      localStorage.setItem('isLoggedIn', 'true');
       this.showAdminpanel = true;
     } else {
-      alert('Your Not a Admin')
+      alert('You are not an Admin');
+    }
+  }
+
+  checkLoginStatus() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (isLoggedIn === 'true') {
+      this.showAdminpanel = true;
     }
   }
 
@@ -114,7 +127,6 @@ export class AdminPageComponent implements OnInit {
     })
   }
 
-
   onClear () {
     this.sender = ''
     this.title = ''
@@ -123,5 +135,10 @@ export class AdminPageComponent implements OnInit {
     this.eventUrl = ''    
     ;(this.link = ''), (this.startDate = null)
     ;(this.endDate = null), (this.dltFeedDate = '')
+  }
+
+  logout() {
+    localStorage.removeItem('isLoggedIn');
+    window.location.reload();
   }
 }

@@ -14,67 +14,31 @@
   <div *ngIf="cards">
     <section id="counts" class="counts">
       <div class="container" data-aos="fade-up">
-        <div class="row gy-4">
-          
-          <div class="col-lg-3 col-md-4" (click)="onClick('isCard')">
-            <div class="count-box d-flex flex-column align-items-center">
-              <img src="assets/img/av-profile/id-card.png" class="img-fluid custom-images" alt="">
-              <p class="tool-header">Bussiness Card</p>
-              <p class="tool-description">Design a personalized E-Business card and connect with your network in a flash.</p>
+        <div class="filters">
+          <div class="input-group">
+            <div class="input-box input-group">
+              <input type="text" class="form-control input-sm" [(ngModel)]="searchTool" placeholder="Search by Tools Names..."/>
+              <i class="fa fa-search"></i>
             </div>
           </div>
-          
-          <div class="col-lg-3 col-md-4" (click)="onClick('btu')">
+        </div>
+        <div class="row gy-4 mt-1">
+          <div class="col-lg-3 col-md-4" *ngFor="let tool of filteredTools()" (click)="onClick(tool.id)">
             <div class="count-box d-flex flex-column align-items-center">
-              <img src="assets/img/av-profile/british-thermal-unit.png" class="img-fluid custom-images" alt="">
-              <p class="tool-header">BTU Calculator</p>
-              <p class="tool-description">Calculate how much heat is produced by all electronic equipment within an AV rack.</p>
+              <img [src]="tool.imgSrc" class="img-fluid custom-images" alt="">
+              <p class="tool-header">{{ tool.name }}</p>
+              <p class="tool-description">{{ tool.description }}</p>
             </div>
           </div>
-          
-          <div class="col-lg-3 col-md-4" (click)="onClick('ispowerCal')">
-            <div class="count-box d-flex flex-column align-items-center">
-              <img src="assets/img/av-profile/power-claculator.png" class="img-fluid custom-images" alt="">
-              <p class="tool-header">Power Calculator</p>
-              <p class="tool-description">Calculate the total power required for all AV equipment within an AV rack.</p>
-            </div>
-          </div>
-          
-          <div class="col-lg-3 col-md-4" (click)="onClick('macFinder')">
-            <div class="count-box d-flex flex-column align-items-center">
-              <img src="assets/img/av-profile/mac_finder.png" class="img-fluid custom-images" alt="">
-              <p class="tool-header">Mac Finder</p>
-              <p class="tool-description">Find the vendor/manufacturer of a device by its MAC Address with Mac vendor tool.</p>
-            </div>
-          </div>
-          
-          <div class="col-lg-3 col-md-4" (click)="onClick('quatation')">
-            <div class="count-box d-flex flex-column align-items-center">
-              <img src="assets/img/av-profile/quotation.png" class="img-fluid custom-images" alt="">
-              <p class="tool-header">Quotation</p>
-              <p class="tool-description">Save precious time and effort by utilizing quotation tool and automate math.</p>
-            </div>
-          </div>
-          
-          <div class="col-lg-3 col-md-4" (click)="onClick('calender')">
-            <div class="count-box d-flex flex-column align-items-center">
-              <img src="assets/img/av-profile/event-calender.png" class="img-fluid custom-images" alt="">
-              <p class="tool-header">Events</p>
-              <p class="tool-description">Stay informed about global events, actively contribute, and assist fellow peers.</p>
-            </div>
-          </div>
-          
-          <div class="col-lg-3 col-md-4" (click)="onClick('tradeShow')">
-            <div class="count-box d-flex flex-column align-items-center">
-              <img src="assets/img/av-profile/trade-show.jpg" class="img-fluid custom-images" alt="">
-              <p class="tool-header">Trade Show</p>
-              <p class="tool-description">Stay informed about all the AV tradeshows happening around the world.</p>
-            </div>
-          </div>
-
         </div>
       </div>
-    </section><!-- End Counts Section -->
+      <div *ngIf="filteredTools().length === 0">
+        <div class="centered-image">
+          <img src="assets/img/oops.png" alt="" class="img-fluid no-records" height="250px" />
+        </div>
+      </div>
+    </section>
+    
   </div>
   
 
@@ -85,12 +49,14 @@
   </div>
 
   <div>
-    <app-av-simulator *ngIf="isSimulator"></app-av-simulator>
+    <app-av-simulator *ngIf="isSimulator || isServiceReport" [toolType]="toolType"></app-av-simulator>
     <app-bussiness-card *ngIf="isBussinessCard"></app-bussiness-card>
     <app-reports *ngIf="isReports || isSpl || isMacFinder " [toolType]="toolType"></app-reports>
-    <app-btu-calculator *ngIf="isBtuCalculator || ispowerCal || isCalender || isTradeshow" [toolType]="toolType"></app-btu-calculator>
+    <app-btu-calculator *ngIf="isBtuCalculator || ispowerCal || isCalender || isTradeshow || isAvrack" [toolType]="toolType"></app-btu-calculator>
+    <app-ratio-tools *ngIf="isAspectratio || isdiagonalScreen || isthrowDistance" [toolType]="toolType"></app-ratio-tools>
+    <app-display-selector *ngIf="displaySelector" [toolType]="toolType"></app-display-selector>
   </div>
-
+  <app-spinner *ngIf="showSpinner"></app-spinner> 
 </body>
 
 </html>

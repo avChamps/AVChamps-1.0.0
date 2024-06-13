@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   OnInit,
+  Renderer2,
   TemplateRef,
   ViewChild,
   signal
@@ -26,6 +27,7 @@ import { an, dA } from '@fullcalendar/core/internal-common'
 import { FaServiceService } from 'src/app/services/fa-service.service'
 import { PopupService } from 'src/app/services/popup.service'
 import { Tooltip } from 'chart.js'
+import { DownloadreportService } from 'src/app/services/downloadreport.service'
 @Component({
   selector: 'app-btu-calculator',
   templateUrl: './btu-calculator.component.html',
@@ -38,10 +40,13 @@ export class BtuCalculatorComponent implements OnInit {
   isDialogOpen: boolean = false
   isCalender: boolean = false;
   isTradeshow : boolean = false;
-  showSpinner: boolean = true
-  startDate: any
+  showSpinner: boolean = true;
+  isAvrack : boolean = false;
+  startDate: any;
   endDate: any
   dialogRef: any
+  totalRackHeight :any;
+  rackNumbers : any;
   qrdata: any
   total: number = 0
   totalPowerCol: number = 0
@@ -55,11 +60,8 @@ export class BtuCalculatorComponent implements OnInit {
   @ViewChild('myDialog') myDialog!: TemplateRef<any>
   tradeshowBoxes: { title: string, urlLink: string, bgColor: string }[] = [];
 
-  constructor (
-    private faService: FaServiceService,
-    private popup: PopupService
-  ) {
-    this.handleCreateEventClick = this.handleCreateEventClick.bind(this)
+  constructor (private faService: FaServiceService,public downloadReport: DownloadreportService, private popup: PopupService,private renderer: Renderer2) {
+     this.handleCreateEventClick = this.handleCreateEventClick.bind(this)
   }
 
   btuRows = [
@@ -67,7 +69,7 @@ export class BtuCalculatorComponent implements OnInit {
     { company: '', equipment: '', watt: 0 }
   ]
 
-  powerCalRows = [
+   powerCalRows = [
     { equipment: '', current: 0, voltage: 0, watt: 0 },
     { equipment: '', current: 0, voltage: 0, watt: 0 },
     { equipment: '', current: 0, voltage: 0, watt: 0 }
@@ -75,7 +77,8 @@ export class BtuCalculatorComponent implements OnInit {
 
   ngOnInit (): void {
     this.handleMessageChange()
-    this.calculateTotalWatt()
+    this.calculateTotalWatt();
+    this.updateRackConfiguration();
   }
 
   handleMessageChange () {
@@ -89,10 +92,39 @@ export class BtuCalculatorComponent implements OnInit {
         this.isBtu = true;
       } else if(this.toolType === 'ispowerCal') {
         this.ispowerCal = true;
-      }
+      } else if(this.toolType === 'avRack') {
+        this.isAvrack = true;
+   }
       this.showSpinner = false;
   }
 
+  updateRackConfiguration() {
+    let totalUnits = 0;
+    this.btuRows.forEach(row => {
+      totalUnits += (row.watt >= 1 ? row.watt : 0.5);
+    });
+    this.totalRackHeight = Math.ceil(totalUnits) * 35;
+    this.rackNumbers = Array.from({ length: Math.ceil(totalUnits) }, (_, i) => i + 1);
+  }
+  
+  getRackItemBottom(index: number) {
+    let totalRU = 0;
+    for (let i = 0; i < index; i++) {
+      totalRU += (this.btuRows[i].watt >= 1 ? this.btuRows[i].watt : 0.5);
+    }
+    return Math.floor(totalRU);
+  }
+  
+  getHalfRackLeftPosition(index: number) {
+    let count = 0;
+    for (let i = 0; i < index; i++) {
+      if (this.btuRows[i].watt < 1) {
+        count++;
+      }
+    }
+    return (count % 2) === 0 ? '0' : '50%';
+  }
+   
   getRowClass (index: number): string {
     return index % 2 === 0 ? 'even-row' : 'odd-row'
   }
@@ -144,7 +176,8 @@ export class BtuCalculatorComponent implements OnInit {
     this.total = 0
     this.requiredCooling = 0
     this.totalkWh = 0
-    this.totalPowerCol = 0
+    this.totalPowerCol = 0;
+    this.updateRackConfiguration();
   }
 
   calculateTotalWatt () {
@@ -194,6 +227,20 @@ export class BtuCalculatorComponent implements OnInit {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
+    views: {
+      dayGridMonth: {
+        buttonText: 'Month'
+      },
+      timeGridWeek: {
+        buttonText: 'Week'
+      },
+      timeGridDay: {
+        buttonText: 'Day'
+      },
+      listWeek: {
+        buttonText: 'List'
+      }
+    },
     initialView: 'dayGridMonth',
     weekends: true,
     editable: true,
@@ -204,11 +251,12 @@ export class BtuCalculatorComponent implements OnInit {
     eventClick: this.handleEventClick.bind(this),
     customButtons: {
       createEventButton: {
-        text: 'Add Post',
+        text: 'Post Event',
         click: () => this.handleCreateEventClick()
       }
     }
   }
+  
 
   handleCreateEventClick = () => {
     this.popup.openDialogWithTemplateRef(this.myDialog)
@@ -283,66 +331,39 @@ for (let i = 0; i < 6; i++) {
 return color;
 }
 
-  downloadReport (option: any) {
-    var fileName: any
-    var header: any
-    if (option === 'btu') {
-      fileName = 'btu-Calculator.pdf'
-      header = 'Thermal Dissipation Details'
-    } else if (option === 'powerCal') {
-      fileName = 'Power-Calculator.pdf'
-      header = ' AV rack UPS power requirement'
-    }
-    const element = document.getElementById('pdfContent')
+downloadCard(filename: any) {
+  this.showSpinner = true;
+  const tableElement = document.querySelector('.styled-table') as HTMLElement;
+  const header = document.querySelector('.header') as HTMLElement;
+  const icons = document.querySelector('.icons') as HTMLElement;
 
-    if (element) {
-      const options = {
-        ignoreElements: (element: { id: string }) => element.id === 'icons'
-      }
-
-      html2canvas(element, options).then(canvas => {
-        const imgData = canvas.toDataURL('image/png')
-        const pdf = new jsPDF()
-        const imgWidth = 200
-        const imgHeight = (canvas.height * imgWidth) / canvas.width
-        const pageWidth = pdf.internal.pageSize.getWidth()
-        const pageHeight = pdf.internal.pageSize.getHeight()
-        const xPosition = (pageWidth - imgWidth) / 2
-        let yPosition = 10
-
-        const headerText = header
-        const fontSize = 15
-        const fontWeight = 'normal'
-        const headerTextWidth =
-          (pdf.getStringUnitWidth(headerText) * fontSize) /
-          pdf.internal.scaleFactor
-        const headerXPosition = (pageWidth - headerTextWidth) / 2
-        const headerYPosition = yPosition + 2
-
-        pdf.setFont('helvetica', fontWeight)
-        pdf.text(headerText, headerXPosition, headerYPosition)
-        pdf.setTextColor(0)
-        pdf.setFont('helvetica', 'normal')
-
-        yPosition += 15
-
-        const borderOffset = 4
-
-        pdf.setDrawColor(0, 0, 0)
-        pdf.setLineWidth(0.5)
-        pdf.rect(
-          borderOffset,
-          borderOffset,
-          pageWidth - 2 * borderOffset,
-          pageHeight - 2 * borderOffset,
-          'S'
-        )
-
-        pdf.addImage(imgData, 'PNG', xPosition, yPosition, imgWidth, imgHeight)
-        pdf.save(fileName)
-      })
-    } else {
-      console.error("Element with id 'pdfContent' not found.")
-    }
+  if (tableElement) {
+    this.renderer.setStyle(tableElement, 'box-shadow', 'none');
+    this.renderer.setStyle(tableElement, 'text-align', 'center');
   }
+
+  if (header) {
+    this.renderer.setStyle(header, 'text-align', 'center');
+  }
+
+  if (icons) {
+    this.renderer.setStyle(icons, 'display', 'none');
+  }
+
+  this.downloadReport.downloadCard(filename, () => {
+    this.showSpinner = false;
+    if (tableElement) {
+      this.renderer.removeStyle(tableElement, 'box-shadow');
+      this.renderer.removeStyle(tableElement, 'text-align');
+    }
+
+    if (header) {
+      this.renderer.removeStyle(header, 'text-align');
+    }
+
+    if (icons) {
+      this.renderer.removeStyle(icons, 'display');
+    }
+  });
+}
 }

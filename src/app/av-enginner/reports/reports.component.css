@@ -13,8 +13,12 @@ table {
     padding-left: 15%;
 }
 
+.th_value {
+    font-weight: unset;
+}
+
 th, td {
-    border: 1px solid #dddddd;
+    /* border: 1px solid #dddddd; */
     text-align: left;
     padding: 8px;
 }
@@ -26,11 +30,11 @@ th {
 }
 
 tr:nth-child(odd) {
-    background-color: #f2f2f2;
+    background-color: #0000ff26;
 }
 
 tr:nth-child(odd) input {
-    background-color: #f2f2f2;
+    background-color: #0000ff26;
 }
 
 
@@ -108,6 +112,11 @@ input {
     margin-left: 22%;
     text-align: center;
     margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: blue;
+    color: white;
 }
 
 @media (max-width: 1200px) {

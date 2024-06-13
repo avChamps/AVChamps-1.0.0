@@ -1,0 +1,72 @@
+.container {
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+    padding: 5px;
+}
+
+table {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+}
+
+.table {
+    padding-left: 25%;
+}
+
+.section-header {
+    font-size: 18px;
+    text-align: center;
+    font-weight: 500;
+    background-color: #ffa50040;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 75%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15)
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    /* text-align: center; */
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.input_width {
+    width: 50px;
+}
+
+.custom-checkbox {
+    width: 20px;
+    height: 12px;
+    transform: scale(1.5);
+}
+  
+@media (max-width: 1200px) {
+    .container {
+        margin-left: 13%;
+    }
+}
+
+@media (min-width: 1201px) {
+    .container {
+        margin-left: 24%;
+        /* border: 1px solid; */
+        width: 74%;
+    }
+}
+
+@media (max-width: 767px) {
+    .container {
+        margin-left: 8%;
+        width: 88%;
+    }
+}

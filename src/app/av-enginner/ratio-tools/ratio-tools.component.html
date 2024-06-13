@@ -1,0 +1,168 @@
+
+    <div *ngIf="isaspectRatio" class="power-calculator-container">
+        <div class="container">
+            <div class="card">
+              <div class="card-body">
+                <h2 class="card-title">Aspect Ratio Calculator</h2>
+                <p class="card-text">Please enter width and height to calculate aspect ratio</p>
+                <form (ngSubmit)="calculateAspectRatio()" #aspectRatioForm="ngForm" class="form-inline justify-content-center">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="width" class="mr-2">Width</label>
+                        <input type="number" class="form-control" id="width" required [(ngModel)]="width" name="width" value="1">
+                      </div>
+                      <div class="form-group mx-sm-3 mb-2">
+                        <label for="height" class="mr-2">Height</label>
+                        <input type="number" class="form-control" id="height" required [(ngModel)]="height" name="height" value="1">
+                      </div>
+                  <button type="submit" class="btn btn-primary mb-2">Calculate</button>
+                </form>
+                <div class="result-section mt-3">
+                  <div class="row text-center">
+                    <div class="col">
+                      <strong>Aspect Ratio</strong>
+                    </div>
+                    <div class="col">
+                      <strong>Dimensions</strong>
+                    </div>
+                    <div class="col">
+                      <strong>Mode</strong>
+                    </div>
+                  </div>
+                  <div class="row text-center">
+                    <div class="col">
+                      {{ aspectRatio }}
+                    </div>
+                    <div class="col">
+                      {{ dimensions }}
+                    </div>
+                    <div class="col">
+                      {{ mode }}
+                    </div>
+                  </div>
+                </div>
+            
+              </div>
+            </div>
+          </div>
+    <div class="container tool-data">
+          <h2>What It Is</h2>
+          <p>The width and height of an image have a fixed ratio, called the aspect ratio. It is written as x:y, where x and y are two numbers. For instance, an image with a 16:9 aspect ratio will always have 16 units of width for every 9 units of height, regardless of its size. So, both an image that is 16 cm wide and 9 cm high and an image that is 32 cm wide and 18 cm high have the same 16:9 aspect ratio.  </p>
+        </div>
+  
+        <div class="container">
+            <div class="row">
+              <div class="cart cart1"><br>
+                <h2 style="text-align: center;"><br><br>Formula<br>f(x)</h2>
+              </div>
+              <div class="cart cart2"><br>
+                <p>Aspect ratio Formula<br>
+                    The formula for finding aspect ratio is: AR=W/H</p>
+                    Where:
+                <ul>
+                    <li><p>AR is the aspect ratio</p></li>
+                    <li><p>W is the width of the displayed image</p></li>
+                    <li><p>H is the height of the displayed image</p></li>
+                </ul>
+              Note that W and H are measured in inches or millimeters.
+              </div>
+            </div>
+          </div><br>
+  
+      </div>
+
+      <div *ngIf="isdiagonalScreen" class="power-calculator-container">
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title">Diagonal Screen Size Calculator</h2>
+                  <p class="card-text">Please enter width and height to calculate aspect ratio</p>
+                  <form (ngSubmit)="calculateDiagonalSize()" #aspectRatioForm="ngForm" class="form-inline justify-content-center">
+                    <div class="form-group mx-sm-3 mb-2">
+                      <label for="width" class="mr-2">Width</label>
+                      <input type="number" class="form-control" id="width" required [(ngModel)]="width" name="width">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                      <label for="height" class="mr-2">Height</label>
+                      <input type="number" class="form-control" id="height" required [(ngModel)]="height" name="height">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Calculate</button>
+                  </form>
+                  <div class="result-section mt-3">
+                    <p class="text-center"><strong>Diagonal Screen Size: {{ diagonalSize | number: '1.2-2' }} inches</strong></p>
+                  </div>
+                </div>
+              </div>
+          </div>
+    <div class="container tool-data">
+          <h2>What It Is</h2>
+         <p>The Diagonal Screen Size Calculator simplifies the process of determining the diagonal size of a screen based on its width and height. Whether you’re working with a television, monitor, or any other display, this tool provides a convenient way to calculate the diagonal screen size, offering practical applications for consumers and professionals alike.</p>
+        </div>
+  
+        <div class="container">
+            <div class="row">
+              <div class="cart cart1"><br>
+                <h2 style="text-align: center;"><br><br>Formula<br>f(x)</h2>
+              </div>
+              <div class="cart cart2 screen_dialog"><br>
+                <p>Screen Diagonal Formula(pythagorean Theorem)<br>
+                    The diagonal of a screen can be calculated using the Pythagorean Theorem: A2 + B2 = C2</p>
+                    Where:
+                <ul>
+                    <li><p>A is the height of a screen</p></li>
+                    <li><p>B is the width of a screen</p></li>
+                    <li><p>C is the diagonal length of a screen</p></li>
+                </ul>
+              </div>
+            </div>
+          </div><br>
+  
+      </div>
+
+      <div *ngIf="isthrowDistance" class="power-calculator-container">
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title">Projector Throw Distance</h2>
+                  <form (ngSubmit)="calculatethrowDistance()" #aspectRatioForm="ngForm" class="form-inline justify-content-center">
+                    <div class="form-group mx-sm-3 mb-2">
+                      <label for="width" class="mr-2">Width</label>
+                      <input type="number" class="form-control" id="width" required [(ngModel)]="width" name="width" value="1">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                      <label for="height" class="mr-2">Through Ratio</label>
+                      <input type="number" class="form-control" id="height" required [(ngModel)]="height" name="height" value="1">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Calculate</button>
+                  </form>
+                  <div class="result-section mt-3">
+                    <p class="text-center"><strong>Projection distance(L): {{ diagonalResult | number: '1.2-2' }} inches</strong></p>
+                  </div>
+                </div>
+              </div>
+              
+          </div>
+    <div class="container tool-data">
+          <h2>What It Is</h2>
+        <p>Projector throw distance is the value that helps in obtaining the best-quality picture results as formed by the projector on the screen. This distance can be calculated using a projector throw ratio distance calculator, which helps increase accuracy, save time and effort, and promise a high-quality and ultimate viewing experience.</p>
+        </div>
+  
+        <div class="container">
+            <div class="row">
+              <div class="cart cart1"><br>
+                <h2 style="text-align: center;"><br><br>Formula<br>f(x)</h2>
+              </div>
+              <div class="cart cart2"><br>
+                <p>Estimating Throw Distance Formula<br>
+                    The formula for estimating throw is: D = SW * TR</p>
+                    Where:
+                <ul>
+                    <li><p>D is the distane from the front of the lens to the closest point on the screen</p></li>
+                    <li><p>SW is screen width or width of the project image</p></li>
+                    <li><p>TR is the throw ratio or ratio of throw distance to image width</p></li>
+                </ul>
+              Refer to the owner's manual of your project and lens combination to find an accurate formula for your specific project.
+              </div>
+            </div>
+          </div><br>
+  
+      </div>

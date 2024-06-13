@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
+  <div class="admin-panel-header">
+    <mat-icon *ngIf="showAdminpanel" (click)="logout()" class="logout-icon">exit_to_app</mat-icon>
+  </div>
+  
   <div *ngIf="showAdminpanel">
  <!-- Feed Insertion-->
     <div class="container mt-4">
@@ -46,7 +49,7 @@
       <div class="container mt-4">
         <div class="row justify-content-center">
           <div class="col-md-6 box">
-            <h2 class="mb-2">Post Event</h2>
+            <h2 class="mb-2">Post Events</h2>
             <form>
               <div class="form-group">
                 <label for="sender" class="mb-0">Event Name</label>
@@ -88,7 +91,7 @@
       </div><br>
 
 <!-- TradeShow Insertion -->
-<div class="container mt-4">
+<div class="container mt-4" style="display: none;">
   <div class="row justify-content-center">
     <div class="col-md-6 box">
       <h2 class="mb-2">Trade Show</h2>
@@ -141,9 +144,6 @@
     <button mat-dialog-close="true" class="btn btn-success" [disabled]="!eventEmailInput.value || !eventNameInput.value || !eventpswdInput.value" (click)="submitForm(eventEmailInput.value, eventNameInput.value,eventpswdInput.value)">Submit</button>
   </mat-dialog-actions>
 </ng-template>
-
-
-
       <app-spinner *ngIf="showSpinner"></app-spinner>    
 </body>
 </html>

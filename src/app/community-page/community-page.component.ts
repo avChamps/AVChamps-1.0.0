@@ -453,5 +453,6 @@ private handleError(error: any) {
   logOut () {
     this.faService.clearSession();
     this.router.navigate(['/home-page']);
+    window.location.reload();
   }
 }

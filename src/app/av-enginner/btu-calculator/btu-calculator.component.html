@@ -11,8 +11,9 @@
 
       <div *ngIf="isBtu" class="btu-calculator-container">
         <div class="container">
-          <h2>BTU Calculator</h2>
-          <div class="table" id="pdfContent">
+          <div id="pdfContent">
+          <h2 class="header">BTU Calculator</h2>
+          <div class="table">
             <table class="styled-table">
               <thead>
                 <tr>
@@ -41,11 +42,12 @@
               <p><span>Cooling Required:</span>{{requiredCooling | number:'1.2-2'}} Tons</p>
             </div>
           </div>
-        </div>
+          </div>
+      </div>
       
         <div class="buttons mt-3">
           <button class="btn warning" (click)="refreshValues()">Cancel</button>
-          <button class="btn success" (click)="downloadReport('btu')">Save</button>
+          <button class="btn success" (click)="downloadCard('BTU-Calculator')">Save</button>
           <!-- <button class="btn info" (click)="print()">Print</button> -->
         </div>
       
@@ -83,97 +85,174 @@
           </div>
         </div>
       </div>
+
+      <div *ngIf="isAvrack" class="btu-calculator-container">
+        <div class="container">
+            <h2 class="header">AV Rack Simulator</h2>
+            <div class="table">
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th class="sl_No">Sl.No</th>
+                    <th class="equipment-Name">Equipment/Model</th>
+                    <th class="sl_No">RU Size</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of btuRows; let i = index" [ngClass]="getRowClass(i)">
+                    <td class="sl-numbers">{{ i + 1 }}</td>
+                    <td><input type="text" [(ngModel)]="row.equipment" maxlength="50" (ngModelChange)="updateRackConfiguration()"></td>
+                    <td><input type="number" onKeyPress="if(this.value.length==4) return false;" [(ngModel)]="row.watt" [disabled]="!row.equipment" maxlength="4" class="watt-input" (ngModelChange)="updateRackConfiguration()"></td>
+                  </tr>
+                </tbody>
+              </table>
       
-    <div *ngIf="ispowerCal" class="power-calculator-container">
-      <div class="container">
-        <h2>Power Calculator</h2>
-        <div class="powerCal_table" id="pdfContent" >
-          <table class="styled-table powerCal_table">
-            <thead>
-              <tr>
-                <th class="sl_No">Sl.No</th>
-                <th class="equipment-Name">Equipment</th>
-                <th class="sl_No">Current(A)</th>
-                <th class="sl_No">Voltage(V)</th>
-                <th class="sl_No">Watts(W)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of powerCalRows; let i = index" [ngClass]="getRowClass(i)">
-                <td class="sl-numbers">{{ i + 1 }}</td>
-                <td><input type="text" [(ngModel)]="row.equipment" maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
-                <td><input type="number" [(ngModel)]="row.current" onKeyPress="if(this.value.length==4) return false;" [disabled]="!row.equipment" class="watt-input" (ngModelChange)="calculateTotalWatt()"></td>
-                <td><input type="number" [(ngModel)]="row.voltage" onKeyPress="if(this.value.length==3) return false;" max="3" [disabled]="!row.equipment" class="watt-input" (ngModelChange)="calculateTotalWatt()"></td>
-                <td><input type="number" [(ngModel)]="row.watt"  readonly [disabled]="!row.equipment" class="watt-input final_count" (ngModelChange)="calculateTotalWatt()"></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="icons" id="icons">
-            <mat-icon class="add-Icon" (click)="addRow('isPowercal')">add_circle</mat-icon>
-            <mat-icon *ngIf="showRemoveIcon" class="remove-Icon" (click)="removeRow()">remove_circle</mat-icon>
-          </div>
-
-          <div class="results powerCal_res">
-            <p><span class="p_results">Total Watts(W):</span>{{totalPowerCol | number:'1.2-2'}}</p>
-            <p><span class="p_results">kWh:</span>{{totalkWh | number:'1.2-2'}}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="buttons mt-3">
-        <button class="btn warning" (click)="refreshValues()">Cancel</button>
-        <button class="btn success" (click)="downloadReport('powerCal')">Save</button>
-      </div>
-
-      <div class="container tool-data">
-        <h3>What It Is</h3>
-        <p>
-          The process of utilizing a power calculator involves estimating or calculating the electrical power requirements of the AV system. The power consumption of AV devices is measured in watts, and understanding these power needs is essential for efficient electrical planning and ensuring compatibility with equipment.
-        </p>
-      </div>
-
-      <div class="container">
-        <div class="row">
-          <div class="cart cart1 d-flex align-items-center justify-content-center">
-            <h2>Formula f(x)</h2>
-          </div>
-          <br>
-          <div class="cart cart2 powerCal_formula d-flex align-items-center justify-content-center">
-            <p>The Formula for Calculating Power Calculator is:<br>
-              Power (Watts) = Voltage (Volts) * Current (Amperes)</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-<div *ngIf="isCalender">  
-  <div (onLoad)="getEvents()" class='container demo-app-main'>
-    <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'>
-      <ng-template #eventContent let-arg>
-        <i class="event-title" [title]="arg.event.title">{{ arg.event.title }}</i>
-      </ng-template>
-    </full-calendar>    
-  </div>    
-</div>
-
-<div *ngIf="isTradeshow">  
-  <div class="container td_container">
-    <div class="row td_row">
-      <div class="col-4" *ngFor="let box of tradeshowBoxes">
-        <div class="card mb-2 td_card" [ngStyle]="{'border-color': box.bgColor}">
-          <a [href]="box.urlLink" target="_blank" class="text-decoration-none">
-            <div class="card-body">
-              <h5 class="card-title">{{ box.title }}</h5>
-              <!-- <p class="card-text">{{ box.description }}</p> -->
+              <div class="icons" id="icons">
+                <mat-icon class="add_Icon" (click)="addRow('isBtu')">add_circle</mat-icon>
+                <mat-icon *ngIf="showRemoveIcon" class="remove_Icon" (click)="removeRow()">remove_circle</mat-icon>
+              </div>
             </div>
-          </a>
+          </div>
+      
+        <div class="buttons mt-3">
+          <button class="btn warning" (click)="refreshValues()">Cancel</button>
+          <button class="btn success" (click)="downloadCard('AV-Rack')">Save</button>
+        </div>
+      
+        <div class="container mt-2" *ngIf="totalRackHeight !== 0">
+          <div id="pdfContent">
+            <h2 class="rack_header">Rack Elevation</h2>
+            <div class="rack-diagram">
+              <div class="rack-border" [ngStyle]="{'height': totalRackHeight + 'px'}">
+                <div class="rack-numbers border_right">
+                  <div *ngFor="let n of rackNumbers.slice().reverse()" 
+                       class="rack-number"
+                       [ngClass]="{'has-border-bottom': rackNumbers.length > 1}">
+                    {{ n }}
+                  </div>
+                </div>
+                <div class="rack-items">
+                  <div *ngFor="let row of btuRows; let i = index"
+                      class="rack-item"
+                      [ngClass]="{
+                          'half-width': row.watt > 0 && row.watt < 1,
+                          'second-half': row.watt > 0 && row.watt < 1 && (i % 2 !== 0),
+                          'has-border-bottom': rackNumbers.length > 1
+                      }"
+                      [ngStyle]="{
+                          'height': ((row.watt >= 1 ? row.watt : 1) * 35) + 'px', 
+                          'bottom': (getRackItemBottom(i) * 35) + 'px',
+                          'width': row.watt > 0 && row.watt < 1 ? '50%' : '100%',
+                          'left': row.watt > 0 && row.watt < 1 ? getHalfRackLeftPosition(i) : '0'
+                      }">
+                    <span style="font-weight: unset;">{{ row.equipment }}</span>
+                  </div>
+                </div>
+                <div class="rack-numbers border_left">
+                  <div *ngFor="let n of rackNumbers.slice().reverse()" 
+                       class="rack-number"
+                       [ngClass]="{'has-border-bottom': rackNumbers.length > 1}">
+                    {{ n }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+      
+      <div *ngIf="ispowerCal" class="power-calculator-container">
+        <div class="container">
+          <div id="pdfContent">
+          <h2 class="header">Power Calculator</h2>
+          <div class="powerCal_table">
+            <table class="styled-table powerCal_table">
+              <thead>
+                <tr>
+                  <th class="sl_No">Sl.No</th>
+                  <th class="equipment-Name">Equipment</th>
+                  <th class="sl_No">Current(A)</th>
+                  <th class="sl_No">Voltage(V)</th>
+                  <th class="sl_No">Watts(W)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of powerCalRows; let i = index" [ngClass]="getRowClass(i)">
+                  <td class="sl-numbers">{{ i + 1 }}</td>
+                  <td><input type="text" [(ngModel)]="row.equipment" maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
+                  <td><input type="number" [(ngModel)]="row.current" onKeyPress="if(this.value.length==4) return false;" [disabled]="!row.equipment" class="watt-input" (ngModelChange)="calculateTotalWatt()"></td>
+                  <td><input type="number" [(ngModel)]="row.voltage" onKeyPress="if(this.value.length==3) return false;" max="3" [disabled]="!row.equipment" class="watt-input" (ngModelChange)="calculateTotalWatt()"></td>
+                  <td><input type="number" [(ngModel)]="row.watt"  readonly [disabled]="!row.equipment" class="watt-input final_count" (ngModelChange)="calculateTotalWatt()"></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="icons" id="icons">
+              <mat-icon class="add-Icon" (click)="addRow('isPowercal')">add_circle</mat-icon>
+              <mat-icon *ngIf="showRemoveIcon" class="remove-Icon" (click)="removeRow()">remove_circle</mat-icon>
+            </div>
+
+            <div class="results powerCal_res">
+              <p><span class="p_results">Total Watts(W):</span>{{totalPowerCol | number:'1.2-2'}}</p>
+              <p><span class="p_results">kWh:</span>{{totalkWh | number:'1.2-2'}}</p>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="buttons mt-3">
+          <button class="btn warning" (click)="refreshValues()">Cancel</button>
+          <button class="btn success" (click)="downloadCard('Power-Calculator')">Save</button>
+        </div>
+
+        <div class="container tool-data">
+          <h3>What It Is</h3>
+          <p>
+            The process of utilizing a power calculator involves estimating or calculating the electrical power requirements of the AV system. The power consumption of AV devices is measured in watts, and understanding these power needs is essential for efficient electrical planning and ensuring compatibility with equipment.
+          </p>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="cart cart1 d-flex align-items-center justify-content-center">
+              <h2>Formula f(x)</h2>
+            </div>
+            <br>
+            <div class="cart cart2 powerCal_formula d-flex align-items-center justify-content-center">
+              <p>The Formula for Calculating Power Calculator is:<br>
+                Power (Watts) = Voltage (Volts) * Current (Amperes)</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    <div *ngIf="isCalender">  
+      <div (onLoad)="getEvents()" class='container demo-app-main'>
+        <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'>
+          <ng-template #eventContent let-arg>
+            <i class="event-title" [title]="arg.event.title">{{ arg.event.title }}</i>
+          </ng-template>
+        </full-calendar>    
+      </div>    
+    </div>
+
+    <div *ngIf="isTradeshow">  
+      <div class="container td_container">
+        <div class="row td_row">
+          <div class="col-4" *ngFor="let box of tradeshowBoxes">
+            <div class="card mb-2 td_card" [ngStyle]="{'border-color': box.bgColor}">
+              <a [href]="box.urlLink" target="_blank" class="text-decoration-none">
+                <div class="card-body">
+                  <h5 class="card-title">{{ box.title }}</h5>
+                  <!-- <p class="card-text">{{ box.description }}</p> -->
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
 
 
