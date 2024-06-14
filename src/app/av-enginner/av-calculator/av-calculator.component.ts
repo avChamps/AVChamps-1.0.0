@@ -42,7 +42,7 @@ export class AvCalculatorComponent {
     { id: 'throwDistance', imgSrc: 'assets/img/av-profile/projector.png', name: 'Throw Distance', description: 'Calculate projector\'s distance from the lens to the screen surface.' },
     { id: 'serviceReport', imgSrc: 'assets/img/av-profile/service-report.jpg', name: 'Service Report', description: 'Share the service report with the customer to showcase the tech teams capabilities.' },
     { id: 'avRack', imgSrc: 'assets/img/av-profile/av-rack.jpg', name: 'Rack Layout', description: 'Simply add the product, and your rack layouts will be ready within seconds.' },
-    // { id: 'displaySelector', imgSrc: 'assets/img/av-profile/display-selection.jpg', name: 'Display Selection', description: 'Calculate projector\'s distance from the lens to the screen surface.' }
+    { id: 'displaySelector', imgSrc: 'assets/img/av-profile/display-selection.jpg', name: 'Display Selection', description: 'Calculate projector\'s distance from the lens to the screen surface.' }
   ];
 
   filteredTools() {
