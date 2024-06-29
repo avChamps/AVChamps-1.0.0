@@ -1,0 +1,160 @@
+<section id="counts" class="counts">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      <div class="step">
+        <div class="step-header d-flex justify-content-between align-items-center">
+          <span>STEP:1</span>
+          <p class="m-0">Enter Room Dimensions</p>
+        </div>
+        <div class="step-body">
+          <div class="form-group row no-gutters">
+            <label for="roomLength" class="col-sm-2 col-form-label">Room Length</label>
+            <div class="col-sm-2">
+              <input type="number" class="form-control input_box" id="roomLength" [(ngModel)]="roomLength"
+                (keypress)="validateInput($event)" (blur)="validateRange($event,'roomLength')">
+            </div>
+            <div class="col-sm-3">
+              <mat-button-toggle-group class="custom-toggle-group small-toggle" [(ngModel)]="unit" aria-label="Unit">
+                <mat-button-toggle value="meters" class="custom-toggle-button">Meters</mat-button-toggle>
+                <mat-button-toggle value="feet" class="custom-toggle-button">Feet</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+            <label for="roomWidth" class="col-sm-2 col-form-label ml-4">Room Width</label>
+            <div class="col-sm-2">
+              <input type="number" class="form-control input_box" id="roomWidth" [(ngModel)]="roomWidth"
+                (keypress)="validateInput($event)" (blur)="validateRange($event,'roomWidth')">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="step">
+        <!-- <div class="step-header">STEP-2<p>Enter Video bar Details </p></div> -->
+        <div class="step-header d-flex justify-content-between align-items-center">
+          <span>STEP:2</span>
+          <p class="m-0">Enter Video Bar Details</p>
+        </div>
+        <div class="step-body">
+          <div class="form-group row no-gutters">
+            <label for="make" class="col-sm-2 col-form-label">Make</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control input_box input_width" id="make" [(ngModel)]="make">
+            </div>
+            <label for="model" class="col-sm-2 col-form-label">Model</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control input_box input_width" id="model" [(ngModel)]="model">
+            </div>
+          </div>
+          <div class="form-group row no-gutters">
+            <label for="fov" class="col-sm-2 col-form-label">FOV</label>
+            <div class="col-sm-3">
+              <input type="number" [disabled]="!make || !model" class="form-control input_box" id="fov"
+                [(ngModel)]="fov">
+            </div>
+            <label for="spl" class="col-sm-1 col-form-label ml-4">SPL(dB)</label>
+            <div class="col-sm-2 input-group">
+              <input type="number" [disabled]="!make || !model" class="form-control input_box" id="spl"
+                [(ngModel)]="spl" (keypress)="validateInput($event)" (input)="restrictLength('spl')">
+              <!-- <div class="input-group-append">
+                            <span class="input-group-text">M</span>
+                          </div> -->
+            </div>
+            <div class="col-sm-1 mr-4 d-flex align-items-center">
+              <p class="mb-0 ml-4 mr-2">at</p>
+            </div>
+            <div class="col-sm-2">
+              <select class="form-control input_box" [disabled]="!spl" [(ngModel)]="splOption">
+                <option value="1">1 Meters</option>
+                <option value="0.5">0.5 Meters</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row no-gutters">
+            <label for="microphone" class="col-sm-2 col-form-label">Microphone</label>
+            <div class="col-sm-2">
+              <input type="number" [disabled]="!make || !model" class="form-control input_box" id="microphone"
+                [(ngModel)]="microphone">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <button class="btn btn-primary" [disabled]="!roomLength ||!roomWidth || !fov" (click)="createBox('cameraCoverage')">Camera Coverage</button>
+      <button class="btn btn-primary ml-2" [disabled]="!roomLength ||!roomWidth || !spl" (click)="createBox('loudSpeakerCoverage')">LoudSpeaker Coverage</button>
+      <button class="btn btn-primary ml-2" [disabled]="!roomLength ||!roomWidth || !microphone" (click)="createBox('microphoneCoverage')">Microphone Coverage</button>
+    </div>
+  </div><br>
+
+  <div class="content_header">
+    <h2><mat-icon style="color: red;">warning</mat-icon>Disclaimer</h2>
+    <ul>
+      <li>This tool provides simulated results based on the input values supplied by the user.</li>
+      <li>We strongly advise conducting comprehensive performance testing of the product before finalizing your purchase.</li>
+      <li>The performance of the video bar depends on room acoustics, lighting, network conditions, and the video application used by the user.</li>
+    </ul>
+  </div>
+  
+
+  <ng-template #myDialog>
+    <div *ngIf="showBox" class="custom-popup">
+      <div class="navigation-buttons text-center">
+        <!-- <button (click)="previousCoverage()" class="nav-button left-nav">&lt;</button> -->
+        <h3 class="roomWidth">{{
+          isRoomWidth }}</h3>
+        <h3 class="roomLength">{{
+          isRoomLength }}</h3>
+        <h2 class="mt-1 mb-1">{{ currentCoverage }}</h2>
+        <mat-icon class="mat_cancel_icon" mat-dialog-close>cancel</mat-icon>
+        <!-- <button (click)="nextCoverage()" class="nav-button right-nav">&gt;</button> -->
+      </div>
+      <div *ngIf="showCameraCoverage">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="outer-border">
+              <div class="inner-border">
+                <canvas id="cameraCoverage" [width]="boxHeight * 25" [height]="boxWidth * 25"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="showMicrophoneCoverage">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div class="outer-border">
+                <div class="inner-border">
+                  <canvas #fovCanvas [width]="boxHeight * 25" [height]="boxWidth * 25"
+                    style="border:1px solid #000000;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div *ngIf="showloudSpeaker">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="outer-border">
+              <div class="inner-border">
+                <canvas #splCanvas [width]="boxHeight * 25" [height]="boxWidth * 25"
+                  style="border:1px solid #000000;"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div><br><br>
+  </ng-template>
+
+
+</div>
+</section>

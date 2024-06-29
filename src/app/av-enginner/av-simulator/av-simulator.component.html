@@ -6,6 +6,7 @@
 </head>
 <body>
 
+<section id="counts" class="counts">
 	<div *ngIf="isQuetation">
       <div class="container border" id="pdfContent">
 		<!-- <h1 class="text-center mt-2">QUOTATION</h1> -->	
@@ -171,8 +172,8 @@
 		</div>
    </div>
 
-   <div *ngIf="isServiceReport">
-	<div *ngIf="isServiceReport" class="container border" id="pdfContent">
+   <div *ngIf="isServiceReport" style="width: 90%;">
+	 <div class="container border" id="pdfContent">
 		<div class="row border_style">
 			<div class="col-md-6">
 				<img src="{{imgData ? imgData : '../assets/img/av-profile/empty-logo.jpg'}}" width="100"
@@ -214,7 +215,7 @@
 					<textarea class="form-control quotation adress_box"></textarea>
 				</div>
 			</div>
-			<div class="col-md-5" style="margin-left: 5rem;">
+			<div class="col-md-5">
 				<div class="form-group">
 					<label for="no">No:</label>
 					<input type="text" class="form-control" id="no">
@@ -306,6 +307,8 @@
 		<button class="btn btn-primary" (click)="downloadCard('ServiceReport')"><i class="fa fa-download"></i> Download</button>
 	</div>
    </div>
+</section>
+
 	<app-spinner *ngIf="showSpinner" class="spinner"></app-spinner>
 </body>
 </html>

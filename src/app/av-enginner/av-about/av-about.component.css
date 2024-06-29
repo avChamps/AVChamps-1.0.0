@@ -1,9 +1,10 @@
-.emp-profile {
+.container {
   padding: 3%;
   margin-top: 3%;
   margin-bottom: 3%;
   border-radius: 0.5rem;
   background: #fff;
+  box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
 }
 
 .profile-img {
@@ -53,9 +54,9 @@
 
 .proile-rating {
   font-size: 15px;
-    /* color: #818182; */
-    font-weight: 500;
-    margin-top: 5%;
+  /* color: #818182; */
+  font-weight: 500;
+  margin-top: 5%;
 }
 
 .proile-rating span {
@@ -110,7 +111,9 @@
   color: #0062cc;
 }
 
-input, option, select,
+input,
+option,
+select,
 input:focus {
   background-color: white !important;
   border: 1px solid white !important;
@@ -128,18 +131,4 @@ input:focus {
 
 .edit-mode {
   background-color: blue !important;
-}
-
-.header-boxs {
-  max-width: 97%;
-  box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
-}
-
-@media (min-width: 1024px) {
-  .header-boxs {
-    /* margin-left: 25%;
-      max-width: 975px;  */
-    margin-left: 24%;
-    width: 73%
-  }
 }

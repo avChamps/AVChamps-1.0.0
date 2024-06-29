@@ -49,7 +49,62 @@ table {
     height: 12px;
     transform: scale(1.5);
 }
-  
+
+:host ::ng-deep .fc-button-group button.fc-prev-button.fc-button,
+:host ::ng-deep .fc-button-group button.fc-next-button.fc-button {
+    background-color: transparent;
+    border: none;
+}
+
+:host ::ng-deep .fc-button-group button.fc-prev-button.fc-button .fc-icon {
+    color: orange;
+}
+
+:host ::ng-deep .fc-button-group button.fc-next-button.fc-button .fc-icon {
+    color: green;
+    border: none;
+    margin-left: 1px;
+}
+
+
+:host ::ng-deep .fc-button-group button.fc-dayGridMonth-button.fc-button {
+    background: #2c3e50;
+    border: none;
+    margin-left: 1px;
+}
+
+:host ::ng-deep .fc-button-group button.fc-timeGridWeek-button.fc-button {
+    background: #2c3e50;
+    border: none;
+    margin-left: 1px;
+}
+
+:host ::ng-deep .fc-button-group button.fc-timeGridDay-button.fc-button {
+    background: #2c3e50;
+    border: none;
+    margin-left: 1px;
+}
+
+:host ::ng-deep .fc-button-group button.fc-listWeek-button.fc-button {
+    background: #2c3e50;
+    border: none;
+    margin-left: 1px;
+}
+
+::ng-deep .fc-day-today {
+    /* background-color: #b5f7e6 !important; */
+}
+
+.event-title {
+    display: inline-block;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
 @media (max-width: 1200px) {
     .container {
         margin-left: 13%;
@@ -58,8 +113,7 @@ table {
 
 @media (min-width: 1201px) {
     .container {
-        margin-left: 24%;
-        /* border: 1px solid; */
+        margin-left: 25%;
         width: 74%;
     }
 }

@@ -192,7 +192,8 @@ a:focus {
   text-align: center;
 }
 
-.custom_nav-container .navbar-nav .nav-item:hover .nav-link, .custom_nav-container .navbar-nav .nav-item.active .nav-link {
+.custom_nav-container .navbar-nav .nav-item:hover .nav-link,
+.custom_nav-container .navbar-nav .nav-item.active .nav-link {
   color: #f3c93e;
 }
 
@@ -222,7 +223,8 @@ a:focus {
   transition: all .3s;
 }
 
-.custom_nav-container .navbar-toggler span::before, .custom_nav-container .navbar-toggler span::after {
+.custom_nav-container .navbar-toggler span::before,
+.custom_nav-container .navbar-toggler span::after {
   content: "";
   position: absolute;
   left: 0;
@@ -249,7 +251,8 @@ a:focus {
   transform: rotate(45deg);
 }
 
-.custom_nav-container .navbar-toggler[aria-expanded="true"] span::before, .custom_nav-container .navbar-toggler[aria-expanded="true"] span::after {
+.custom_nav-container .navbar-toggler[aria-expanded="true"] span::before,
+.custom_nav-container .navbar-toggler[aria-expanded="true"] span::after {
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
   top: 0;
@@ -427,8 +430,8 @@ i {
 label {
   font-weight: 400;
   color: black;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 0px;
+  margin-bottom: 2px;
 }
 
 .filter_box {
@@ -507,7 +510,8 @@ li::marker {
   margin-left: 5px !important;
 }
 
-.seller_Number, .seller_location {
+.seller_Number,
+.seller_location {
   font-weight: 500;
   color: black;
 }
@@ -523,11 +527,15 @@ li::marker {
   width: 100%;
 }
 
-.seller_Name, .seller_Number, .seller_location {
+.seller_Name,
+.seller_Number,
+.seller_location {
   margin: 0.5rem 0;
 }
 
-.person_Icon, .phone_Icon, .location_Icon {
+.person_Icon,
+.phone_Icon,
+.location_Icon {
   margin-right: 0.5rem;
   vertical-align: middle;
 }

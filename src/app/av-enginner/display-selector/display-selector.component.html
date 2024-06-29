@@ -43,4 +43,54 @@
 </div>
 </div>
 
+<div *ngIf="isCalender">
+  <div (onLoad)="getEvents()" class='container demo-app-main'>
+    <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'>
+      <ng-template #eventContent let-arg>
+        <i class="event-title" [title]="arg.event.title">{{ arg.event.title }}</i>
+      </ng-template>
+    </full-calendar>
+  </div>
+</div>
+
+<!-- Dialog template -->
+<ng-template #myDialog>
+  <div class="d-flex align-items-center justify-content-between">
+    <h4 mat-dialog-title class="mb-0">Event Information</h4>
+    <mat-icon class="mat_cancel_icon" style="margin-right: 15px;color: red;" mat-dialog-close>cancel</mat-icon>
+  </div>
+  <hr class="mt-0" style="margin-bottom: -5px;">
+  <mat-dialog-content class="d-flex align-items-center justify-content-center" style="width: 450px;">
+    <div class="form-group" style="width: 100%;">
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Event Name</mat-label>
+        <input matInput #eventNameInput type="text" placeholder="Enter event name" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Event Url</mat-label>
+        <input matInput #eventUrlInput type="text" placeholder="Enter event URL" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="startDatePicker" placeholder="Choose a date"
+          (dateInput)="startDate = $event.target.value" required>
+        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="endDatePicker" placeholder="Choose a date"
+          (dateInput)="endDate = $event.target.value" required>
+        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" class="mat-buttons">
+    <button mat-dialog-close="true" class="btn btn-success"
+      [disabled]="!startDate || !endDate || !eventNameInput.value || !eventUrlInput.value"
+      (click)="submitForm(eventNameInput.value, eventUrlInput.value, startDate, endDate)">Submit</button>
+  </mat-dialog-actions>
+</ng-template>
+
  

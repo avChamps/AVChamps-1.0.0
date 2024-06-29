@@ -1,0 +1,252 @@
+.container {
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+}
+
+.step-header {
+    background-color: #00b3b3;
+    color: white;
+    padding: 10px;
+}
+
+.step-header span {
+    font-weight: bold;
+}
+
+.step-header p {
+    margin: 0;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.dual-border {
+    border: 1px solid #000000;
+    /* Outer border */
+    position: relative;
+}
+
+li {
+    font-size: 14px;
+}
+
+.dual-border::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px solid red;
+    /* Inner border */
+    pointer-events: none;
+}
+
+
+.small-toggle {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.small-toggle .custom-toggle-button {
+    flex: 1;
+    border: none !important;
+    background-color: #f0f0f0 !important;
+    color: #000 !important;
+    padding: 5px 10px;
+    /* Adjust padding for smaller size */
+    font-size: 12px;
+    /* Adjust font size */
+    height: 35px;
+    min-width: 80px;
+    /* Ensure sufficient width for labels */
+}
+
+.small-toggle .custom-toggle-button.mat-button-toggle-checked {
+    background-color: #66bb6a !important;
+    color: white !important;
+}
+
+.small-toggle .custom-toggle-button.mat-button-toggle {
+    border-radius: 5px !important;
+}
+
+.mat-button-toggle-group-appearance-standard .mat-button-toggle-checked {
+    box-shadow: none !important;
+}
+
+
+.custom-popup {
+    width: 80%;
+    /* Adjust this value as needed */
+    margin: 0 auto;
+    overflow: hidden;
+    /* Ensure no scrollbars */
+}
+
+.custom-popup .navigation-buttons {
+    margin-bottom: 10px;
+}
+
+.custom-popup canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+
+/* styles.css or component-specific CSS file */
+
+.custom-toggle-button {
+    height: 30px;
+    /* Adjust the height as needed */
+    width: 80px;
+    /* Adjust the width as needed */
+    font-size: 12px;
+    /* Adjust font size as needed */
+    padding: 5px;
+    /* Adjust padding as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.custom-toggle-group {
+    display: flex;
+    align-items: center;
+}
+
+.nav-button {
+    border-radius: 51px;
+    border: none;
+    height: 30px;
+    width: 30px;
+    background: none;
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+}
+
+.left-nav {
+    position: absolute;
+    top: 47%;
+    left: 5px;
+    margin: 0;
+}
+
+.content_header h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.right-nav {
+    position: absolute;
+    top: 47%;
+    right: 5px;
+    margin: 0;
+}
+
+.roomWidth {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translate(-50%, -50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    margin: 0;
+}
+
+.roomLength {
+    position: absolute;
+    bottom: -0px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin: 0;
+}
+
+
+.outer-border {
+    border: 2px solid black;
+    /* Outer border */
+    display: inline-block;
+    /* Fit content */
+    padding: 5px;
+    /* Space between outer and inner border */
+}
+
+.inner-border {
+    border: 1px solid black;
+    /* Inner border */
+}
+
+
+
+.step {
+    margin-bottom: 20px;
+}
+
+.form-control.input_box {
+    max-width: 100px;
+    /* Adjust the width as needed */
+}
+
+.input_width {
+    max-width: 200px !important;
+}
+
+.header {
+    width: 29%
+}
+
+.spl-container {
+    display: flex;
+    align-items: center;
+}
+
+.spl-container .form-control {
+    margin-left: 10px;
+}
+
+.step-body {
+    background-color: #e9ecef;
+    /* Adjust the background color if needed */
+    padding: 20px;
+    /* Add padding to the step-body for better spacing */
+}
+
+
+.step-header {
+    background-color: #00b5ad;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.input_box {
+    /* margin-left: -40px; */
+}
+
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.no-gutters>.col,
+.no-gutters>[class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+input[type=range] {
+    width: 80%;
+    margin: auto;
+}
+
+.mat_cancel_icon {
+    position: absolute;
+    cursor: pointer;
+    color: red;
+    right: 12px;
+    top: 15px;
+}

@@ -1,7 +1,7 @@
 
 window.onload = function () {
     new Swiper('.clients-slider', {
-    speed: 200,
+    speed: 500,
     loop: true,
     autoplay: {
       delay: 2000,

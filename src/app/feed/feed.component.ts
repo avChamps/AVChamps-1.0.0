@@ -12,7 +12,8 @@ export class FeedComponent implements OnInit {
   showMails: boolean = true
   email: any[] = []
   clickedemails: any[] = []
-  showSpinner: boolean = false
+  showSpinner: boolean = false;
+  contactMail: string = 'hello@avchamps.com';
   searchTitle: string = ''
   private OPENED_EMAILS_KEY = 'openedEmails'
 
@@ -23,16 +24,16 @@ export class FeedComponent implements OnInit {
     'assets/img/clients/babbler_img.png'
   ]
 
-  constructor (
+  constructor(
     private faService: FaServiceService,
     private authService: AuthServiceService
-  ) {}
+  ) { }
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.getData()
   }
 
-  getData () {
+  getData() {
     this.showSpinner = true
     this.faService.getFeedData().subscribe((response: any) => {
       console.log('Response from server:', response)
@@ -42,12 +43,16 @@ export class FeedComponent implements OnInit {
     })
   }
 
-  onBack () {
+  onBack() {
     this.showMails = true
     this.selectedEmail = false
   }
 
-  selectEmail (email: any) {
+  sendContact() {
+    window.location.href = `mailto:${this.contactMail}`;
+  }
+
+  selectEmail(email: any) {
     console.log(email)
     this.showMails = false
     this.selectedEmail = true
@@ -56,13 +61,13 @@ export class FeedComponent implements OnInit {
     this.markEmailAsOpened(email.title)
   }
 
-  get filteredEmails (): any[] {
+  get filteredEmails(): any[] {
     return this.email.filter(email =>
       email.title.toLowerCase().includes(this.searchTitle.toLowerCase())
     )
   }
 
-  markEmailAsOpened (emailTitle: string) {
+  markEmailAsOpened(emailTitle: string) {
     const openedEmails = this.getOpenedEmails()
     if (!openedEmails.includes(emailTitle)) {
       openedEmails.push(emailTitle)
@@ -70,12 +75,12 @@ export class FeedComponent implements OnInit {
     }
   }
 
-  getOpenedEmails (): string[] {
+  getOpenedEmails(): string[] {
     const openedEmails = localStorage.getItem(this.OPENED_EMAILS_KEY)
     return openedEmails ? JSON.parse(openedEmails) : []
   }
 
-  updateOpenedStatus () {
+  updateOpenedStatus() {
     const openedEmails = this.getOpenedEmails()
     this.email.forEach(email => {
       if (openedEmails.includes(email.title)) {

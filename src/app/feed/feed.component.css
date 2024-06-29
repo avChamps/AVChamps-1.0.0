@@ -6,10 +6,6 @@ body {
     font-size: 1em;
 }
 
-.header-boxs {
-    max-width: 97%;
-}
-
 .email .nav.nav-pills>li>a,
 .email .nav.nav-pills.nav-stacked>li>a {
     border-top: 3px solid transparent;
@@ -41,10 +37,10 @@ body {
     color: #ced4da;
 }
 
-p, .input-group {
+p,
+.input-group {
     display: inline-block;
     vertical-align: top;
-    /* Align the elements at the top */
 }
 
 
@@ -53,7 +49,7 @@ p, .input-group {
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    width: 54%;
+    margin-top: -15px;
     margin-left: 45%;
 }
 
@@ -123,13 +119,11 @@ p, .input-group {
 
 
 /* Cards */
-
-
 header {
     background-color: darkslategrey;
     color: #fff;
     text-align: center;
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 .description {
@@ -174,11 +168,11 @@ footer {
 }
 
 .website_links {
-display: inline-block;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-max-width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .spinner {
@@ -191,18 +185,15 @@ max-width: 100%;
     width: 75%;
 }
 
-/* @media only screen and (max-width: 1366px) and (min-width: 1100px) {
-    .email {
-        margin-left: 25%;
-    }
-} */
+.header-boxs {
+    width: 95%;
+}
 
 
-@media (min-width: 1024px) {
-    .header-boxs {
-        /* margin-left: 25%;
-        max-width: 975px;  */
-        margin-left: 24%;
-        width: 73%
+@media (min-width: 1374px) {
+    .center-content {
+        margin-left: 23%;
+        width: 75%;
     }
+
 }

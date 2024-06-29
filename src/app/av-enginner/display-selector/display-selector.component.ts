@@ -1,5 +1,13 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
+import { CalendarOptions, EventApi, EventClickArg } from '@fullcalendar/core';
 import { Chart, registerables } from 'chart.js';
+import { DownloadreportService } from 'src/app/services/downloadreport.service';
+import { FaServiceService } from 'src/app/services/fa-service.service';
+import { PopupService } from 'src/app/services/popup.service';
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import listPlugin from '@fullcalendar/list'
 
 @Component({
   selector: 'app-display-selector',
@@ -9,9 +17,17 @@ import { Chart, registerables } from 'chart.js';
 export class DisplaySelectorComponent implements OnInit {
   totalScore: number = 0;
   chart: any;
-  displaySelector : boolean = false;
-  showChart : boolean = false;
+  startDate: any;
+  endDate: any
+  displaySelector: boolean = false;
+  calendarVisible = true // Default to true
+  showChart: boolean = false;
+  isCalender: boolean = false;
+  currentEvents: EventApi[] = []
+  events: any[] = []
+  showSpinner: boolean = true;
   @Input() toolType: any;
+  @ViewChild('myDialog') myDialog!: TemplateRef<any>
 
   sections = [
     {
@@ -99,19 +115,119 @@ export class DisplaySelectorComponent implements OnInit {
     }
   ];
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, private faService: FaServiceService, public downloadReport: DownloadreportService, private popup: PopupService, private renderer: Renderer2) {
     Chart.register(...registerables);
+    this.handleCreateEventClick = this.handleCreateEventClick.bind(this)
   }
+
 
   ngOnInit(): void {
-      this.handleMessageChange()
+    this.handleMessageChange();
+    this.getEvents();
   }
 
-  handleMessageChange () {
-    if(this.toolType === 'displaySelector') {
+  handleMessageChange() {
+    if (this.toolType === 'displaySelector') {
       this.displaySelector = true;
     }
+    else if (this.toolType === 'calender') {
+      this.isCalender = true;
+    }
   }
+
+
+  submitForm(
+    eventName: string,
+    eventUrl: string,
+    startDate: Date,
+    endDate: Date
+  ) {
+    const data = {
+      eventName: eventName,
+      eventUrl: eventUrl,
+      startDate: startDate,
+      endDate: endDate
+    }
+    this.faService.postEvent(data).subscribe(response => {
+      console.log(response)
+    })
+  }
+
+
+  //Calender
+  getEvents() {
+    this.showSpinner = true;
+    this.faService.getEvents().subscribe((response: any) => {
+      console.log('Response from server:', response)
+      const newEvents = response.records.map((record: any) => ({
+        title: record.event_name,
+        start: record.event_date,
+        url: record.website_Url
+      }))
+      this.events = newEvents
+      this.updateCalendarEvents()
+      this.showSpinner = false
+    })
+  }
+
+  updateCalendarEvents() {
+    this.calendarOptions.events = this.events
+  }
+
+  handleCalendarToggle() {
+    this.calendarVisible = !this.calendarVisible
+  }
+
+  calendarOptions: CalendarOptions = {
+    plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
+    headerToolbar: {
+      left: 'prev,next createEventButton',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+    },
+    views: {
+      dayGridMonth: {
+        buttonText: 'Month'
+      },
+      timeGridWeek: {
+        buttonText: 'Week'
+      },
+      timeGridDay: {
+        buttonText: 'Day'
+      },
+      listWeek: {
+        buttonText: 'List'
+      }
+    },
+    initialView: 'dayGridMonth',
+    weekends: true,
+    editable: true,
+    selectable: true,
+    selectMirror: true,
+    dayMaxEvents: true,
+    events: [],
+    eventClick: this.handleEventClick.bind(this),
+    customButtons: {
+      createEventButton: {
+        text: 'Post Event',
+        click: () => this.handleCreateEventClick()
+      }
+    }
+  }
+
+
+  handleCreateEventClick = () => {
+    this.popup.openDialogWithTemplateRef(this.myDialog)
+  }
+
+  handleEventClick(info: EventClickArg): void {
+    if (info.event.url) {
+      window.open(info.event.url, '_blank');
+      info.jsEvent.preventDefault();
+      return;
+    }
+  }
+
 
   calculateTotal() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');

@@ -65,6 +65,9 @@ import { RedirectPageComponent } from './redirect-page/redirect-page.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { RatioToolsComponent } from './av-enginner/ratio-tools/ratio-tools.component';
 import { DisplaySelectorComponent } from './av-enginner/display-selector/display-selector.component';
+import { VideoSimulatorComponent } from './video-simulator/video-simulator.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { CustomPipe } from './custom.pipe';
 
 @NgModule({
   declarations: [
@@ -106,7 +109,9 @@ import { DisplaySelectorComponent } from './av-enginner/display-selector/display
     GuidlinesComponent,
     RedirectPageComponent,
     RatioToolsComponent,
-    DisplaySelectorComponent
+    DisplaySelectorComponent,
+    VideoSimulatorComponent,
+    CustomPipe
   ],
   imports: [
     BrowserModule,
@@ -124,6 +129,7 @@ import { DisplaySelectorComponent } from './av-enginner/display-selector/display
     MatCheckboxModule,
     HttpClientModule,
     HttpClientJsonpModule,
+    MatButtonToggleModule,
     CommonModule,
     ReactiveFormsModule,
     GoogleSigninButtonModule,

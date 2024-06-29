@@ -68,4 +68,14 @@ export class RatioToolsComponent implements OnInit {
     }
   }
 
+  onReset() {
+    this.width = 0;
+    this.height = 0;
+    this.aspectRatio = '';
+    this.aspectRatio = '0 : 0';
+    this.dimensions = '0 * 0';
+    this.mode = '';
+    this.diagonalSize = 0;
+    this.diagonalResult = 0;
+  }
 }

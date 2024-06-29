@@ -36,17 +36,14 @@ import { DownloadreportService } from 'src/app/services/downloadreport.service'
 export class BtuCalculatorComponent implements OnInit {
   showRemoveIcon: boolean = false
   isBtu: boolean = false
-  ispowerCal: boolean = false
-  isDialogOpen: boolean = false
-  isCalender: boolean = false;
-  isTradeshow : boolean = false;
+  ispowerCal: boolean = false;
+  isDialogOpen: boolean = false;
+  isTradeshow: boolean = false;
   showSpinner: boolean = true;
-  isAvrack : boolean = false;
-  startDate: any;
-  endDate: any
+  isAvrack: boolean = false;
   dialogRef: any
-  totalRackHeight :any;
-  rackNumbers : any;
+  totalRackHeight: any;
+  rackNumbers: any;
   qrdata: any
   total: number = 0
   totalPowerCol: number = 0
@@ -54,48 +51,39 @@ export class BtuCalculatorComponent implements OnInit {
   totalkWh: number = 0
   requiredCooling: any
   @Input() toolType: any
-  calendarVisible = true // Default to true
-  currentEvents: EventApi[] = []
-  events: any[] = []
-  @ViewChild('myDialog') myDialog!: TemplateRef<any>
   tradeshowBoxes: { title: string, urlLink: string, bgColor: string }[] = [];
 
-  constructor (private faService: FaServiceService,public downloadReport: DownloadreportService, private popup: PopupService,private renderer: Renderer2) {
-     this.handleCreateEventClick = this.handleCreateEventClick.bind(this)
-  }
+  constructor(private faService: FaServiceService, public downloadReport: DownloadreportService, private popup: PopupService, private renderer: Renderer2) { }
 
   btuRows = [
     { company: '', equipment: '', watt: 0 },
     { company: '', equipment: '', watt: 0 }
   ]
 
-   powerCalRows = [
+  powerCalRows = [
     { equipment: '', current: 0, voltage: 0, watt: 0 },
     { equipment: '', current: 0, voltage: 0, watt: 0 },
     { equipment: '', current: 0, voltage: 0, watt: 0 }
   ]
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.handleMessageChange()
     this.calculateTotalWatt();
     this.updateRackConfiguration();
   }
 
-  handleMessageChange () {
-    if(this.toolType === 'calender') {
-      this.isCalender = true;
-      this.getEvents(); 
-      } else if (this.toolType === 'tradeShow') {
-        this.isTradeshow = true;
+  handleMessageChange() {
+    if (this.toolType === 'tradeShow') {
+      this.isTradeshow = true;
       this.getTradeShow();
-      } else if(this.toolType === 'btu') {
-        this.isBtu = true;
-      } else if(this.toolType === 'ispowerCal') {
-        this.ispowerCal = true;
-      } else if(this.toolType === 'avRack') {
-        this.isAvrack = true;
-   }
-      this.showSpinner = false;
+    } else if (this.toolType === 'btu') {
+      this.isBtu = true;
+    } else if (this.toolType === 'ispowerCal') {
+      this.ispowerCal = true;
+    } else if (this.toolType === 'avRack') {
+      this.isAvrack = true;
+    }
+    this.showSpinner = false;
   }
 
   updateRackConfiguration() {
@@ -106,7 +94,7 @@ export class BtuCalculatorComponent implements OnInit {
     this.totalRackHeight = Math.ceil(totalUnits) * 35;
     this.rackNumbers = Array.from({ length: Math.ceil(totalUnits) }, (_, i) => i + 1);
   }
-  
+
   getRackItemBottom(index: number) {
     let totalRU = 0;
     for (let i = 0; i < index; i++) {
@@ -114,7 +102,7 @@ export class BtuCalculatorComponent implements OnInit {
     }
     return Math.floor(totalRU);
   }
-  
+
   getHalfRackLeftPosition(index: number) {
     let count = 0;
     for (let i = 0; i < index; i++) {
@@ -124,12 +112,12 @@ export class BtuCalculatorComponent implements OnInit {
     }
     return (count % 2) === 0 ? '0' : '50%';
   }
-   
-  getRowClass (index: number): string {
+
+  getRowClass(index: number): string {
     return index % 2 === 0 ? 'even-row' : 'odd-row'
   }
 
-  addRow (type: any) {
+  addRow(type: any) {
     if (type === 'isBtu') {
       this.btuRows.push({ company: '', equipment: '', watt: 0 })
       this.calculateTotalWatt()
@@ -139,17 +127,18 @@ export class BtuCalculatorComponent implements OnInit {
     this.showRemoveIcon = true
   }
 
-  removeRow () {
+  removeRow() {
     if (this.btuRows.length > 1 || this.powerCalRows.length > 1) {
       this.btuRows.pop()
       this.powerCalRows.pop()
       this.calculateTotalWatt()
+      this.updateRackConfiguration();
     } else {
       this.showRemoveIcon = false
     }
   }
 
-  refreshValues () {
+  refreshValues() {
     this.btuRows.forEach(row => {
       row.company = ''
       row.equipment = ''
@@ -180,7 +169,7 @@ export class BtuCalculatorComponent implements OnInit {
     this.updateRackConfiguration();
   }
 
-  calculateTotalWatt () {
+  calculateTotalWatt() {
     this.totalPowerCol = this.powerCalRows.reduce((sum, row) => {
       row.watt = row.current * row.voltage
       return sum + Number(row.watt)
@@ -196,174 +185,68 @@ export class BtuCalculatorComponent implements OnInit {
     this.requiredCooling = this.thermalTotal / 12000
   }
 
-  //Calender
-  getEvents () {
-    this.showSpinner = true
-    this.faService.getEvents().subscribe((response: any) => {
-      console.log('Response from server:', response)
-      const newEvents = response.records.map((record: any) => ({
-        title: record.event_name,
-        start: record.event_date,
-        url: record.website_Url
-      }))
-      this.events = newEvents
-      this.updateCalendarEvents()
-      this.showSpinner = false
-    })
-  }
-
-  updateCalendarEvents () {
-    this.calendarOptions.events = this.events
-  }
-
-  handleCalendarToggle () {
-    this.calendarVisible = !this.calendarVisible
-  }
-
-  calendarOptions: CalendarOptions = {
-    plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
-    headerToolbar: {
-      left: 'prev,next createEventButton',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-    },
-    views: {
-      dayGridMonth: {
-        buttonText: 'Month'
-      },
-      timeGridWeek: {
-        buttonText: 'Week'
-      },
-      timeGridDay: {
-        buttonText: 'Day'
-      },
-      listWeek: {
-        buttonText: 'List'
-      }
-    },
-    initialView: 'dayGridMonth',
-    weekends: true,
-    editable: true,
-    selectable: true,
-    selectMirror: true,
-    dayMaxEvents: true,
-    events: [],
-    eventClick: this.handleEventClick.bind(this),
-    customButtons: {
-      createEventButton: {
-        text: 'Post Event',
-        click: () => this.handleCreateEventClick()
-      }
-    }
-  }
-  
-
-  handleCreateEventClick = () => {
-    this.popup.openDialogWithTemplateRef(this.myDialog)
-  }
-
-  handleEventClick(info: EventClickArg): void {
-    if (info.event.url) {
-      window.open(info.event.url, '_blank');
-      info.jsEvent.preventDefault();
-      return;
-    }
-  }
-
-  submitForm (
-    eventName: string,
-    eventUrl: string,
-    startDate: Date,
-    endDate: Date
-  ) {
-    const data = {
-      eventName: eventName,
-      eventUrl: eventUrl,
-      startDate: startDate,
-      endDate: endDate
-    }
-    this.faService.postEvent(data).subscribe(response => {
-      console.log(response)
-    })
-  }
-
-//TradeShow 
-getTradeShow() {
-  this.showSpinner = true;
-  this.faService.getTradeShow().subscribe((response: any) => {
+  //TradeShow 
+  getTradeShow() {
+    this.showSpinner = true;
+    this.faService.getTradeShow().subscribe((response: any) => {
       console.log('Response from server:', response);
-      
+
       if (response.status && response.records) {
-          this.tradeshowBoxes = response.records.map((record: any) => ({
-              title: record.title,
-              urlLink: record.website_Url,
-              bgColor: ''
-          }));
-          this.shuffleTradeshowBoxes()
-          this.assignRandomColors();
+        this.tradeshowBoxes = response.records.map((record: any) => ({
+          title: record.title,
+          urlLink: record.website_Url,
+          bgColor: ''
+        }));
+        this.shuffleTradeshowBoxes()
+        this.assignRandomColors();
       } else {
-          console.error('Failed to fetch trade show details:', response.message);
+        console.error('Failed to fetch trade show details:', response.message);
       }
       this.showSpinner = false;
-  });
-}
-
-shuffleTradeshowBoxes(): void {
-for (let i = this.tradeshowBoxes.length - 1; i > 0; i--) {
-  const j = Math.floor(Math.random() * (i + 1));
-  [this.tradeshowBoxes[i], this.tradeshowBoxes[j]] = [this.tradeshowBoxes[j], this.tradeshowBoxes[i]];
-}
-}
-
-assignRandomColors(): void {
-this.tradeshowBoxes.forEach(box => {
-  box.bgColor = this.getRandomColor();
-  console.log(`${box.title}: ${box.bgColor}`); // Debug line
-});
-}
-
-getRandomColor(): string {
-const letters = '0123456789ABCDEF';
-let color = '#';
-for (let i = 0; i < 6; i++) {
-  color += letters[Math.floor(Math.random() * 16)];
-}
-return color;
-}
-
-downloadCard(filename: any) {
-  this.showSpinner = true;
-  const tableElement = document.querySelector('.styled-table') as HTMLElement;
-  const header = document.querySelector('.header') as HTMLElement;
-  const icons = document.querySelector('.icons') as HTMLElement;
-
-  if (tableElement) {
-    this.renderer.setStyle(tableElement, 'box-shadow', 'none');
-    this.renderer.setStyle(tableElement, 'text-align', 'center');
+    });
   }
 
-  if (header) {
-    this.renderer.setStyle(header, 'text-align', 'center');
-  }
-
-  if (icons) {
-    this.renderer.setStyle(icons, 'display', 'none');
-  }
-
-  this.downloadReport.downloadCard(filename, () => {
-    this.showSpinner = false;
-    if (tableElement) {
-      this.renderer.removeStyle(tableElement, 'box-shadow');
-      this.renderer.removeStyle(tableElement, 'text-align');
+  shuffleTradeshowBoxes(): void {
+    for (let i = this.tradeshowBoxes.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.tradeshowBoxes[i], this.tradeshowBoxes[j]] = [this.tradeshowBoxes[j], this.tradeshowBoxes[i]];
     }
+  }
 
-    if (header) {
-      this.renderer.removeStyle(header, 'text-align');
+  assignRandomColors(): void {
+    this.tradeshowBoxes.forEach(box => {
+      box.bgColor = this.getRandomColor();
+      console.log(`${box.title}: ${box.bgColor}`); // Debug line
+    });
+  }
+
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
     }
+    return color;
+  }
 
+  downloadCard(filename: any) {
+    this.showSpinner = true;
+    const icons = document.querySelector('.add_symbol') as HTMLElement;
+    const contentContainer = document.querySelector('.results') as HTMLElement; // Use the correct selector
+  
     if (icons) {
-      this.renderer.removeStyle(icons, 'display');
+      this.renderer.setStyle(icons, 'display', 'none');
     }
-  });
-}
+    if (contentContainer) {
+      this.renderer.setStyle(contentContainer, 'margin-top', '20px');
+    }
+  
+    this.downloadReport.downloadCard(filename, () => {
+      this.showSpinner = false;
+      if (icons) {
+        this.renderer.removeStyle(icons, 'display');
+      }
+    });
+  }
+  
 }

@@ -1,4 +1,4 @@
-<!-- ======= Counts Section ======= -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,36 +12,49 @@
 <body>
 
   <div *ngIf="cards">
-    <section id="counts" class="counts">
-      <div class="container" data-aos="fade-up">
-        <div class="filters">
-          <div class="input-group">
-            <div class="input-box input-group">
-              <input type="text" class="form-control input-sm" [(ngModel)]="searchTool" placeholder="Search by Tools Names..."/>
-              <i class="fa fa-search"></i>
+    <div *ngIf="toolCategories.length">
+      <section id="counts" class="counts">
+        <div class="container" data-aos="fade-up">
+          <div class="filters mt-4">
+            <div class="input-group">
+              <div class="input-box input-group">
+                <input type="text" class="form-control input-sm" [(ngModel)]="searchTool" placeholder="Search by Tools Names..." />
+                <i class="fa fa-search"></i>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row gy-4 mt-1">
-          <div class="col-lg-3 col-md-4" *ngFor="let tool of filteredTools()" (click)="onClick(tool.id)">
-            <div class="count-box d-flex flex-column align-items-center">
-              <img [src]="tool.imgSrc" class="img-fluid custom-images" alt="">
-              <p class="tool-header">{{ tool.name }}</p>
-              <p class="tool-description">{{ tool.description }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="filteredTools().length === 0">
-        <div class="centered-image">
-          <img src="assets/img/oops.png" alt="" class="img-fluid no-records" height="250px" />
-        </div>
-      </div>
-    </section>
     
+          <div *ngFor="let category of toolCategories">
+            <div [ngClass]="category.name.replace(' ', '-')">
+              <mat-nav-list>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    {{ category.name }}
+                  </mat-expansion-panel-header>
+                  <div class="row gy-4 mt-1">
+                    <div class="col-lg-3 col-md-4" *ngFor="let tool of filteredTools(category.tools)" (click)="onClick(tool.id)">
+                      <div class="count-box d-flex flex-column align-items-center">
+                        <img [src]="tool.imgSrc" class="img-fluid custom-images" alt="" />
+                        <p class="tool-header">{{ tool.name }}</p>
+                        <p class="tool-description">{{ tool.description }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+              </mat-nav-list>
+            </div>
+          </div>
+    
+          <div *ngIf="allToolsFilteredOut()">
+            <div class="centered-image">
+              <img src="assets/img/oops.png" alt="" class="img-fluid no-records" height="250px" />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
   
-
   <div class="arrow_Container">
     <div class="arrow-Icon" (click)="onClick('cards')" *ngIf="!cards">
       <mat-icon>arrow_back</mat-icon>
@@ -52,9 +65,10 @@
     <app-av-simulator *ngIf="isSimulator || isServiceReport" [toolType]="toolType"></app-av-simulator>
     <app-bussiness-card *ngIf="isBussinessCard"></app-bussiness-card>
     <app-reports *ngIf="isReports || isSpl || isMacFinder " [toolType]="toolType"></app-reports>
-    <app-btu-calculator *ngIf="isBtuCalculator || ispowerCal || isCalender || isTradeshow || isAvrack" [toolType]="toolType"></app-btu-calculator>
+    <app-btu-calculator *ngIf="isBtuCalculator || ispowerCal || isTradeshow || isAvrack" [toolType]="toolType"></app-btu-calculator>
     <app-ratio-tools *ngIf="isAspectratio || isdiagonalScreen || isthrowDistance" [toolType]="toolType"></app-ratio-tools>
-    <app-display-selector *ngIf="displaySelector" [toolType]="toolType"></app-display-selector>
+    <app-display-selector *ngIf="displaySelector || isCalender" [toolType]="toolType"></app-display-selector>
+    <app-video-simulator *ngIf="videoSimulator"></app-video-simulator>
   </div>
   <app-spinner *ngIf="showSpinner"></app-spinner> 
 </body>

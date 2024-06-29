@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
-</head>
-    <body>
 
-      <div *ngIf="isBtu" class="btu-calculator-container">
-        <div class="container">
-          <div id="pdfContent">
-          <h2 class="header">BTU Calculator</h2>
-          <div class="table">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+  <section id="counts" class="counts">
+    <div *ngIf="isBtu" class="btu-calculator-container">
+      <div class="container">
+        <div id="pdfContent">
+          <h2 class="tool-header">BTU Calculator</h2>
+          <div class="table" style="width: 500px;">
             <table class="styled-table">
               <thead>
                 <tr>
@@ -25,148 +27,156 @@
               <tbody>
                 <tr *ngFor="let row of btuRows; let i = index" [ngClass]="getRowClass(i)">
                   <td class="sl-numbers">{{ i + 1 }}</td>
-                  <td><input type="text" [(ngModel)]="row.equipment" maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
-                  <td><input type="number" onKeyPress="if(this.value.length==4) return false;" [(ngModel)]="row.watt" [disabled]="!row.equipment" maxlength="4" class="watt-input" (ngModelChange)="calculateTotalWatt()"></td>
+                  <td><input type="text" placeholder="Enter Equipment Details" [(ngModel)]="row.equipment"
+                      maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
+                  <td><input type="number" onKeyPress="if(this.value.length==4) return false;" [(ngModel)]="row.watt"
+                      [disabled]="!row.equipment" maxlength="4" class="watt-input"
+                      (ngModelChange)="calculateTotalWatt()"></td>
                 </tr>
               </tbody>
             </table>
-      
-            <div class="icons" id="icons">
+
+            <div class="add_symbol" id="icons">
               <mat-icon class="add_Icon" (click)="addRow('isBtu')">add_circle</mat-icon>
               <mat-icon *ngIf="showRemoveIcon" class="remove_Icon" (click)="removeRow()">remove_circle</mat-icon>
             </div>
-      
-            <div class="results">
+
+            <div class="results" id="pdfContentContainer">
               <p><span>Total Watts:</span>{{total}} Watts</p>
-              <p><span>Thermal Disspansion:</span>{{thermalTotal | number:'1.2-2'}} Watts</p>
+              <p><span>Thermal Disspansion:</span>{{thermalTotal | number:'1.2-2'}} BTU/hr</p>
               <p><span>Cooling Required:</span>{{requiredCooling | number:'1.2-2'}} Tons</p>
             </div>
           </div>
-          </div>
+        </div>
       </div>
-      
-        <div class="buttons mt-3">
-          <button class="btn warning" (click)="refreshValues()">Cancel</button>
-          <button class="btn success" (click)="downloadCard('BTU-Calculator')">Save</button>
-          <!-- <button class="btn info" (click)="print()">Print</button> -->
+      <div class="buttons-container">
+        <button class="btn warning" (click)="refreshValues()">Cancel</button>
+        <button class="btn success" (click)="downloadCard('BTU-Calculator')">Save</button>
+      </div>
+
+      <div class="container tool-data">
+        <h3>What It Is</h3>
+        <p>
+          Electronic equipment, when powered on, generates heat whether it's active or
+          idle. This heat is measured in British Thermal Units (BTUs). One BTU is
+          approximately 1055 joules, and one watt per hour is equivalent to 3.4 BTUs.
+          It's crucial to calculate the total heat produced by all electronic
+          equipment in an active AV rack. <br /><br />
+          AV designers typically determine the total BTU for a system and share this
+          information with HVAC engineers. This allows designers to incorporate
+          appropriate cooling solutions to prevent equipment failure and balance HVAC
+          systems for user comfort. Equipment wattage details can often be found in
+          the owner's manual or on the device itself
+        </p>
+      </div>
+
+      <div class="container formula_bottom">
+        <div class="row">
+          <div class="cart cart1">
+            <h2 style="text-align: center;">Formula<br>f(x)</h2>
+          </div>
+          <div class="cart cart2">
+            <p>The Formula for Calculating heat load is:<br>
+              Total BTU = We * 3.4 <br>Where: </p>
+            <ul>
+              <li>
+                <p>We = Total Watts of all total equipment's used in the room</p>
+              </li>
+              <li>
+                <p>3.4 = Conversion factor, where 1 watt of power generates 3.4 BTU of heat per Hour</p>
+              </li>
+            </ul>
+            This Formula does not account load generated by amplifier.<br><br>
+            Cooling Required follows the industry practice of measuring air conditioning cooling capacity in tons. The
+            required capacity is calculated by dividing the BTU/hr heat load by 12,000.
+          </div>
         </div>
-      
-        <div class="container tool-data">
-          <h3>What It Is</h3>
-          <p>
-            Electronic equipment, when powered on, generates heat whether it's active or
-            idle. This heat is measured in British Thermal Units (BTUs). One BTU is
-            approximately 1055 joules, and one watt per hour is equivalent to 3.4 BTUs.
-            It's crucial to calculate the total heat produced by all electronic
-            equipment in an active AV rack. <br /><br />
-            AV designers typically determine the total BTU for a system and share this
-            information with HVAC engineers. This allows designers to incorporate
-            appropriate cooling solutions to prevent equipment failure and balance HVAC
-            systems for user comfort. Equipment wattage details can often be found in
-            the owner's manual or on the device itself
-          </p>
-        </div>
-      
-        <div class="container">
-          <div class="row">
-            <div class="cart cart1"><br>
-              <h2 style="text-align: center;"><br><br>Formula<br>f(x)</h2>
-            </div>
-            <div class="cart cart2"><br>
-              <p>The Formula for Calculating heat load is:<br>
-                Total BTU = WE * 3.4 <br>Where: </p>
-              <ul>
-                <li><p>WE = Total Watts of all total equipment's used in the room</p></li>
-                <li><p>3.4 = Conversion factor, where 1 watt of power generates 3.4 BTU of heat per Hour</p></li>
-              </ul>
-              This Formula does not account load generated by amplifier.<br>
-              Cooling Required follows the industry practice of measuring air conditioning cooling capacity in tons. The required capacity is calculated by dividing the BTU/hr heat load by 12,000.
-            </div>
+      </div>
+    </div>
+
+    <div *ngIf="isAvrack" class="btu-calculator-container">
+      <div class="container">
+        <h2 class="tool-header">AV Rack Simulator</h2>
+        <div class="table" style="width: 60%;">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th class="sl_No">Sl.No</th>
+                <th class="equipment-Name">Equipment/Model</th>
+                <th class="sl_No">RU Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of btuRows; let i = index" [ngClass]="getRowClass(i)">
+                <td class="sl-numbers">{{ i + 1 }}</td>
+                <td><input type="text" placeholder="Enter Equipment Details" [(ngModel)]="row.equipment" maxlength="50"
+                    (ngModelChange)="updateRackConfiguration()"></td>
+                <td><input type="number" onKeyPress="if(this.value.length==4) return false;" [(ngModel)]="row.watt"
+                    [disabled]="!row.equipment" maxlength="4" class="watt-input"
+                    (ngModelChange)="updateRackConfiguration()"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="add_symbol" id="icons">
+            <mat-icon class="add_Icon" (click)="addRow('isBtu')">add_circle</mat-icon>
+            <mat-icon *ngIf="showRemoveIcon" class="remove_Icon" (click)="removeRow()">remove_circle</mat-icon>
           </div>
         </div>
       </div>
 
-      <div *ngIf="isAvrack" class="btu-calculator-container">
-        <div class="container">
-            <h2 class="header">AV Rack Simulator</h2>
-            <div class="table">
-              <table class="styled-table">
-                <thead>
-                  <tr>
-                    <th class="sl_No">Sl.No</th>
-                    <th class="equipment-Name">Equipment/Model</th>
-                    <th class="sl_No">RU Size</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let row of btuRows; let i = index" [ngClass]="getRowClass(i)">
-                    <td class="sl-numbers">{{ i + 1 }}</td>
-                    <td><input type="text" [(ngModel)]="row.equipment" maxlength="50" (ngModelChange)="updateRackConfiguration()"></td>
-                    <td><input type="number" onKeyPress="if(this.value.length==4) return false;" [(ngModel)]="row.watt" [disabled]="!row.equipment" maxlength="4" class="watt-input" (ngModelChange)="updateRackConfiguration()"></td>
-                  </tr>
-                </tbody>
-              </table>
-      
-              <div class="icons" id="icons">
-                <mat-icon class="add_Icon" (click)="addRow('isBtu')">add_circle</mat-icon>
-                <mat-icon *ngIf="showRemoveIcon" class="remove_Icon" (click)="removeRow()">remove_circle</mat-icon>
-              </div>
-            </div>
-          </div>
-      
-        <div class="buttons mt-3">
-          <button class="btn warning" (click)="refreshValues()">Cancel</button>
-          <button class="btn success" (click)="downloadCard('AV-Rack')">Save</button>
-        </div>
-      
-        <div class="container mt-2" *ngIf="totalRackHeight !== 0">
-          <div id="pdfContent">
-            <h2 class="rack_header">Rack Elevation</h2>
-            <div class="rack-diagram">
-              <div class="rack-border" [ngStyle]="{'height': totalRackHeight + 'px'}">
-                <div class="rack-numbers border_right">
-                  <div *ngFor="let n of rackNumbers.slice().reverse()" 
-                       class="rack-number"
-                       [ngClass]="{'has-border-bottom': rackNumbers.length > 1}">
-                    {{ n }}
-                  </div>
+      <div class="buttons-container">
+        <button class="btn warning" (click)="refreshValues()">Cancel</button>
+        <button class="btn success" (click)="downloadCard('AV-Rack')">Save</button>
+      </div>
+      <div class="container tool-data mt-3">
+        <p>Enter the devices you intend to include in your AV setup. Our audiovisual rack diagram tool will
+          automatically generate a rack layout. Once the AV rack layout is generated, you can visualize it in 2D to gain
+          a clear understanding of the final assembly of your audiovisual rack</p>
+      </div>
+      <div class="container mt-3" style="display: block; margin-bottom: 10px;" *ngIf="totalRackHeight !== 0">
+        <div id="pdfContent">
+          <h2 class="tool-header mb-0">Rack Elevation</h2>
+          <div class="rack-diagram">
+            <div class="rack-border" [ngStyle]="{'height': totalRackHeight + 'px'}">
+              <div class="rack-numbers border_right">
+                <div *ngFor="let n of rackNumbers.slice().reverse()" class="rack-number"
+                  [ngClass]="{'has-border-bottom': rackNumbers.length > 1}">
+                  {{ n }}
                 </div>
-                <div class="rack-items">
-                  <div *ngFor="let row of btuRows; let i = index"
-                      class="rack-item"
-                      [ngClass]="{
+              </div>
+              <div class="rack-items">
+                <div *ngFor="let row of btuRows; let i = index" class="rack-item" [ngClass]="{
                           'half-width': row.watt > 0 && row.watt < 1,
                           'second-half': row.watt > 0 && row.watt < 1 && (i % 2 !== 0),
                           'has-border-bottom': rackNumbers.length > 1
-                      }"
-                      [ngStyle]="{
+                      }" [ngStyle]="{
                           'height': ((row.watt >= 1 ? row.watt : 1) * 35) + 'px', 
                           'bottom': (getRackItemBottom(i) * 35) + 'px',
                           'width': row.watt > 0 && row.watt < 1 ? '50%' : '100%',
                           'left': row.watt > 0 && row.watt < 1 ? getHalfRackLeftPosition(i) : '0'
                       }">
-                    <span style="font-weight: unset;">{{ row.equipment }}</span>
-                  </div>
+                  <span style="font-weight: unset;">{{ row.equipment }}</span>
                 </div>
-                <div class="rack-numbers border_left">
-                  <div *ngFor="let n of rackNumbers.slice().reverse()" 
-                       class="rack-number"
-                       [ngClass]="{'has-border-bottom': rackNumbers.length > 1}">
-                    {{ n }}
-                  </div>
+              </div>
+              <div class="rack-numbers border_left">
+                <div *ngFor="let n of rackNumbers.slice().reverse()" class="rack-number"
+                  [ngClass]="{'has-border-bottom': rackNumbers.length > 1}">
+                  {{ n }}
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </div>
-      
-      <div *ngIf="ispowerCal" class="power-calculator-container">
-        <div class="container">
-          <div id="pdfContent">
-          <h2 class="header">Power Calculator</h2>
-          <div class="powerCal_table">
-            <table class="styled-table powerCal_table">
+
+    <div *ngIf="ispowerCal" class="power-calculator-container">
+      <div class="container">
+        <div id="pdfContent">
+          <h2 class="tool-header">Power Calculator</h2>
+          <div class="table">
+            <table class="styled-table">
               <thead>
                 <tr>
                   <th class="sl_No">Sl.No</th>
@@ -179,65 +189,63 @@
               <tbody>
                 <tr *ngFor="let row of powerCalRows; let i = index" [ngClass]="getRowClass(i)">
                   <td class="sl-numbers">{{ i + 1 }}</td>
-                  <td><input type="text" [(ngModel)]="row.equipment" maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
-                  <td><input type="number" [(ngModel)]="row.current" onKeyPress="if(this.value.length==4) return false;" [disabled]="!row.equipment" class="watt-input" (ngModelChange)="calculateTotalWatt()"></td>
-                  <td><input type="number" [(ngModel)]="row.voltage" onKeyPress="if(this.value.length==3) return false;" max="3" [disabled]="!row.equipment" class="watt-input" (ngModelChange)="calculateTotalWatt()"></td>
-                  <td><input type="number" [(ngModel)]="row.watt"  readonly [disabled]="!row.equipment" class="watt-input final_count" (ngModelChange)="calculateTotalWatt()"></td>
+                  <td><input type="text" placeholder="Enter Equipment Details" [(ngModel)]="row.equipment"
+                      maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
+                  <td><input type="number" [(ngModel)]="row.current" onKeyPress="if(this.value.length==4) return false;"
+                      [disabled]="!row.equipment" class="watt-input" (ngModelChange)="calculateTotalWatt()"></td>
+                  <td><input type="number" [(ngModel)]="row.voltage" onKeyPress="if(this.value.length==3) return false;"
+                      max="3" [disabled]="!row.equipment" class="watt-input" (ngModelChange)="calculateTotalWatt()">
+                  </td>
+                  <td><input type="number" [(ngModel)]="row.watt" readonly [disabled]="!row.equipment"
+                      class="watt-input final_count" (ngModelChange)="calculateTotalWatt()"></td>
                 </tr>
               </tbody>
             </table>
 
-            <div class="icons" id="icons">
+            <div class="add_symbol" id="icons">
               <mat-icon class="add-Icon" (click)="addRow('isPowercal')">add_circle</mat-icon>
               <mat-icon *ngIf="showRemoveIcon" class="remove-Icon" (click)="removeRow()">remove_circle</mat-icon>
             </div>
 
-            <div class="results powerCal_res">
+            <div class="results">
               <p><span class="p_results">Total Watts(W):</span>{{totalPowerCol | number:'1.2-2'}}</p>
               <p><span class="p_results">kWh:</span>{{totalkWh | number:'1.2-2'}}</p>
             </div>
           </div>
-          </div>
         </div>
-
-        <div class="buttons mt-3">
-          <button class="btn warning" (click)="refreshValues()">Cancel</button>
-          <button class="btn success" (click)="downloadCard('Power-Calculator')">Save</button>
-        </div>
-
-        <div class="container tool-data">
-          <h3>What It Is</h3>
-          <p>
-            The process of utilizing a power calculator involves estimating or calculating the electrical power requirements of the AV system. The power consumption of AV devices is measured in watts, and understanding these power needs is essential for efficient electrical planning and ensuring compatibility with equipment.
-          </p>
-        </div>
-
-        <div class="container">
-          <div class="row">
-            <div class="cart cart1 d-flex align-items-center justify-content-center">
-              <h2>Formula f(x)</h2>
-            </div>
-            <br>
-            <div class="cart cart2 powerCal_formula d-flex align-items-center justify-content-center">
-              <p>The Formula for Calculating Power Calculator is:<br>
-                Power (Watts) = Voltage (Volts) * Current (Amperes)</p>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-    <div *ngIf="isCalender">  
-      <div (onLoad)="getEvents()" class='container demo-app-main'>
-        <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'>
-          <ng-template #eventContent let-arg>
-            <i class="event-title" [title]="arg.event.title">{{ arg.event.title }}</i>
-          </ng-template>
-        </full-calendar>    
-      </div>    
+      <div class="buttons-container">
+        <button class="btn warning" (click)="refreshValues()">Cancel</button>
+        <button class="btn success" (click)="downloadCard('Power-Calculator')">Save</button>
+      </div>
+
+      <div class="container tool-data">
+        <h3>What It Is</h3>
+        <p>
+          The process of utilizing a power calculator involves estimating or calculating the electrical power
+          requirements of the AV system. The power consumption of AV devices is measured in watts, and understanding
+          these power needs is essential for efficient electrical planning and ensuring compatibility with equipment.
+        </p>
+      </div>
+
+      <div class="container formula_bottom" style="display: block;">
+        <div class="row">
+          <div class="cart cart1">
+            <h2 style="text-align: center;">Formula<br>f(x)</h2>
+          </div>
+          <div class="cart cart2">
+            <p>The Formula for Calculating Power Calculator is:<br>
+              Power (Watts) = Voltage (Volts) * Current (Amperes)</p>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
 
-    <div *ngIf="isTradeshow">  
+    <div *ngIf="isTradeshow">
       <div class="container td_container">
         <div class="row td_row">
           <div class="col-4" *ngFor="let box of tradeshowBoxes">
@@ -254,51 +262,7 @@
       </div>
     </div>
 
-
-
- <!-- Dialog template -->
- <ng-template #myDialog>
-  <div class="d-flex align-items-center justify-content-between">
-    <h4 mat-dialog-title class="mb-0">Event Information</h4>
-    <mat-icon class="mat_cancel_icon" mat-dialog-close>cancel</mat-icon>
-  </div> 
-  <hr class="mt-0" style="margin-bottom: -5px;">
-  <mat-dialog-content class="d-flex align-items-center justify-content-center" style="width: 450px;">
-    <div class="form-group" style="width: 100%;">
-      <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>Event Name</mat-label>
-        <input matInput #eventNameInput type="text" placeholder="Enter event name" required>
-      </mat-form-field>
-      <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>Event Url</mat-label>
-        <input matInput #eventUrlInput type="text" placeholder="Enter event URL" required>
-      </mat-form-field>
-      <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>Start Date</mat-label>
-        <input matInput [matDatepicker]="startDatePicker" placeholder="Choose a date" (dateInput)="startDate = $event.target.value" required>
-        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #startDatePicker></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>End Date</mat-label>
-        <input matInput [matDatepicker]="endDatePicker" placeholder="Choose a date" (dateInput)="endDate = $event.target.value" required>
-        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #endDatePicker></mat-datepicker>
-      </mat-form-field>
-    </div>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end" class="mat-buttons">
-    <button mat-dialog-close="true" class="btn btn-success" [disabled]="!startDate || !endDate || !eventNameInput.value || !eventUrlInput.value" (click)="submitForm(eventNameInput.value, eventUrlInput.value, startDate, endDate)">Submit</button>
-  </mat-dialog-actions>
-</ng-template>
-
-
-
-
-
-
-
-
-  <app-spinner *ngIf="showSpinner"></app-spinner>
-      </body>
+  </section>
+    <app-spinner *ngIf="showSpinner"></app-spinner>
+</body>
 </html>
