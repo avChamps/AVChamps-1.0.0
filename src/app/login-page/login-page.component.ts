@@ -46,6 +46,8 @@ export class LoginPageComponent implements OnInit {
       window.location.href = `${this.baseUrl}/auth/linkedin?destination=${this.receivedValue}`
     } else if (type === 'facebook') {
       window.location.href = `${this.baseUrl}/auth/facebook?destination=${this.receivedValue}`
+    } else if (type === 'microsoft') {
+      window.location.href = `${this.baseUrl}/auth/microsoft?destination=${this.receivedValue}`
     }
   }
 

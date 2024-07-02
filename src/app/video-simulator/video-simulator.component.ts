@@ -112,6 +112,30 @@ export class VideoSimulatorComponent {
   }
 
 
+
+
+  get canvasWidth(): number {
+    if (this.boxHeight <= 15) {
+      return this.boxHeight * 30;
+    } else if (this.boxHeight <= 20) {
+      return this.boxHeight * 25;
+    } else {
+      return this.boxHeight * 20;
+    }
+  }
+
+  get canvasHeight(): number {
+    if (this.boxWidth <= 15) {
+      return this.boxWidth * 30;
+    } else if (this.boxWidth <= 20) {
+      return this.boxWidth * 25;
+    } else {
+      return this.boxWidth * 20;
+    }
+  }
+
+
+
   generateUnits() {
     this.roomLengthInMts = this.roomLength * 0.3048;
     this.isRoomLength = this.roomLength + 'f' + '/' + this.roomLengthInMts.toFixed(2) + 'm'
@@ -187,8 +211,8 @@ export class VideoSimulatorComponent {
     if (ctx) {
       // Clear the canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      canvas.width = this.roomLength * 20; // Scale factor to fit canvas size
-      canvas.height = this.roomWidth * 20;
+      canvas.width = this.canvasWidth; // Scale factor to fit canvas size
+      canvas.height = this.canvasHeight;
 
       const centerX = 0; // Align exactly at the left edge
       const centerY = canvas.height / 2; // Center vertically

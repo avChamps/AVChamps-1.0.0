@@ -9,13 +9,12 @@
 <body>
 <div class="signup">
 	<div class="signup-connect">
-	  <h1 class="text-center">Sign in now</h1>
-	  <p class="text-center">Requires a Google workspace or LinkedIn</p><hr>
-	  <!-- <a class="btn btn-social btn-facebook" (click)="onClick('facebook')"><i class="fa fa-facebook"></i> Sign in with Facebook</a> -->
-	  <!-- <a href="#" class="btn btn-social btn-twitter"><i class="fa fa-twitter"></i> Sign in with Twitter</a> -->
-	  <a (click)="onClick('google')" class="btn btn-social btn-google"><i class="fa fa-google"></i> Sign in with Google</a>
-	  <a (click)="onClick('linkedIn')" class="btn btn-social btn-linkedin"><i class="fa fa-linkedin"></i> Sign in with Linkedin</a>
-	  <!-- <a (click)="onClick()" class="btn btn-social btn-google"><i class="fa fa-google"></i> Sign in with Google</a> -->
+	  <h2 class="text-center">Sign in to your Account</h2>
+	  <a (click)="onClick('google')" class="btn btn-social btn-microsoft" style="background: #dd4b39;border: 1px solid;color: white; border: 1px solid;"> <img src="assets/img/common_Images/google-icon.png" alt="Microsoft Logo" class="microsoft-icon"> Sign in with Google</a>
+	  <a (click)="onClick('linkedIn')" class="btn btn-social btn-microsoft" style="background: #007bb5;border: 1px solid;color: white; border: 1px solid;"><img src="assets/img/common_Images/linkedIn-Icon.png" alt="Microsoft Logo" class="microsoft-icon"> Sign in with Linkedin</a>
+	  <a (click)="onClick('microsoft')" style="background: black;border: 1px solid;color: white; border: 1px solid;" class="btn btn-social btn-microsoft">
+        <img src="assets/img/common_Images/window_Icon.png" alt="Microsoft Logo" class="microsoft-icon"> Sign in with Microsoft
+    </a>
 	<p>By logging in,you agree to our <span>terms of use</span> and <span>Privacy policy</span></p>
 	</div>
   </div>

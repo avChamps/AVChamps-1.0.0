@@ -23,7 +23,7 @@ export class EkartComponent implements OnInit {
   mobileNumber!: number
   selectedFileName: any
   slNo!: number;
-  isHeader : boolean = true;
+  isHeader: boolean = true;
   price!: number
   products: any[] = []
   uploadProducts: any[] = []
@@ -36,11 +36,11 @@ export class EkartComponent implements OnInit {
   empty_produts: boolean = false
   showProducts: boolean = true
   showSearch: boolean = false;
-  showSearchBox : boolean = true;
+  showSearchBox: boolean = true;
   showContactForm: boolean = false
   showViewMOre: boolean = true;
-  viewMoreButton : boolean = false;
-  showEmptyImg : boolean = false;
+  viewMoreButton: boolean = false;
+  showEmptyImg: boolean = false;
   selectedItem: any
   offset: number = 0
   searchText: string = ''
@@ -50,27 +50,27 @@ export class EkartComponent implements OnInit {
   @ViewChild('contact') onContact!: TemplateRef<any>
   insertionType: any
 
-  constructor (
+  constructor(
     private popup: PopupService,
     private userService: UserServicesService,
     private router: Router,
     private faService: FaServiceService,
     private authService: AuthServiceService,
     private authGuard: AuthGuardService
-  ) {}
-  ngOnInit (): void {
+  ) { }
+  ngOnInit(): void {
     this.emailId = localStorage.getItem('emailId')
     this.userName = localStorage.getItem('userName')
     this.getCartData(this.offset)
     this.getProfileImage()
   }
 
-  loadMoreCartData () {
+  loadMoreCartData() {
     this.offset += 5
     this.getCartData(this.offset)
   }
 
-  loadMoreUploadData () {
+  loadMoreUploadData() {
     this.offset += 5
     this.getUploadProducts(this.offset)
   }
@@ -79,7 +79,7 @@ export class EkartComponent implements OnInit {
   //   this.showSearch = !this.showSearch
   // }
 
-  onSelect (option: any): void {
+  onSelect(option: any): void {
     if (option === 'myPosts') {
       this.showCart = true
       this.showProducts = false
@@ -97,7 +97,7 @@ export class EkartComponent implements OnInit {
     }
   }
 
-  getUploadProducts (offset: any) {
+  getUploadProducts(offset: any) {
     this.showSpinner = true;
     this.userService.getUploadData(this.emailId, offset).subscribe(response => {
       console.log(response)
@@ -107,7 +107,7 @@ export class EkartComponent implements OnInit {
     })
   }
 
-  getCartData (offset: number) {
+  getCartData(offset: number) {
     this.showSpinner = true
     this.userService
       .getCartData(offset, this.searchText)
@@ -119,7 +119,7 @@ export class EkartComponent implements OnInit {
       })
   }
 
-  getProfileImage () {
+  getProfileImage() {
     this.showSpinner = true
     this.userService
       .getProfileImage(this.emailId)
@@ -130,12 +130,12 @@ export class EkartComponent implements OnInit {
       })
   }
 
-  onSearch () {
+  onSearch() {
     this.products = []
     this.getCartData(0)
   }
 
-  getImageSource (): string {
+  getImageSource(): string {
     if (this.profileImg && this.profileImg.length > 0) {
       return this.profileImg[0].imagePath
     } else {
@@ -143,7 +143,7 @@ export class EkartComponent implements OnInit {
     }
   }
 
-  selectFile (): void {
+  selectFile(): void {
     const fileInput = document.getElementById('fileInput')
     if (fileInput) {
       fileInput.click()
@@ -152,7 +152,7 @@ export class EkartComponent implements OnInit {
     }
   }
 
-  onFileSelected (event: any) {
+  onFileSelected(event: any) {
     this.selectedFile = event.target.files[0]
     const file = event.target.files[0]
     if (file) {
@@ -162,13 +162,13 @@ export class EkartComponent implements OnInit {
     }
   }
 
-  validateInput (event: any) {
+  validateInput(event: any) {
     const pattern = /[^a-zA-Z\s]/g
     event.target.value = event.target.value.replace(pattern, '') // Remove non-digits from input
     this.location = event.target.value // Update the model with the sanitized value
   }
 
-  onUpload () {
+  onUpload() {
     if (this.insertionType === 'insertProduct') {
       this.showSpinner = true
       const formData = new FormData()
@@ -196,7 +196,7 @@ export class EkartComponent implements OnInit {
     }
   }
 
-  updateProducts () {
+  updateProducts() {
     this.showSpinner = true
     const formData = new FormData()
     formData.append('emailId', this.emailId)
@@ -215,14 +215,14 @@ export class EkartComponent implements OnInit {
         alert(response.message)
         this.getUploadProducts(this.offset);
         window.location.reload()
-      //  this.onSelect('myPosts');
+        //  this.onSelect('myPosts');
       } else {
         alert('An error occurred. Please try again later.')
       }
     })
   }
 
-  toggleChanged (event: MatSlideToggleChange, item: any) {
+  toggleChanged(event: MatSlideToggleChange, item: any) {
     if (event.checked) {
       let productStatus = 'soldOut'
       const confirmation = confirm('Are you sure that product is SoldOut?')
@@ -245,19 +245,19 @@ export class EkartComponent implements OnInit {
     }
   }
 
-  get filteredProducts () {
+  get filteredProducts() {
     return this.products.filter(product =>
       product.title.toLowerCase().includes(this.searchText.toLowerCase())
     )
   }
 
-  get filteredUploadProducts () {
+  get filteredUploadProducts() {
     return this.uploadProducts.filter(product =>
       product.title.toLowerCase().includes(this.searchText.toLowerCase())
     )
   }
 
-  deleteItem (item: any) {
+  deleteItem(item: any) {
     console.log(item)
     this.showSpinner = true
     const productData = {
@@ -283,26 +283,26 @@ export class EkartComponent implements OnInit {
     })
   }
 
-  editItem (item: any) {
+  editItem(item: any) {
     this.sellerButton = 'Update'
     console.log(item)
-    ;(this.emailId = item.emailId),
-      (this.title = item.title),
-      (this.description = item.description),
-      (this.location = item.location),
-      (this.mobileNumber = item.mobileNumber),
-      (this.price = item.price),
-      (this.slNo = item.slNo),
-      this.onCart('updateProduct')
+      ; (this.emailId = item.emailId),
+        (this.title = item.title),
+        (this.description = item.description),
+        (this.location = item.location),
+        (this.mobileNumber = item.mobileNumber),
+        (this.price = item.price),
+        (this.slNo = item.slNo),
+        this.onCart('updateProduct')
   }
 
-  selectedProduct (index: any) {
+  selectedProduct(index: any) {
     this.popup.openDialogWithTemplateRef(this.onContact)
     console.log(index)
     this.selectedItem = [index]
   }
 
-  onCart (type: any) {
+  onCart(type: any) {
     if (type === 'insertProduct') {
       this.sellerButton = 'Submit'
       this.insertionType = type
@@ -314,25 +314,25 @@ export class EkartComponent implements OnInit {
     this.popup.openDialogWithTemplateRef(this.sellerForm)
   }
 
-  isValidMobileNumber (): boolean {
+  isValidMobileNumber(): boolean {
     const mobileStr = this.mobileNumber.toString()
     const repeatedPattern = /(\d)\1{9}/
     return mobileStr.length === 10 && !repeatedPattern.test(mobileStr)
   }
 
-  getRecords(response:any) {
+  getRecords(response: any) {
     this.viewMoreButton = false;
     this.showEmptyImg = false;
-    if(response.records.length === 5) {
-         this.viewMoreButton = true;
-    } else if(response.records.length === 0) {
+    if (response.records.length === 5) {
+      this.viewMoreButton = true;
+    } else if (response.records.length === 0) {
       this.showEmptyImg = true;
     }
   }
 
 
-  clearInputs () {
-    ;(this.title = ''),
+  clearInputs() {
+    ; (this.title = ''),
       (this.description = ''),
       (this.price = 0),
       (this.mobileNumber = 0),
@@ -340,13 +340,13 @@ export class EkartComponent implements OnInit {
       (this.selectedFileName = '')
   }
 
-onBack() {
-  window.location.reload();
-}
+  onBack() {
+    window.location.reload();
+  }
 
-logOut () {
-  this.faService.clearSession();
-  this.router.navigate(['/home-page']);
-  window.location.reload();
-}
+  logOut() {
+    this.faService.clearSession();
+    this.router.navigate(['/home-page']);
+    window.location.reload();
+  }
 }
