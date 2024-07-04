@@ -27,6 +27,8 @@ export class AvCalculatorComponent {
   showSpinner : boolean = false;
   displaySelector : boolean = false;
   videoSimulator : boolean = false;
+  switcher : boolean = false;
+  bandWidthCal : boolean = false;
   toolType: string = '';
 
   // tools = [
@@ -53,8 +55,6 @@ export class AvCalculatorComponent {
     // { id: 'serviceReport', imgSrc: 'assets/img/av-profile/service-report.jpg', name: 'Service Report', description: 'Share the service report with the customer to showcase the tech teams capabilities.' }
   ];
 
-
-
  audioTools = [
    { id: 'btu', imgSrc: 'assets/img/av-profile/british-thermal-unit.png', name: 'BTU Calculator', description: 'Calculate how much heat is produced by all electronic equipment within an AV rack.' },
     { id: 'ispowerCal', imgSrc: 'assets/img/av-profile/power-claculator.png', name: 'Power Calculator', description: 'Calculate the total power required for all AV equipment within an AV rack.' },
@@ -62,13 +62,12 @@ export class AvCalculatorComponent {
     { id: 'isSpl', imgSrc: 'assets/img/av-profile/spl-calculator.png', name: 'SPL Calculator', description: 'This tool lets you calculate the sound pressure level (SPL) at the listening position.' },
   ];
 
-
   videoTools = [
     { id: 'aspectRatio', imgSrc: 'assets/img/av-profile/aspect-ratio.png', name: 'Aspect Ratio', description: 'Calculate the aspect ratio and know shape of a screen\'s display/image area.' },
     { id: 'diagonalScreen', imgSrc: 'assets/img/av-profile/ratio.png', name: 'Screen Size', description: 'Calculate the dimensions and screen area of a TV, monitor, or projector.' },
     { id: 'throwDistance', imgSrc: 'assets/img/av-profile/projector.png', name: 'Throw Distance', description: 'Calculate projector\'s distance from the lens to the screen surface.' },
+    { id: 'bandWidthCal', imgSrc: 'assets/img/av-profile/bandwidth_Img.png', name: 'Bandwidth Calculator', description: 'Easily identify the max bandwidth required to transfer the AV signals' }
   ]
-
 
   advancedTools = [
     { id: 'avRack', imgSrc: 'assets/img/av-profile/av-rack.jpg', name: 'Rack Layout', description: 'Simply add the product, and your rack layouts will be ready within seconds.' },
@@ -77,7 +76,8 @@ export class AvCalculatorComponent {
   ]
 
 ucTools = [
-  { id: 'videoSimulator', imgSrc: 'assets/img/av-profile/Video-Img.png', name: 'VC BAR Simulator', description: 'Visualize the video, microphone, and speaker coverage of an All-In-One VC Bar.' }
+  { id: 'videoSimulator', imgSrc: 'assets/img/av-profile/Video-Img.png', name: 'VC BAR Simulator', description: 'Visualize the video, microphone, and speaker coverage of an All-In-One VC Bar. '},
+  { id: 'switcher', imgSrc: 'assets/img/av-profile/bandwidth_Img.png', name: 'Bandwidth Calculator', description: 'Easily identify the max bandwidth required to transfer the AV signals' }
 ]
 
 eventTools = [
@@ -93,7 +93,6 @@ toolCategories = [
   { name: 'Events', tools: this.eventTools }
 ];
 
-
 filteredTools(tools: any[]) {
   if (!this.searchTool) {
     return tools;
@@ -105,7 +104,6 @@ allToolsFilteredOut(): boolean {
   return this.toolCategories.every(category => this.filteredTools(category.tools).length === 0);
 }
   
-
   onClick (type: any) {
     // this.showSpinner = true;
     this.toolType = type;
@@ -127,6 +125,8 @@ allToolsFilteredOut(): boolean {
       this.isAvrack = this.toolType === 'avRack';
       this.displaySelector = this.toolType === 'displaySelector';
       this.videoSimulator = this.toolType === 'videoSimulator';
+      this.bandWidthCal = this.toolType === 'bandWidthCal';
+      this.switcher = this.toolType === 'switcher';
       this.showSpinner = false;
     }, 0);
   }

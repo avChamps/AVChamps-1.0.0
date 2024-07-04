@@ -69,6 +69,7 @@
     <app-ratio-tools *ngIf="isAspectratio || isdiagonalScreen || isthrowDistance" [toolType]="toolType"></app-ratio-tools>
     <app-display-selector *ngIf="displaySelector || isCalender" [toolType]="toolType"></app-display-selector>
     <app-video-simulator *ngIf="videoSimulator"></app-video-simulator>
+    <app-bandwidth-cal *ngIf="bandWidthCal || switcher" [toolType]="toolType"></app-bandwidth-cal>
   </div>
   <app-spinner *ngIf="showSpinner"></app-spinner> 
 </body>

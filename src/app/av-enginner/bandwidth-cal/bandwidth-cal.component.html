@@ -1,0 +1,168 @@
+<section id="counts" class="counts">
+
+  <div *ngIf="bandWidthCal">
+    <div class="container" style="margin-top: -10px;">
+        <h2 class="text-center">Bandwidth Calculator</h2>
+        <div class="border p-3">
+            <div class="row">
+                <div class="col-md-4">
+                  <label for="resolution" class="form-label">Resolution</label>
+                  <select id="resolution" class="form-select" [(ngModel)]="selectedResolution" (change)="onResolutionChange()">
+                    <option value="" disabled>Select a Resolution</option>
+                    <option *ngFor="let res of resolutions" [value]="res.value">{{ res.label }}</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="horizontalPixels" class="form-label">Total Horizontal Pixels</label>
+                  <input type="number" id="horizontalPixels" class="form-control" [(ngModel)]="horizontalPixels" disabled>
+                </div>
+                <div class="col-md-4">
+                  <label for="verticalPixels" class="form-label">Total Vertical Pixels</label>
+                  <input type="number" id="verticalPixels" class="form-control" [(ngModel)]="verticalPixels" disabled>
+                </div>
+              </div>      
+          <div class="row mt-4">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <label for="frameRate" class="form-label">Frame Rate</label>
+              <select id="frameRate" class="form-select" [(ngModel)]="frameRate">
+                <option value="0" disabled>Select Frame Rate</option>
+                <option *ngFor="let rate of frameRates" [value]="rate">{{rate}}</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="bitDepth" class="form-label">Bit Depth</label>
+              <select id="bitDepth" class="form-select" [(ngModel)]="bitDepth">
+                <option value="0" disabled>Select Bit Depth</option>
+                <option *ngFor="let depth of bitDepths" [value]="depth">{{depth}}</option>
+              </select>
+            </div>
+          </div>
+      
+          <div class="row mt-4">
+            <div class="col-md-4">
+              <label for="channels" class="form-label">Number of Graphic Channels</label>
+              <input type="number" disabled id="channels" class="form-control" [(ngModel)]="channels">
+            </div>
+            <div class="col-md-4">
+                <label for="chroma" class="form-label">Chroma Decimation Factor</label>
+                <select id="chroma" class="form-select" [(ngModel)]="chromaFactor" (change)="onChromaChange()">
+                  <option value="1">4:4:4</option>
+                  <option value="0.66">4:2:2</option>
+                  <option value="0.50">4:2:0</option>
+                </select>
+              </div>
+              
+              <div class="col-md-4">
+                <div class="form-check form-switch">
+                  <input 
+                    class="form-check-input" 
+                    [ngClass]="{'green-background': isOverheadEnabled, 'red-background': !isOverheadEnabled}"
+                    style="margin-left: -20px;" 
+                    type="checkbox" 
+                    id="overheadToggle" 
+                    [(ngModel)]="isOverheadEnabled" 
+                    (change)="toggleOverhead()"
+                  >
+                  <label class="form-check-label ml-3" for="overheadToggle">25 percent overhead</label>
+                </div>                
+                <input type="number" id="overheadValue" class="form-control" [(ngModel)]="overheadValue" [disabled]="!isOverheadEnabled">
+              </div>              
+          </div>      
+        </div>
+      </div> 
+         <div class="col-md-12 mt-3 text-center">
+          <button class="btn btn-primary" [disabled]="!selectedResolution ||!frameRate || !bitDepth || !chromaFactor" (click)="onCalculate()">Calculate</button>
+        </div>
+
+        <div class="col-md-12 mt-3 text-center" *ngIf="showResult">
+          <div class="bandwidth-box">
+              <p>Bandwidth per Channel:</p>
+              <p class="bandwidth-value">{{ finalResult | number: '1.2-2' }} Gbps</p>
+          </div>
+      </div>
+      
+
+        <div class="container tool-data">
+            <h3>What It Is</h3>
+           <p>The three are closely interrelated. You might prioritize video quality, but in doing so, you will have higher latency
+            and a higher bandwidth. Alternatively, you might be limited in bandwidth and have to sacrifice video quality and
+            deal with increased latency. Lower latency and higher video quality results in a higher bandwidth.</p>
+           <p>Striking a balance between all these competing desires, video quality, latency, and bandwidth, equals greater cost.
+            Determining your streaming AVoIP solution is a constant negotiation between cost and these three factors.</p>
+          </div>
+    
+          <div class="container" style="margin-bottom: 10px;">
+              <div class="row">
+                <div class="cart cart1">
+                  <h2 style="text-align: center;">Formula<br>f(x)</h2>
+                </div>
+                <div class="cart cart2" style="padding-bottom: 0px;">
+                  <p>The formula for estimating video bandwidth is complicated.
+                  <br>The formula is as follows:</p>
+                    <p style="font-weight: bold;">HPXVPxFRxBD*3*CDF*1.25</p>
+                  Where:
+                  <ul style="line-height: 1;margin-top: 8px;">
+                      <li><p>HP = Horizontal Pixels</p></li>
+                      <li><p>VP = Vertical Pixels</p></li>
+                      <li><p>FR = Frame Rate</p></li>
+                      <li><p>BD = Bit Depth</p></li>
+                      <li><p>3 = Number of Graphic Channels</p></li>
+                      <li><p>CDF = Chroma Decimation Factor</p></li>
+                      <li><p>1.25 = Overhead Required for DVI or HDMI transport</p></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            </div>
+
+  <div *ngIf="isSwitcher">
+    <div class="diagram-container">
+      <svg width="600" height="300">
+        <!-- Laptops -->
+        <rect x="50" y="50" width="60" height="40" style="fill:white;stroke:black;stroke-width:2;"></rect>
+        <text x="80" y="75" font-size="20" text-anchor="middle" fill="black">A</text>
+    
+        <rect x="250" y="50" width="60" height="40" style="fill:white;stroke:black;stroke-width:2;"></rect>
+        <text x="280" y="75" font-size="20" text-anchor="middle" fill="black">B</text>
+    
+        <rect x="450" y="50" width="60" height="40" style="fill:white;stroke:black;stroke-width:2;"></rect>
+        <text x="480" y="75" font-size="20" text-anchor="middle" fill="black">C</text>
+    
+        <!-- Switcher Box -->
+        <rect x="150" y="150" width="300" height="100" style="fill:lightgray;stroke:black;stroke-width:2;"></rect>
+        <text x="170" y="190" font-size="12" fill="black" transform="rotate(-90 170,190)">Switcher</text>
+    
+        <!-- Inputs -->
+        <g (click)="selectBox('A')">
+          <rect x="180" y="180" width="40" height="40" [attr.fill]="selectedBox === 'A' ? 'green' : 'red'" style="stroke:black;stroke-width:2;cursor:pointer;"></rect>
+          <text x="200" y="205" font-size="20" text-anchor="middle" fill="black">1</text>
+        </g>
+    
+        <g (click)="selectBox('B')">
+          <rect x="280" y="180" width="40" height="40" [attr.fill]="selectedBox === 'B' ? 'green' : 'red'" style="stroke:black;stroke-width:2;cursor:pointer;"></rect>
+          <text x="300" y="205" font-size="20" text-anchor="middle" fill="black">2</text>
+        </g>
+    
+        <g (click)="selectBox('C')">
+          <rect x="380" y="180" width="40" height="40" [attr.fill]="selectedBox === 'C' ? 'green' : 'red'" style="stroke:black;stroke-width:2;cursor:pointer;"></rect>
+          <text x="400" y="205" font-size="20" text-anchor="middle" fill="black">3</text>
+        </g>
+    
+        <!-- Lines -->
+        <line x1="80" y1="90" x2="180" y2="180" style="stroke:black;stroke-width:2;"></line>
+        <line x1="280" y1="90" x2="300" y2="180" style="stroke:black;stroke-width:2;"></line>
+        <line x1="480" y1="90" x2="420" y2="180" style="stroke:black;stroke-width:2;"></line>
+    
+        <line x1="450" y1="200" x2="500" y2="200" style="stroke:black;stroke-width:2;"></line>
+    
+        <!-- Display -->
+        <rect x="500" y="180" width="100" height="60" style="fill:white;stroke:black;stroke-width:2;"></rect>
+        <text x="550" y="210" font-size="20" text-anchor="middle" fill="black">{{ selectedBox }}</text>
+      </svg>
+    </div>
+    
+    
+  </div>
+
+</section>

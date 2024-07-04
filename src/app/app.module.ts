@@ -68,6 +68,7 @@ import { DisplaySelectorComponent } from './av-enginner/display-selector/display
 import { VideoSimulatorComponent } from './video-simulator/video-simulator.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CustomPipe } from './custom.pipe';
+import { BandwidthCalComponent } from './av-enginner/bandwidth-cal/bandwidth-cal.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { CustomPipe } from './custom.pipe';
     RatioToolsComponent,
     DisplaySelectorComponent,
     VideoSimulatorComponent,
-    CustomPipe
+    CustomPipe,
+    BandwidthCalComponent
   ],
   imports: [
     BrowserModule,
