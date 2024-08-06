@@ -41,7 +41,7 @@ body {
 }
 
 .cart1 {
-    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+    border-right: 1px solid;
     margin-right: 8px;
     width: 20%;
     justify-content: center;
@@ -51,7 +51,6 @@ body {
 }
 
 .cart2 {
-    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
     height: auto;
     width: 79%;
     padding: 18px;
@@ -85,22 +84,22 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    box-sizing: border-box;
     padding: 15px;
     width: 100%;
     cursor: pointer;
     background: #fff;
     box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
-    min-height: 250px;
-    /* Set a minimum height for consistency */
-    height: auto;
-    /* Ensure boxes expand to fit content */
+    min-height: 210px;
+    min-width: 210px;
 }
 
 .tool-header {
     font-weight: 600;
     font-size: 18px !important;
     margin-top: 5px !important;
+    text-align: center;
 }
 
 .counts .count-box p {
@@ -126,14 +125,14 @@ body {
 }
 
 .contactUs_click {
-    color: royalblue!important;
+    color: royalblue !important;
     text-decoration: underline;
     margin-left: 5px;
 }
 
 @media (min-width: 1275px) {
     .counts {
-        margin-left: 23%;
+        margin-left: 24%;
     }
 }
 
@@ -153,7 +152,7 @@ body {
     .counts {
         margin-left: 20%;
     }
-  }
+}
 
 .av_header {
     font-size: 22px !important;
@@ -179,6 +178,7 @@ body {
 .tool-header {
     text-align: center;
     margin-top: 10px;
+    text-transform: uppercase;
 }
 
 .no-records {

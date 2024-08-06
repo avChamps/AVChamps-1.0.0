@@ -41,6 +41,7 @@ export class BtuCalculatorComponent implements OnInit {
   isTradeshow: boolean = false;
   showSpinner: boolean = true;
   isAvrack: boolean = false;
+  isLoudSpeaker: boolean = false;
   dialogRef: any
   totalRackHeight: any;
   rackNumbers: any;
@@ -49,8 +50,10 @@ export class BtuCalculatorComponent implements OnInit {
   totalPowerCol: number = 0
   thermalTotal: number = 0
   totalkWh: number = 0
-  requiredCooling: any
-  @Input() toolType: any
+  requiredCooling: any;
+  totalWatts = 0;
+  @Input() toolType: any;
+  ampChannels = ['CH-1', 'CH-2', 'CH-3', 'CH-4', 'CH-5', 'CH-6', 'CH-7', 'CH-8'];
   tradeshowBoxes: { title: string, urlLink: string, bgColor: string }[] = [];
 
   constructor(private faService: FaServiceService, public downloadReport: DownloadreportService, private popup: PopupService, private renderer: Renderer2) { }
@@ -59,6 +62,11 @@ export class BtuCalculatorComponent implements OnInit {
     { company: '', equipment: '', watt: 0 },
     { company: '', equipment: '', watt: 0 }
   ]
+
+  loudSpeaker = [
+    { equipment: '', ohms: '2_Ohms', chOpWatts: 0, wiring: 'series', ampChannel: 'CH-1', speakerQty: 0, wattage: 0, totalWatt: 0, buffer: 0 },
+    { equipment: '', ohms: '2_Ohms', chOpWatts: 0, wiring: 'series', ampChannel: 'CH-1', speakerQty: 0, wattage: 0, totalWatt: 0, buffer: 0 }
+  ];
 
   powerCalRows = [
     { equipment: '', current: 0, voltage: 0, watt: 0 },
@@ -82,6 +90,8 @@ export class BtuCalculatorComponent implements OnInit {
       this.ispowerCal = true;
     } else if (this.toolType === 'avRack') {
       this.isAvrack = true;
+    } else if (this.toolType === 'isLoudSpeaker') {
+      this.isLoudSpeaker = true;
     }
     this.showSpinner = false;
   }
@@ -123,6 +133,8 @@ export class BtuCalculatorComponent implements OnInit {
       this.calculateTotalWatt()
     } else if (type === 'isPowercal') {
       this.powerCalRows.push({ equipment: '', current: 0, voltage: 0, watt: 0 })
+    } else if (type === 'isLoudSpk') {
+      this.loudSpeaker.push({ equipment: '', ohms: '2_Ohms', chOpWatts: 0, wiring: 'series', ampChannel: 'CH-1', speakerQty: 0, wattage: 0, totalWatt: 0, buffer: 0 })
     }
     this.showRemoveIcon = true
   }
@@ -131,10 +143,11 @@ export class BtuCalculatorComponent implements OnInit {
     if (this.btuRows.length > 1 || this.powerCalRows.length > 1) {
       this.btuRows.pop()
       this.powerCalRows.pop()
+      this.loudSpeaker.pop();
       this.calculateTotalWatt()
       this.updateRackConfiguration();
     } else {
-      this.showRemoveIcon = false
+      this.showRemoveIcon = false;
     }
   }
 
@@ -161,6 +174,10 @@ export class BtuCalculatorComponent implements OnInit {
       { equipment: '', current: 0, voltage: 0, watt: 0 },
       { equipment: '', current: 0, voltage: 0, watt: 0 }
     ]
+
+    this.loudSpeaker = [
+      { equipment: '', ohms: '2_Ohms', chOpWatts: 0, wiring: 'series', ampChannel: 'CH-1', speakerQty: 0, wattage: 0, totalWatt: 0, buffer: 0 }]
+    
     this.thermalTotal = 0
     this.total = 0
     this.requiredCooling = 0
@@ -168,6 +185,19 @@ export class BtuCalculatorComponent implements OnInit {
     this.totalPowerCol = 0;
     this.updateRackConfiguration();
   }
+
+  calculateSpeaker() {
+    for (let row of this.loudSpeaker) {
+      if (row.wiring === 'series') {
+        row.totalWatt = row.wattage * row.speakerQty;
+      } else if (row.wiring === 'parallel') {
+        row.totalWatt = row.wattage / row.speakerQty;
+      }
+      row.buffer = row.chOpWatts - row.totalWatt;
+      this.totalWatts += row.totalWatt;
+    }
+  }
+
 
   calculateTotalWatt() {
     this.totalPowerCol = this.powerCalRows.reduce((sum, row) => {
@@ -233,14 +263,14 @@ export class BtuCalculatorComponent implements OnInit {
     this.showSpinner = true;
     const icons = document.querySelector('.add_symbol') as HTMLElement;
     const contentContainer = document.querySelector('.results') as HTMLElement; // Use the correct selector
-  
+
     if (icons) {
       this.renderer.setStyle(icons, 'display', 'none');
     }
     if (contentContainer) {
       this.renderer.setStyle(contentContainer, 'margin-top', '20px');
     }
-  
+
     this.downloadReport.downloadCard(filename, () => {
       this.showSpinner = false;
       if (icons) {
@@ -248,5 +278,5 @@ export class BtuCalculatorComponent implements OnInit {
       }
     });
   }
-  
+
 }

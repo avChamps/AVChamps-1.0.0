@@ -1,7 +1,9 @@
 .border {
     border: 1px solid #000;
     border-radius: 5px;
-    background: #e9ecef;
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+    border-radius: 20px;
+    /* background: #e9ecef; */
 }
 
 .text-center {
@@ -42,12 +44,13 @@ select {
     border-width: 3px;
     border-image-source: linear-gradient(to right, orange, green);
     display: inline-block;
-    padding: 20px;
+    padding: 10px;
     border-radius: 15px;
 }
 
 .bandwidth-box p {
     margin: 0;
+    font-size: 16px!important;
     font-size: 1.5em;
 }
 
@@ -55,3 +58,4 @@ select {
     font-size: 3em;
     font-weight: bold;
 }
+

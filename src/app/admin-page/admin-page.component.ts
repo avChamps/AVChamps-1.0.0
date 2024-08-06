@@ -21,11 +21,12 @@ export class AdminPageComponent implements OnInit {
   totalCount: any
   startDate!: any;
   eventEndDate : any;
-  dltFeedDate!: any
+  dltFeedDate!: any;
+  eventType : any;
   selectedRating: any = 'All'
   endDate!: Date | null
   showSpinner: boolean = false
-  showAdminpanel: boolean = false;
+  showAdminpanel: boolean = true;
   selectedOptions: any
   @ViewChild('myDialog') myDialog!: TemplateRef<any>
 
@@ -40,6 +41,20 @@ export class AdminPageComponent implements OnInit {
     if (!this.showAdminpanel) {
       this.showLogin();
     }
+  }
+
+  eventTypes = [
+    { displayName: 'Select Event Type', value: '' },
+    { displayName: 'Webinar', value: 'webinar' },
+    { displayName: 'Trade Show', value: 'trade_show' },
+    { displayName: 'Classroom', value: 'classroom' },
+    { displayName: 'Product Launch', value: 'product_launch' }
+  ];
+
+  onEventTypeChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    this.eventType = selectElement.value;
+    console.log(selectElement.value);
   }
 
   showLogin () {
@@ -92,6 +107,7 @@ export class AdminPageComponent implements OnInit {
       event_name: this.eventName,
       event_date: this.startDate,
       website_Url: this.eventUrl,
+      eventType :  this.eventType,
       dltFeedDate: this.dltFeedDate,
       eventEndDate : this.eventEndDate
     }

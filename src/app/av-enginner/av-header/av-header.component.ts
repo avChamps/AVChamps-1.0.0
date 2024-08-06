@@ -75,7 +75,10 @@ export class AvHeaderComponent implements OnInit {
     else if( type === 'ekart') {
      window.open('/ekart-page', '_blank');
      type = 'feed';
-    }
+    }  else if( type === 'jobPortal') {
+      window.open('/jobs-portal', '_blank');
+      type = 'feed';
+     } 
     this.activeMenuItem = type
     this.isSimultor = type === 'simulator'
     this.isAbout = type === 'about'

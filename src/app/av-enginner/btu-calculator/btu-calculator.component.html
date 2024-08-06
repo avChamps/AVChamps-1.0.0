@@ -8,7 +8,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
-<body>
+<body> 
 
   <section id="counts" class="counts">
     <div *ngIf="isBtu" class="btu-calculator-container">
@@ -17,7 +17,7 @@
           <h2 class="tool-header">BTU Calculator</h2>
           <div class="table" style="width: 500px;">
             <table class="styled-table">
-              <thead>
+              <thead> 
                 <tr>
                   <th class="sl_No">Sl.No</th>
                   <th class="equipment-Name">Equipment</th>
@@ -93,6 +93,106 @@
         </div>
       </div>
     </div>
+
+   
+
+    <div *ngIf="isLoudSpeaker" class="btu-calculator-container">
+      <div class="container">
+        <div id="pdfContent">
+          <h2 class="tool-header">Speaker Impedence Calculator</h2>
+          <div class="table">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th class="sl_No">Sl.No</th>
+                  <!-- <th class="equipment-Name">Make</th> -->
+                  <th class="equipment-Name">Model</th>
+                  <th class="sl_No">Ohms</th>
+                  <th class="sl_No">CH OP/WATTS</th>
+                  <th class="sl_No">Wiring</th>
+                  <th class="sl_No">AMP Channel</th>
+                  <th class="sl_No">Speaker QTY</th>
+                  <th class="sl_No">Wattage</th>
+                  <th class="sl_No">Total Watt</th>
+                  <th class="sl_No">Buffer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of loudSpeaker; let i = index" [ngClass]="getRowClass(i)">
+                  <td class="sl-numbers">{{ i + 1 }}</td>
+                  <td><input type="text" placeholder="Enter Equipment Details" [(ngModel)]="row.equipment" maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
+                  <!-- <td><input type="number" onKeyPress="if(this.value.length==4) return false;" [(ngModel)]="row.watt" [disabled]="!row.equipment" maxlength="4" class="watt-input" (ngModelChange)="calculateTotalWatt()"></td> -->
+                 <td>
+                  <select [(ngModel)]="row.ohms" (ngModelChange)="calculateSpeaker()">
+                    <option value="2_Ohms">2_Ohms</option>
+                    <option value="4">4_Ohms</option>
+                    <option value="6">6_Ohms</option>
+                    <option value="8">8_Ohms</option>
+                  </select>
+                 </td>
+                  <td><input type="number" [(ngModel)]="row.chOpWatts" (ngModelChange)="calculateSpeaker()" maxlength="4"></td>
+                  <td>
+                    <select [(ngModel)]="row.wiring" (ngModelChange)="calculateSpeaker()">
+                      <option value="series">Series</option>
+                      <option value="parallel">Parallel</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select [(ngModel)]="row.ampChannel">
+                      <option *ngFor="let ch of ampChannels" [value]="ch">{{ ch }}</option>
+                    </select>
+                  </td>
+                  <td><input type="number" [(ngModel)]="row.speakerQty" (ngModelChange)="calculateSpeaker()"></td>
+                  <td><input type="number" [(ngModel)]="row.wattage" (ngModelChange)="calculateSpeaker()"></td>
+                  <td>{{ row.totalWatt }}</td>
+                  <td>{{ row.buffer }}</td>
+                </tr>
+              </tbody>
+            </table>
+          
+            <div class="add_symbol" id="icons">
+              <mat-icon class="add_Icon" (click)="addRow('isLoudSpk')">add_circle</mat-icon>
+              <mat-icon *ngIf="showRemoveIcon" class="remove_Icon" (click)="removeRow()">remove_circle</mat-icon>
+            </div>
+          
+            <!-- <div class="results" id="pdfContentContainer">
+              <p><span>Total Watts:</span>{{ totalWatts }} Watts</p>
+              <p><span>Thermal Dissipation:</span>{{ thermalTotal | number: '1.2-2' }} BTU/hr</p>
+              <p><span>Cooling Required:</span>{{ requiredCooling | number: '1.2-2' }} Tons</p>
+            </div> -->
+          </div>
+          
+        </div>
+      </div>
+      <div class="buttons-container">
+        <button class="btn warning" (click)="refreshValues()">Cancel</button>
+        <button class="btn success" (click)="downloadCard('Speaker-Impedence')">Save</button>
+      </div>
+
+      <div class="container tool-data">
+        <h3>What It Is</h3>
+        <p>
+          A speaker impedance is defined as the total impedance of the electrical circuit connecting one or more speakers. Impedance is a measure of the resistance to an alternating current. Impedance is a combination of typical ohmic resistance and reactance.
+        </p>
+      </div>
+    
+       <div class="container formula_bottom" style="display: block;">
+        <div class="row">
+          <div class="cart cart1">
+            <h2 style="text-align: center;">Formula<br>f(x)</h2>
+          </div>
+          <div class="cart cart2">
+            <p><strong>Speaker Impedance Formula</strong></p>
+            <p>The following is the speaker impedance formula:<br>
+             <p><strong>Parallel</strong></p>
+             <p>Parallel: I = 1 / [ (1 / X<sub>1</sub>) + (1 / X<sub>2</sub>) + (1 / X<sub>3</sub>) ... ]</p>
+              <p><strong>Series</strong></p>
+              <p>I=X1+X2+X3....</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <div *ngIf="isAvrack" class="btu-calculator-container">
       <div class="container">

@@ -2,7 +2,7 @@
 
   <div *ngIf="bandWidthCal">
     <div class="container" style="margin-top: -10px;">
-        <h2 class="text-center">Bandwidth Calculator</h2>
+        <h2 class="tool-header">Bandwidth Calculator</h2>
         <div class="border p-3">
             <div class="row">
                 <div class="col-md-4">
@@ -76,13 +76,23 @@
         </div>
 
         <div class="col-md-12 mt-3 text-center" *ngIf="showResult">
-          <div class="bandwidth-box">
-              <p>Bandwidth per Channel:</p>
-              <p class="bandwidth-value">{{ finalResult | number: '1.2-2' }} Gbps</p>
-          </div>
+          <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="bandwidth-box">
+                    <p>Bandwidth per Channel:</p>
+                    <p class="bandwidth-value">{{ resultPerChannel | number: '1.2-2' }} Gbps</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="bandwidth-box">
+                    <p>Total signal Bandwidth:</p>
+                    <p class="bandwidth-value">{{ finalResult | number: '1.2-2' }} Gbps</p>
+                </div>
+            </div>
+        </div>
+               
       </div>
       
-
         <div class="container tool-data">
             <h3>What It Is</h3>
            <p>The three are closely interrelated. You might prioritize video quality, but in doing so, you will have higher latency
@@ -92,12 +102,12 @@
             Determining your streaming AVoIP solution is a constant negotiation between cost and these three factors.</p>
           </div>
     
-          <div class="container" style="margin-bottom: 10px;">
+          <div class="container"  style="margin-bottom: 10px; box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9; border-radius: 20px;">
               <div class="row">
                 <div class="cart cart1">
                   <h2 style="text-align: center;">Formula<br>f(x)</h2>
                 </div>
-                <div class="cart cart2" style="padding-bottom: 0px;">
+                <div class="cart cart2" style="padding-bottom: 0px;border-radius: 20px;">
                   <p>The formula for estimating video bandwidth is complicated.
                   <br>The formula is as follows:</p>
                     <p style="font-weight: bold;">HPXVPxFRxBD*3*CDF*1.25</p>

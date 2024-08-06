@@ -184,7 +184,6 @@ loadMore () {
   }
 
   //Update Question
-
   updateCommunity () {
     this.showSpinner = true
     const formData = new FormData()

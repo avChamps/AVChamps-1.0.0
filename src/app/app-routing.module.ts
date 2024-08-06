@@ -11,6 +11,7 @@ import { ContactComponent } from './home-page/contact/contact.component'
 import { AuthGuardService } from './services/auth-guard.service'
 import { GuidlinesComponent } from './home-page/guidlines/guidlines.component'
 import { RedirectPageComponent } from './redirect-page/redirect-page.component'
+import { JobPostingComponent } from './job-posting/job-posting.component'
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'av-community', component: CommunityPageComponent,canActivate: [AuthGuardService] },
   // { path: 'avEngineer-dashboard', component: AvEnginnerComponent, canActivate: [AuthGuardService] },
   { path: 'avEngineer-dashboard', component: AvEnginnerComponent, canActivate: [AuthGuardService]},
+  { path: 'jobs-portal', component: JobPostingComponent, canActivate: [AuthGuardService]},
   { path: 'admin-page', component: AdminPageComponent },
   { path: 'bussiness-card/:emailId', component: BussinessCardComponent }
 ]   

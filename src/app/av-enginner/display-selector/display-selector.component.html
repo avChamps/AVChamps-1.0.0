@@ -1,3 +1,4 @@
+
 <div *ngIf="displaySelector">
     <div class="container">
         <h2>Display Selection</h2>
@@ -44,8 +45,8 @@
 </div>
 
 <div *ngIf="isCalender">
-  <div (onLoad)="getEvents()" class='container demo-app-main'>
-    <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'>
+  <div (onLoad)="getEvents()" class="container demo-app-main custom-calendar-container">
+    <full-calendar *ngIf="calendarVisible" [options]="calendarOptions">
       <ng-template #eventContent let-arg>
         <i class="event-title" [title]="arg.event.title">{{ arg.event.title }}</i>
       </ng-template>
@@ -84,13 +85,53 @@
         <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #endDatePicker></mat-datepicker>
       </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Event Type</mat-label>
+        <mat-select [(value)]="selectedEventType">
+          <mat-option *ngFor="let eventType of eventTypes" [value]="eventType.value">
+            {{ eventType.displayName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </mat-dialog-content>
+  
   <mat-dialog-actions align="end" class="mat-buttons">
     <button mat-dialog-close="true" class="btn btn-success"
       [disabled]="!startDate || !endDate || !eventNameInput.value || !eventUrlInput.value"
-      (click)="submitForm(eventNameInput.value, eventUrlInput.value, startDate, endDate)">Submit</button>
+      (click)="submitForm(eventNameInput.value, eventUrlInput.value, startDate, endDate,selectedEventType)">Submit</button>
   </mat-dialog-actions>
 </ng-template>
 
- 
+<ng-template #eventType>
+  <mat-dialog-content class="d-flex align-items-center justify-content-center flex-wrap" style="width: 620px; padding: 20px;">
+    <div *ngFor="let eventType of eventTypes" style="margin: 10px;">
+      <label>
+        <input type="checkbox" style="margin-right: 3px;" [value]="eventType.value" (change)="onEventTypeChange($event)">{{ eventType.displayName }}
+      </label>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center" class="mat-buttons" style="margin-top: -25px; display: flex; justify-content: center; width: 100%;">
+    <button mat-dialog-close="true" class="btn btn-success" (click)="applyEventTypeFilter()">Submit</button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+<!-- <mat-menu #eventTypeMenu="matMenu">
+  <div class="d-flex align-items-center justify-content-center flex-wrap" style="width: 700px; padding: 20px;">
+    <div *ngFor="let eventType of eventTypes" style="margin: 10px;">
+      <label>
+        <input type="checkbox" style="margin-right: 3px;" [value]="eventType.value" (change)="onEventTypeChange($event)">
+        {{ eventType.displayName }}
+      </label>
+    </div>
+  </div>
+  <div class="mat-buttons" style="display: flex; justify-content: center; width: 100%; margin-top: 10px;">
+    <button mat-menu-item (click)="applyEventTypeFilter()" class="btn btn-success">Submit</button>
+  </div>
+</mat-menu> -->
+
+<!-- Trigger button -->
+<!-- <button mat-button [matMenuTriggerFor]="eventTypeMenu">Select Event Types</button> -->
+
+

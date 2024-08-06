@@ -1,5 +1,6 @@
 .container {
     box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+    border-radius: 20px;
 }
 
 .tool-data {

@@ -13,6 +13,7 @@ export class BandwidthCalComponent {
   frameRate: number = 0;
   bitDepth: number = 0;
   channels: number = 3;
+  resultPerChannel : number = 0;
   chromaFactor: number = 1;
   overhead: boolean = true;
   isOverheadEnabled: boolean = true;
@@ -70,6 +71,7 @@ export class BandwidthCalComponent {
   onCalculate() {
     this.showResult = true;
     this.finalResult = this.horizontalPixels * this.verticalPixels * this.frameRate * this.bitDepth * 3 * this.chromaFactor * this.overhValue / 1000000000;
+    this.resultPerChannel = this.finalResult/3;
   }
 
   selectedBox: string | null = null;

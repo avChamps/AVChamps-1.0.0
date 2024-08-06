@@ -52,8 +52,9 @@ table {
 
 :host ::ng-deep .fc-button-group button.fc-prev-button.fc-button,
 :host ::ng-deep .fc-button-group button.fc-next-button.fc-button {
-    background-color: transparent;
-    border: none;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 3px;
 }
 
 :host ::ng-deep .fc-button-group button.fc-prev-button.fc-button .fc-icon {
@@ -62,38 +63,45 @@ table {
 
 :host ::ng-deep .fc-button-group button.fc-next-button.fc-button .fc-icon {
     color: green;
-    border: none;
-    margin-left: 1px;
+    margin-right: 5px;
 }
 
-
-:host ::ng-deep .fc-button-group button.fc-dayGridMonth-button.fc-button {
-    background: #2c3e50;
-    border: none;
-    margin-left: 1px;
+:host ::ng-deep .fc-button-group button.fc-button,
+:host ::ng-deep .fc-createEventButton-button,
+:host ::ng-deep .fc-EventType-button,
+:host ::ng-deep .fc-today-button {
+    background: #f4f4f4 !important;
+    color: #000 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 3px;
+    padding: 5px !important;
+    font-size: 14px;
+    height: 35px !important;
 }
 
-:host ::ng-deep .fc-button-group button.fc-timeGridWeek-button.fc-button {
-    background: #2c3e50;
-    border: none;
-    margin-left: 1px;
+:host ::ng-deep .fc-today-button {
+    background-color: #f4f4f4 !important;
+    color: #000 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 3px !important;
 }
 
-:host ::ng-deep .fc-button-group button.fc-timeGridDay-button.fc-button {
-    background: #2c3e50;
-    border: none;
-    margin-left: 1px;
+:host ::ng-deep .fc-day-today {
+    /* Uncomment and customize if needed */
+    background-color: #B7E5B4 !important;
 }
 
-:host ::ng-deep .fc-button-group button.fc-listWeek-button.fc-button {
-    background: #2c3e50;
-    border: none;
-    margin-left: 1px;
+.custom-calendar-container {
+    width: 70% !important;
+    height: 600px;
+    margin-left: 27% !important;
 }
 
-::ng-deep .fc-day-today {
-    /* background-color: #b5f7e6 !important; */
+.custom-calendar-container .fc {
+    width: 100% !important;
+    height: 100% !important;
 }
+
 
 .event-title {
     display: inline-block;
@@ -103,6 +111,14 @@ table {
     text-overflow: ellipsis;
     vertical-align: middle;
     cursor: pointer;
+}
+
+@media (min-width: 1367px) {
+    .custom-calendar-container {
+        width: 70% !important;
+        height: 612px;
+        margin-left: 26% !important;
+    }
 }
 
 @media (max-width: 1200px) {

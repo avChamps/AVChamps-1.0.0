@@ -56,7 +56,13 @@
                 <input type="text" class="form-control" id="sender" name="sender" required [(ngModel)]="eventName">
               </div>
               <div class="form-group">
-                <label for="title" class="mb-0">Event URL:</label>
+                <label for="sender" class="mb-0">Event Type</label>
+                <select class="form-control" (change)="onEventTypeChange($event)">
+                  <option *ngFor="let eventType of eventTypes" [value]="eventType.value">{{ eventType.displayName }}</option>
+                </select>                
+              </div>
+              <div class="form-group">
+                <label for="title" class="mb-0">Event URL:</label> 
                 <input type="text" class="form-control" id="title" name="title" required [(ngModel)]="eventUrl">
               </div>
 

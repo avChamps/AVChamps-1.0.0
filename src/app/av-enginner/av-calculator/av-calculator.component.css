@@ -1,4 +1,4 @@
-.arrow-circle {
+/* .arrow-circle {
   font-size: 24px;
   text-align: center;
 }
@@ -29,4 +29,76 @@
   right: 13px;
   top: 11px;
   color: #ced4da;
+} */
+
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 54%;
+  margin-left: 46%;
+}
+
+.counts {
+  padding: 20px;
+}
+
+.input-box {
+  position: relative;
+}
+
+.input-box .fa-search {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.count-box {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.count-box:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-images {
+  max-height: 100px;
+  margin-bottom: 10px;
+}
+
+.tool-header {
+  font-size: 16px !important;
+}
+
+.tool-description {
+  font-size: 14px;
+  color: #666;
+}
+
+.centered-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+}
+
+.category-header {
+  padding: 10px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.category-header h3 {
+  margin: 0;
+  text-transform: uppercase;
 }

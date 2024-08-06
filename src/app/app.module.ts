@@ -69,6 +69,9 @@ import { VideoSimulatorComponent } from './video-simulator/video-simulator.compo
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CustomPipe } from './custom.pipe';
 import { BandwidthCalComponent } from './av-enginner/bandwidth-cal/bandwidth-cal.component';
+import { BudgetCalculatorComponent } from './av-enginner/budget-calculator/budget-calculator.component';
+import { JobPostingComponent } from './job-posting/job-posting.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -113,7 +116,9 @@ import { BandwidthCalComponent } from './av-enginner/bandwidth-cal/bandwidth-cal
     DisplaySelectorComponent,
     VideoSimulatorComponent,
     CustomPipe,
-    BandwidthCalComponent
+    BandwidthCalComponent,
+    BudgetCalculatorComponent,
+    JobPostingComponent
   ],
   imports: [
     BrowserModule,
@@ -145,7 +150,8 @@ import { BandwidthCalComponent } from './av-enginner/bandwidth-cal/bandwidth-cal
     MatNativeDateModule,
     QRCodeModule,
     MatListModule,
-    FullCalendarModule
+    FullCalendarModule,
+    MatMenuModule
   ],
   providers: [
     DatePipe,

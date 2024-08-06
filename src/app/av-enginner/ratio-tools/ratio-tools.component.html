@@ -125,8 +125,8 @@
             <div class="card">
                 <div class="card-body">
                   <h2 class="tool-header">Projector Throw Distance</h2>
-                  <form (ngSubmit)="calculatethrowDistance()" #aspectRatioForm="ngForm" class="form-inline justify-content-center">
-                    <div class="form-group mx-sm-3 mb-2">
+                  <form (ngSubmit)="calculatethrowDistance()" #aspectRatioForm="ngForm" class="form-inline mt-2 justify-content-center">
+                    <div class="form-group mx-sm-3">
                       <label for="width" class="mr-2">Width</label>
                       <input type="number" class="form-control" id="width" required [(ngModel)]="width" name="width" value="1">
                     </div>
@@ -170,4 +170,46 @@
   
       </div>
 
+      <div *ngIf="isAudioDelay" class="power-calculator-container">
+        <div class="container">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="tool-header">Audio Delay Calculator</h2>
+              <form (ngSubmit)="calculateAudio()" #aspectRatioForm="ngForm" class="form-inline justify-content-center">
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="width" class="mr-2">Distance between speakers</label>
+                  <input type="number" class="form-control" id="width" required [(ngModel)]="distance" name="distance" (ngModelChange)="calculateAudio()">
+                </div>
+                
+                <mat-icon class="reset-icon" (click)="onReset()">refresh</mat-icon>
+                <button type="submit" class="btn btn-primary mb-2" [disabled]="!distance">Calculate</button>
+              </form>
+              <div class="result-section mt-3"> 
+                <p class="text-center">Delay Needed(mtr): {{ delayNeededInMtr | number: '1.2-2' }} milliseconds</p>
+                <p class="text-center">Delay Needed(fts):&nbsp;&nbsp; {{ delayNeededInFeet | number: '1.2-2' }} milliseconds</p>             
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container tool-data">
+          <h3>What It Is</h3>
+          <p>Whether you're setting up a professional audio system or fine-tuning your home theater, an Audio Delay Calculator can be an invaluable tool for achieving precise time alignment and delivering a superior audio experience.</p>
+        </div>
+        <div class="container" style="margin-bottom: 10px;">
+          <div class="row">
+            <div class="cart cart1"><br>
+              <h2 style="text-align: center;">Formula<br>f(x)</h2>
+            </div>
+            <div class="cart cart2">
+              <p>To calculate milliseconds, use the following formula:<br>
+              <ul style="font-weight: 500;">
+                <li><p>Meters / Speed of sound (343 m/s in room temperature) * 1000 = delay in milliseconds.</p></li>
+                <li><p>Feet / Speed of sound (1125 f/s in room temperature) * 1000 = delay in milliseconds.</p></li>
+              </ul>
+              Refer to the owner's manual of your project and lens combination to find an accurate formula for your specific project.
+            </div>
+          </div>
+        </div>
+      </div>
       </section>
+      

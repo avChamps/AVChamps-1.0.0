@@ -208,12 +208,11 @@ li {
 }
 
 .step-body {
-    background-color: #e9ecef;
-    /* Adjust the background color if needed */
+    /* background-color: #e9ecef; */
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+    border-radius: 20px;
     padding: 20px;
-    /* Add padding to the step-body for better spacing */
 }
-
 
 .step-header {
     background-color: #00b5ad;

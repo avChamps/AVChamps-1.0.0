@@ -8,6 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-display-selector',
@@ -23,11 +24,25 @@ export class DisplaySelectorComponent implements OnInit {
   calendarVisible = true // Default to true
   showChart: boolean = false;
   isCalender: boolean = false;
+  filteredEvents: any[] = [];
+  selectedEventTypes: string[] = [];
   currentEvents: EventApi[] = []
   events: any[] = []
   showSpinner: boolean = true;
+  selectedEventType: any;
   @Input() toolType: any;
   @ViewChild('myDialog') myDialog!: TemplateRef<any>
+  @ViewChild('eventType') eventType!: TemplateRef<any>
+  @ViewChild(MatMenuTrigger) eventTypeMenuTrigger!: MatMenuTrigger;
+
+  eventTypes = [
+    { displayName: 'Webinar', value: 'webinar' },
+    { displayName: 'Trade Show', value: 'trade_show' },
+    { displayName: 'Classroom', value: 'classroom' },
+    { displayName: 'Product Launch', value: 'product_launch' },
+    { displayName: 'Online', value: 'online' }
+    // { displayName : 'All', value: 'all'}
+  ];
 
   sections = [
     {
@@ -135,68 +150,108 @@ export class DisplaySelectorComponent implements OnInit {
     }
   }
 
-
   submitForm(
     eventName: string,
     eventUrl: string,
     startDate: Date,
-    endDate: Date
+    endDate: Date,
+    selectedEventType: string
   ) {
     const data = {
       eventName: eventName,
       eventUrl: eventUrl,
       startDate: startDate,
-      endDate: endDate
+      endDate: endDate,
+      eventType: selectedEventType
     }
     this.faService.postEvent(data).subscribe(response => {
       console.log(response)
     })
   }
 
-
-  //Calender
+  // Calendar
   getEvents() {
     this.showSpinner = true;
     this.faService.getEvents().subscribe((response: any) => {
-      console.log('Response from server:', response)
+      console.log('Response from server:', response);
       const newEvents = response.records.map((record: any) => ({
         title: record.event_name,
         start: record.event_date,
-        url: record.website_Url
-      }))
-      this.events = newEvents
-      this.updateCalendarEvents()
-      this.showSpinner = false
-    })
+        url: record.website_Url,
+        type: record.eventType
+      }));
+      console.log('Parsed events:', newEvents); // Log parsed events
+      this.events = newEvents;
+      this.filteredEvents = newEvents;
+      this.updateCalendarEvents();
+      this.showSpinner = false;
+    });
   }
 
   updateCalendarEvents() {
-    this.calendarOptions.events = this.events
+    this.calendarOptions.events = this.filteredEvents;
+    this.cdr.detectChanges();
   }
 
   handleCalendarToggle() {
-    this.calendarVisible = !this.calendarVisible
+    this.calendarVisible = !this.calendarVisible;
+  }
+
+  handleEventDidMount(info: any) {
+    const eventType = info.event.extendedProps.type;
+
+    const eventColors: { [key: string]: string } = {
+      'webinar': '#F19ED2',
+      'trade_show': '#FF7F3E',
+      'classroom': '#7D8ABC',
+      'product_launch': '#379777',
+      'online': '#50B498'
+    };
+
+    const backgroundColor = eventColors[eventType] || 'gray';
+    info.el.style.backgroundColor = backgroundColor;
+    info.el.style.border = 'none'; // Ensure border is set to none or another desired style
+    info.el.style.color = 'white'; // Adjust text color if needed
+    console.log('Mounted event:', info.event.title, 'with type:', eventType, 'and color:', backgroundColor);
+
+    // Adding icons to the custom buttons
+    const createEventButton = document.querySelector('.fc-createEventButton-button');
+    if (createEventButton && !createEventButton.querySelector('mat-icon')) {
+      const icon = document.createElement('mat-icon');
+      icon.className = 'material-icons';
+      icon.textContent = 'event';
+      createEventButton.appendChild(icon);
+    }
+
+    const eventTypeButton = document.querySelector('.fc-EventType-button');
+    if (eventTypeButton && !eventTypeButton.querySelector('mat-icon')) {
+      const icon = document.createElement('mat-icon');
+      icon.className = 'material-icons';
+      icon.textContent = 'tune';
+      eventTypeButton.appendChild(icon);
+    }
+
   }
 
   calendarOptions: CalendarOptions = {
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
     headerToolbar: {
-      left: 'prev,next createEventButton',
+      left: 'prev,next today createEventButton EventType',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
     views: {
       dayGridMonth: {
-        buttonText: 'Month'
+        buttonText: 'month'
       },
       timeGridWeek: {
-        buttonText: 'Week'
+        buttonText: 'week'
       },
       timeGridDay: {
-        buttonText: 'Day'
+        buttonText: 'day'
       },
       listWeek: {
-        buttonText: 'List'
+        buttonText: 'list'
       }
     },
     initialView: 'dayGridMonth',
@@ -205,19 +260,45 @@ export class DisplaySelectorComponent implements OnInit {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
-    events: [],
+    events: this.filteredEvents,
     eventClick: this.handleEventClick.bind(this),
     customButtons: {
       createEventButton: {
-        text: 'Post Event',
+        text: '',
         click: () => this.handleCreateEventClick()
+      },
+      EventType: {
+        text: '',
+        click: () => this.toggleEventTypeDropdown()
       }
-    }
-  }
+    },
+    // eventDidMount: (info) => {
+    //   const createEventButton = document.querySelector('.fc-createEventButton-button');
+    //   if (createEventButton && !createEventButton.querySelector('mat-icon')) {
+    //     const icon = document.createElement('mat-icon');
+    //     icon.className = 'material-icons';
+    //     icon.textContent = 'event';
+    //     createEventButton.appendChild(icon);
+    //   }
 
+    //   const eventTypeButton = document.querySelector('.fc-EventType-button');
+    //   if (eventTypeButton && !eventTypeButton.querySelector('mat-icon')) {
+    //     const icon = document.createElement('mat-icon');
+    //     icon.className = 'material-icons';
+    //     icon.textContent = 'tune';
+    //     eventTypeButton.appendChild(icon);
+    //   }
+    // }
+    eventDidMount: this.handleEventDidMount.bind(this)
+  };
 
   handleCreateEventClick = () => {
-    this.popup.openDialogWithTemplateRef(this.myDialog)
+    this.popup.openDialogWithTemplateRef(this.myDialog);
+  }
+
+  toggleEventTypeDropdown() {
+    this.popup.openDialogWithTemplateRef(this.eventType);
+    // this.eventTypeMenuTrigger.openMenu();
   }
 
   handleEventClick(info: EventClickArg): void {
@@ -228,6 +309,24 @@ export class DisplaySelectorComponent implements OnInit {
     }
   }
 
+  onEventTypeChange(event: any) {
+    this.selectedEventTypes = [];
+    const value = event.target.value;
+    if (event.target.checked) {
+      this.selectedEventTypes.push(value);
+    } else {
+      this.selectedEventTypes = this.selectedEventTypes.filter(type => type !== value);
+    }
+  }
+
+  applyEventTypeFilter() {
+    if (this.selectedEventTypes.length === 0) {
+      this.filteredEvents = this.events;
+    } else {
+      this.filteredEvents = this.events.filter(event => this.selectedEventTypes.includes(event.type));
+    }
+    this.updateCalendarEvents();
+  }
 
   calculateTotal() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');

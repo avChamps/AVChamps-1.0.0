@@ -42,6 +42,10 @@ export class FaServiceService {
     return this.http.post(`${this.url}/login`, { emailId, password })
   }
 
+  getFooterTxt () {
+    return this.http.get<any>(`${this.url}/getFooterText`)
+  }
+
   createUser (data: any) {
     return this.http.post(`${this.url}/insertData`, data)
   }

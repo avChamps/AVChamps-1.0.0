@@ -15,7 +15,7 @@
     <div *ngIf="toolCategories.length">
       <section id="counts" class="counts">
         <div class="container" data-aos="fade-up">
-          <div class="filters mt-4">
+          <div class="filters">
             <div class="input-group">
               <div class="input-box input-group">
                 <input type="text" class="form-control input-sm" [(ngModel)]="searchTool" placeholder="Search by Tools Names..." />
@@ -24,28 +24,24 @@
             </div>
           </div>
     
-          <div *ngFor="let category of toolCategories">
+          <div *ngFor="let category of filteredCategories(); let i = index">
             <div [ngClass]="category.name.replace(' ', '-')">
-              <mat-nav-list>
-                <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    {{ category.name }}
-                  </mat-expansion-panel-header>
-                  <div class="row gy-4 mt-1">
-                    <div class="col-lg-3 col-md-4" *ngFor="let tool of filteredTools(category.tools)" (click)="onClick(tool.id)">
-                      <div class="count-box d-flex flex-column align-items-center">
-                        <img [src]="tool.imgSrc" class="img-fluid custom-images" alt="" />
-                        <p class="tool-header">{{ tool.name }}</p>
-                        <p class="tool-description">{{ tool.description }}</p>
-                      </div>
-                    </div>
+              <div class="category-header d-flex justify-content-between align-items-center mt-2" (click)="toggleCategory(i)">
+                <h3>{{ category.name }}</h3>
+                <mat-icon>{{ category.expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon> </div>
+              <div *ngIf="category.expanded" class="row gy-4">
+                <div class="col-lg-3 col-md-4" *ngFor="let tool of category.tools" (click)="onClick(tool.id)">
+                  <div class="count-box d-flex flex-column align-items-center">
+                    <img [src]="tool.imgSrc" class="img-fluid custom-images" alt="" />
+                    <p class="tool-header">{{ tool.name }}</p>
+                    <!-- <p class="tool-description">{{ tool.description }}</p> -->
                   </div>
-                </mat-expansion-panel>
-              </mat-nav-list>
+                </div>
+              </div>
             </div>
           </div>
     
-          <div *ngIf="allToolsFilteredOut()">
+          <div *ngIf="filteredCategories().length === 0">
             <div class="centered-image">
               <img src="assets/img/oops.png" alt="" class="img-fluid no-records" height="250px" />
             </div>
@@ -53,6 +49,7 @@
         </div>
       </section>
     </div>
+    
   </div>
   
   <div class="arrow_Container">
@@ -60,18 +57,20 @@
       <mat-icon>arrow_back</mat-icon>
     </div>
   </div>
-
+  
   <div>
     <app-av-simulator *ngIf="isSimulator || isServiceReport" [toolType]="toolType"></app-av-simulator>
     <app-bussiness-card *ngIf="isBussinessCard"></app-bussiness-card>
     <app-reports *ngIf="isReports || isSpl || isMacFinder " [toolType]="toolType"></app-reports>
-    <app-btu-calculator *ngIf="isBtuCalculator || ispowerCal || isTradeshow || isAvrack" [toolType]="toolType"></app-btu-calculator>
-    <app-ratio-tools *ngIf="isAspectratio || isdiagonalScreen || isthrowDistance" [toolType]="toolType"></app-ratio-tools>
+    <app-btu-calculator *ngIf="isBtuCalculator || isLoudSpeaker || ispowerCal || isTradeshow || isAvrack" [toolType]="toolType"></app-btu-calculator>
+    <app-ratio-tools *ngIf="isAspectratio || isdiagonalScreen || isthrowDistance || audioDelay" [toolType]="toolType"></app-ratio-tools>
     <app-display-selector *ngIf="displaySelector || isCalender" [toolType]="toolType"></app-display-selector>
     <app-video-simulator *ngIf="videoSimulator"></app-video-simulator>
     <app-bandwidth-cal *ngIf="bandWidthCal || switcher" [toolType]="toolType"></app-bandwidth-cal>
+    <app-budget-calculator *ngIf="budgetCal" [toolType]="toolType"></app-budget-calculator>
   </div>
-  <app-spinner *ngIf="showSpinner"></app-spinner> 
+  <app-spinner *ngIf="showSpinner"></app-spinner>
+  
 </body>
 
 </html>

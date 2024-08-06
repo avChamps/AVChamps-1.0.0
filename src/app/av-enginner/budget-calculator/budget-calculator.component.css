@@ -1,0 +1,63 @@
+table {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.counts .row {
+    display: flex;
+    align-items: stretch; /* Ensure children stretch to the same height */
+}
+
+.counts .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+}
+
+/* Set height for the right card */
+.counts .col-md-4 .card {
+    height: 100%;
+}
+
+
+
+.btn {
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    /* padding: 5px 28px; */
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    width: 100px;
+    margin-left: 5px;
+    font-weight: 500;
+    color: white;
+    border: none;
+}
+
+.sl_No {
+    width: 0%;
+}
+
+td {
+    text-align: center;
+}
+
+.btn-success {
+    background-color: green;
+}
+
+.btn-primary {
+    background-color: blue;
+}
+
+.btn-warning {
+    background-color: orange;
+}

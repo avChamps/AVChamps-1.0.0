@@ -35,13 +35,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "15GB",
-                  "maximumError": "15GB"
+                  "maximumWarning": "30GB",
+                  "maximumError": "30GB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "15GB",
-                  "maximumError": "15GB"
+                  "maximumWarning": "30GB",
+                  "maximumError": "30GB"
                 }
               ],
               "outputHashing": "all"

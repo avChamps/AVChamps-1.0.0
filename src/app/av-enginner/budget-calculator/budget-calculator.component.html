@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body> 
+
+  <div *ngIf="isBudgetCal">
+    <section id="counts" class="counts" style="margin-top: -30px;">
+          <div class="container mt-3">
+            <h2 class="tool-header">Budget Calculator</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="roomType">Select Room Type</label>
+                                <select id="roomType" class="form-select" [(ngModel)]="selectedRoomType">
+                                    <option *ngFor="let room of roomTypes" [value]="room.type">{{ room.type }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label for="roomQuantity">Quantity of Rooms</label>
+                                  <input type="range" [disabled]="selectedRoomType === 'Select Room'" id="roomQuantity" class="form-range" min="0" max="100" [(ngModel)]="roomQuantity">
+                                </div>
+                                <div class="col-md-6">
+                                  <input type="number" [disabled]="selectedRoomType === 'Select Room'" class="form-control mt-2" [(ngModel)]="roomQuantity">
+                                </div>
+                                </div>
+                                <label for="costPerRoom" class="mb-0 mt-2">Cost per Room</label>
+                                 <input type="number" [disabled]="selectedRoomType === 'Select Room'" id="costPerRoom" class="form-control mt-2" [(ngModel)]="costPerRoom">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Room Quantity</h5>
+                            <p class="card-text">{{ roomQuantity }}</p>
+                            <h5 class="card-title">Cost per Room</h5>
+                            <p class="card-text">{{ costPerRoom | currency:'INR':'symbol' }}</p>
+                            <h3>Total</h3>
+                            <h2>{{ totalCost | currency:'INR':'symbol' }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+              
+          <div class="buttons-container">
+            <button class="btn btn-primary" [disabled]="!costPerRoom || !selectedRoomType" (click)="saveRoomDetails()">Add</button>
+          </div>
+        </section>
+
+
+        <section id="counts" class="counts">
+          <div class="btu-calculator-container mt-5" *ngIf="showBudgetTable">
+            <div class="container">
+              <div id="pdfContent">
+                <h2 class="tool-header">Budget Calculator</h2>
+                <div class="table" style="width: 550px;">
+                  <table class="styled-table">
+                    <thead>
+                      <tr>
+                        <th class="sl_No">Sl.No</th>
+                        <th class="equipment-Name">Room Type</th>
+                        <th class="sl_No">Quantity</th>
+                        <th class="sl_No">Price</th>
+                        <th class="sl_No">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of savedRooms; let i = index" [ngClass]="getRowClass(i)">
+                        <td class="sl-numbers">{{ i + 1 }}</td>
+                        <td>{{ row.roomType }}</td>
+                        <td>{{ row.quantity }}</td>
+                        <td>{{ row.price }}</td>
+                        <td>{{ row.total | currency:'INR':'symbol' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="add_symbol" id="icons">
+                    <mat-icon *ngIf="showRemoveIcon" class="remove_Icon" (click)="removeRow()">remove_circle</mat-icon>
+                  </div>
+                  <div class="results" id="pdfContentContainer">
+                    <p><span>Grand Total:</span>&#8377;{{ totalBudget}}</p>
+                  </div>
+                </div> 
+              </div>
+            </div>
+            <div class="buttons-container" style="margin-bottom: 10px;">
+              <button class="btn btn-warning" (click)="refreshValues()">Cancel</button>
+              <button class="btn btn-success" (click)="downloadCard('budgetCal')">Save</button>
+            </div>
+          </div>
+      </section>
+
+    </div>      
+</body>
+
+</html>
